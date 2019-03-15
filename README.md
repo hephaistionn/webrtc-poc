@@ -4,6 +4,8 @@
   
 ```sh
 $ npm install
-$ npm run dev-client
-$ npm run dev-server
+$ npm start
 ```
+
+Click  on start to enter in waiting room.
+When room have 4 users, the roulette starts.

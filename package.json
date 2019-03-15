@@ -19,6 +19,7 @@
     "extract-text-webpack-plugin": "^3.0.2",
     "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.11.0",
+    "npm-run-all": "^4.1.5",
     "postcss-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
     "simple-peer": "^9.2.1",
@@ -30,7 +31,9 @@
     "webpack-cli": "^3.2.3"
   },
   "scripts": {
-
+    "start": "npm-run-all --parallel dev-client dev-server",
+    "dev-client": "webpack --watch",
+    "dev-server": "nodemon --watch server .",
     "build": "webpack --progress --hide-modules"
   },
   "author": "",
