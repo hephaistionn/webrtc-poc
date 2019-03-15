@@ -2,13 +2,13 @@ import Peer from 'simple-peer';
 import io from 'socket.io-client'
 import './app.scss';
 
-let waitingList;
 let myStream;
 let peer1;
 let peer2;
 const clientId = Math.random().toString(36).substr(2, 9) + Math.random().toString(36).substr(2, 9) + Math.random().toString(36).substr(2, 9) + Math.random().toString(36).substr(2, 9) + Math.random().toString(36).substr(2, 9);
 const emitterVideo = document.getElementById('emission-video');
 const receptionVideo = document.getElementById('recepetion-video');
+const containerWaiting = document.getElementById('waitingList')
 document.getElementById('start').addEventListener('click', start);
 document.getElementById('stop').addEventListener('click', stop);
 document.getElementById('leave').addEventListener('click', leaveRoom);
@@ -30,12 +30,10 @@ function startPeer() {
     peer2 = new Peer({ initiator: false, trickle: false });
 
     peer1.on('signal', function (data) {
-        console.log('peer1 signal');
         socket.emit('stream1Signal', data);
     })
 
     peer2.on('signal', function (data) {
-        console.log('peer2 signal');
         socket.emit('stream2Signal', data);
     });
 
@@ -54,42 +52,34 @@ function displayStream(player, stream) {
 }
 
 socket.on('stream2Signal', (signal) => {
-    console.log('on stream2Signal');
     peer2.signal(signal);
 });
 
 socket.on('stream1Signal', (signal) => {
-    console.log('on stream1Signal');
     peer1.signal(signal);
 });
 
 
 socket.on('room_started', (targetClientId) => {
-    console.log('=======room_started=======');
-    console.log(targetClientId);
     startPeer();
     document.getElementById('leave').style.display = '';
 });
 
-socket.on('room_leaved', ()=> {
+socket.on('room_leaved', () => {
     leaveRoom();
 })
 
 socket.on('waitingList_updated', (list) => {
-    console.log('=======waitingList_updated=======');
-    console.log(list);
-    waitingList = list;
+    updateWaitingList(list)
 });
 
 function start() {
-    console.log('=======start=======');
     socket.emit('go_waitingList');
     document.getElementById('stop').style.display = '';
     document.getElementById('start').style.display = 'none';
 }
 
 function stop() {
-    console.log('=======stop=======');
     socket.emit('leave_waitingList');
     peer1.destroy();
     peer2.destroy();
@@ -98,8 +88,19 @@ function stop() {
 }
 
 function leaveRoom() {
-    console.log('=======leaveRoom=======');
     socket.emit('leave_room');
     stop();
     document.getElementById('leave').style.display = 'none';
+}
+
+function updateWaitingList(list) {
+    while (containerWaiting.firstChild) {
+        containerWaiting.removeChild(containerWaiting.firstChild);
+    }
+    list.map(user => {
+        const node = document.createElement('div');
+        node.className = 'container__user';
+        node.textContent = user;
+        containerWaiting.appendChild(node);
+    });
 }
