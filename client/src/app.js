@@ -16,6 +16,9 @@ const containerWaiting = document.getElementById('waitingList')
 const domRecUsername = document.getElementById('recepetion-username');
 const domEmiUsername = document.getElementById('emission-username');
 const domEditUsername = document.getElementById('edit-username');
+const inputChat  =  document.getElementById('chat-input');
+const stackChat  =  document.getElementById('chat-stack');
+const senderChat  =  document.getElementById('chat-send');
 document.getElementById('start').addEventListener('click', start);
 document.getElementById('stop').addEventListener('click', stop);
 domEmiUsername.addEventListener('click', editUsername);
@@ -23,6 +26,7 @@ domEditUsername.firstElementChild.addEventListener('click', saveUsername);
 document.getElementById('stop').style.display = 'none';
 domEditUsername.style.display = 'none';
 domEmiUsername.textContent = username;
+senderChat.addEventListener('click', sendMessage);
 
 const socket = io.connect('', { query: { clientId: clientId, username: username } });
 
@@ -48,6 +52,10 @@ function startPeer() {
 
     peer2.on('stream', function (stream) {
         displayStream(receptionVideo, stream);
+    });
+
+    peer2.on('data', function (data) {
+        addNewMessage(data, 1);
     });
 
     peer1.on('error', err => console.log(err));
@@ -139,4 +147,16 @@ function saveUsername() {
         domEmiUsername.style.display = '';
         socket.emit('update_username', domEmiUsername.textContent);
     }
+}
+
+function sendMessage() {
+    const message = inputChat.value;
+    inputChat.value  = '';
+    addNewMessage(message, 0);
+    peer1.send(message)
+
+}
+
+function addNewMessage(message, user) {
+    stackChat.textContent += 'User'+user+ ' : ' + message + ' \\n ';
 }
