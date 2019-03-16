@@ -1,19 +1,26 @@
 <html>
-    <body>
-        <h1>Demo WebRTC</h1>
-        <div id="waitingList" class="container"></div>
-        <div class="container">
-            <div class="container__block">
-                <h2>Recepetion</h2>
-                <video id="recepetion-video" controls></video>
-            </div>
-            <div class="container__block">
-                <h2>Emission</h2>
-                <video id="emission-video" controls></video>
-            </div>
+
+<body>
+    <h1>Demo WebRTC</h1>
+    <div id="waitingList" class="container"></div>
+    <div class="container">
+        <div class="container__block">
+            <h2>Recepetion</h2>
+            <div class="container__block__username" id="recepetion-username"></div>
+            <video id="recepetion-video" controls></video>
         </div>
-        <button id="start">start</button>
-        <button id="stop">stop</button>
-        <button id="leave">leave room</button>
-    </body>
+        <div class="container__block">
+            <h2>Emission</h2>
+
+            <div class="container__block__username etable" id="emission-username"></div>
+            <div class="container__block__edit" id="edit-username">
+                <div class="icon"></div><input></input>
+            </div>
+            <video id="emission-video" controls></video>
+        </div>
+    </div>
+    <button id="start">start</button>
+    <button id="stop">stop</button>
+</body>
+
 </html>

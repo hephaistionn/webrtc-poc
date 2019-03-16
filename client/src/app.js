@@ -2,20 +2,29 @@ import Peer from 'simple-peer';
 import io from 'socket.io-client'
 import './app.scss';
 
+const usernameList = ['Ardal', 'Alvin', 'Justine', 'Pauline', 'Yaroslav', 'Bob', 'Terika', 'Carlene', 'Jetta', 'Toya'];
+
 let myStream;
 let peer1;
 let peer2;
 const clientId = Math.random().toString(36).substr(2, 9) + Math.random().toString(36).substr(2, 9) + Math.random().toString(36).substr(2, 9) + Math.random().toString(36).substr(2, 9) + Math.random().toString(36).substr(2, 9);
+const username = usernameList[Math.floor(Math.random() * usernameList.length * 0.99999)] + Math.floor(Math.random() * 99);
+
 const emitterVideo = document.getElementById('emission-video');
 const receptionVideo = document.getElementById('recepetion-video');
 const containerWaiting = document.getElementById('waitingList')
+const domRecUsername = document.getElementById('recepetion-username');
+const domEmiUsername = document.getElementById('emission-username');
+const domEditUsername = document.getElementById('edit-username');
 document.getElementById('start').addEventListener('click', start);
 document.getElementById('stop').addEventListener('click', stop);
-document.getElementById('leave').addEventListener('click', leaveRoom);
+domEmiUsername.addEventListener('click', editUsername);
+domEditUsername.firstElementChild.addEventListener('click', saveUsername);
 document.getElementById('stop').style.display = 'none';
-document.getElementById('leave').style.display = 'none';
+domEditUsername.style.display = 'none';
+domEmiUsername.textContent = username;
 
-const socket = io.connect('', { query: { clientId: clientId } });
+const socket = io.connect('', { query: { clientId: clientId, username: username } });
 
 navigator.getUserMedia({
     video: true,
@@ -60,18 +69,22 @@ socket.on('stream1Signal', (signal) => {
 });
 
 
-socket.on('room_started', (targetClientId) => {
+socket.on('room_started', (targetUsername) => {
     startPeer();
-    document.getElementById('leave').style.display = '';
+    domRecUsername.textContent = targetUsername;
 });
 
 socket.on('room_leaved', () => {
-    leaveRoom();
+    stop();
 })
 
 socket.on('waitingList_updated', (list) => {
     updateWaitingList(list)
 });
+
+socket.on('room_update_username', (targetUsername) => {
+    domRecUsername.textContent = targetUsername;
+})
 
 function start() {
     socket.emit('go_waitingList');
@@ -80,27 +93,50 @@ function start() {
 }
 
 function stop() {
-    socket.emit('leave_waitingList');
-    peer1.destroy();
-    peer2.destroy();
+    socket.emit('leave');
+    if (peer1) {
+        peer1.destroy();
+        peer2.destroy();
+    }
+    cleanWaitingList([]);
     document.getElementById('stop').style.display = 'none';
     document.getElementById('start').style.display = '';
-}
-
-function leaveRoom() {
-    socket.emit('leave_room');
-    stop();
-    document.getElementById('leave').style.display = 'none';
+    domRecUsername.textContent = '';
 }
 
 function updateWaitingList(list) {
+    cleanWaitingList();
+    if (list.length) {
+        const count = document.createElement('div');
+        count.className = 'container__count';
+        count.textContent = list.length + '/4';
+        containerWaiting.appendChild(count);
+        list.map(user => {
+            const node = document.createElement('div');
+            node.className = 'container__user';
+            node.textContent = user;
+            containerWaiting.appendChild(node);
+        });
+    }
+}
+
+function cleanWaitingList() {
     while (containerWaiting.firstChild) {
         containerWaiting.removeChild(containerWaiting.firstChild);
     }
-    list.map(user => {
-        const node = document.createElement('div');
-        node.className = 'container__user';
-        node.textContent = user;
-        containerWaiting.appendChild(node);
-    });
+}
+
+function editUsername() {
+    domEditUsername.lastElementChild.value = domEmiUsername.textContent;
+    domEditUsername.style.display = '';
+    domEmiUsername.style.display = 'none';
+}
+
+function saveUsername() {
+    if (domEditUsername.lastElementChild.value) {
+        domEmiUsername.textContent = domEditUsername.lastElementChild.value;
+        domEditUsername.style.display = 'none';
+        domEmiUsername.style.display = '';
+        socket.emit('update_username', domEmiUsername.textContent);
+    }
 }

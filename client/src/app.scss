@@ -6,6 +6,24 @@ body {
     font-family: 'segoe ui', 'lucida sans unicode', 'lucida grande', lucida, sans-serif;
 }
 
+@font-face {
+    font-family: 'Font Awesome 5 Free';
+    font-style: normal;
+    font-weight: 900;
+    src: url("./../assets/fa-solid-900.woff2") format("woff2"), url("./../assets/fa-solid-900.woff") format("woff"); 
+}
+
+@mixin icon {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    font-family: 'Font Awesome 5 Free';
+    margin: 0 5px;
+    cursor: pointer;
+}
+
 h1 {
     margin: 20px;
 }
@@ -30,14 +48,49 @@ h1 {
             margin: 20px;
             background-color: black;
         }
+        &__username {
+            position: relative;
+            display: block;
+            margin: 0 19px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            &.etable  {
+                cursor: pointer;
+                &:before {
+                    @include icon;
+                    content: "\f044";
+                }
+
+            }
+        }
+        &__edit {
+            position: relative;
+            display: block;
+            margin: 0 19px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            .icon {
+                display: inline-block;
+                &:before {
+                    @include icon;
+                    content: "\f0c7";
+                }
+            }
+        }
     }
 
     &__user {
         display: inline-block;
         position: relative;
-        margin: 5px;
+        margin: 5px 0 0 20px;
         padding: 4px 15px;
         background-color: gray;
+    }
+
+    &__count {
+        display: inline-block; 
+        margin: 5px 0 0 20px;
+        padding: 4px 15px;
     }
 }
 
@@ -48,3 +101,7 @@ button {
     width: 300px;
     height: 60px;
 }
+
+
+
+  

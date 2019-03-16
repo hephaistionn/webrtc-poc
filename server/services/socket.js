@@ -2,12 +2,13 @@ const socketio = require('socket.io');
 
 const users = new Map();
 const rooms = new Map();
+const usernames = new Map();
 
 const AVAILABLE = 0;
 const BUSY = 1;
 const BREAK = 2;
 
-const waintingRoomSize = 2;
+const waintingRoomSize = 4;
 
 let waitingList = [];
 
@@ -17,10 +18,13 @@ module.exports = function socket(serveur) {
     io.on('connection', (socket) => {
 
         const clientId = socket.handshake.query.clientId;
+        const username = socket.handshake.query.username;
         users.set(clientId, BREAK);
+        usernames.set(clientId, username);
         socket.join(clientId);
 
         socket.on('stream1Signal', (signal) => {
+            socket.leave('waitingRoom');
             const targetId = rooms.get(clientId);
             io.sockets.to(targetId).emit('stream2Signal', signal);
         });
@@ -37,26 +41,34 @@ module.exports = function socket(serveur) {
             rouletteProcess();
         });
 
-        socket.on('leave_waitingList', () => {
+        socket.on('leave', () => {
             socket.leave('waitingRoom');
+            const targetId = rooms.get(clientId);
             users.set(clientId, BREAK);
+            rooms.delete(clientId);
+            io.sockets.to(targetId).emit('room_leaved');
             updateWaitingList();
         });
 
-        socket.on('leave_room', () => {
-            users.set(clientId, AVAILABLE);
-            const targetId = rooms.get(clientId);
-            rooms.delete(clientId);
-            io.sockets.to(targetId).emit('room_leaved');
+        socket.on('update_username', (newUsername) => {
+            usernames.set(clientId, newUsername);
+            const status = users.get(clientId);
+            const targetId = rooms.get(clientId)
+            if (status === AVAILABLE) {
+                updateWaitingList();
+            } else if (targetId) {
+                io.sockets.to(targetId).emit('room_update_username', newUsername);
+            }
         });
 
         socket.on('disconnect', function () {
             const targetId = rooms.get(clientId)
-            if(targetId) {
+            if (targetId) {
                 io.sockets.to(targetId).emit('room_leaved');
             }
             users.delete(clientId);
             rooms.delete(clientId);
+            usernames.delete(clientId);
             updateWaitingList();
         });
     });
@@ -72,8 +84,8 @@ module.exports = function socket(serveur) {
                 users.set(client2, BUSY);
                 rooms.set(client1, client2);
                 rooms.set(client2, client1);
-                io.sockets.to(client1).emit('room_started', client2);
-                io.sockets.to(client2).emit('room_started', client1);
+                io.sockets.to(client1).emit('room_started', usernames.get(client2));
+                io.sockets.to(client2).emit('room_started', usernames.get(client1));
             }
         }
         updateWaitingList();
@@ -81,12 +93,14 @@ module.exports = function socket(serveur) {
 
     function updateWaitingList() {
         waitingList = [];
-        for (var [id, status] of users) {
+        nameList = [];
+        for (let [id, status] of users) {
             if (status === AVAILABLE) {
                 waitingList.push(id);
+                nameList.push(usernames.get(id));
             }
         }
-        io.sockets.to('waitingRoom').emit('waitingList_updated', waitingList);
+        io.sockets.to('waitingRoom').emit('waitingList_updated', nameList);
     }
 
 };
