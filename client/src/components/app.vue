@@ -1,29 +1,28 @@
 <template>
   <div class="app">
-    <img src="./../../assets/avatar3.png">
-    <h1>Demo WebRTC</h1>
-    <waitingList/>
-    <div class="video-container">
-      <videoStream
-        v-bind:stream="$store.state.stream1"
-        v-bind:emitter="true"
-        v-bind:username="$store.state.username1"
-      />
-      <videoStream
-        v-bind:stream="$store.state.stream2"
-        v-bind:emitter="false"
-        v-bind:username="$store.state.username2"
-      />
+    <mainHeader /> 
+    <div class="content">
+      <waitingList />
+      <div class="content__videos">  
+        <videoStream
+          v-bind:stream="$store.state.stream2"
+          v-bind:emitter="false"
+          v-bind:username="$store.state.username2"/>
+        <videoStream
+          v-bind:stream="$store.state.stream1"
+          v-bind:emitter="true"
+          v-bind:username="$store.state.username1"/>
+      </div>
+      <chat />
+      <div class="content__adv"> </div>
     </div>
-    <chat v-show="$store.state.peer2"/>
-    <button v-show="$store.state.break" @click="start">start</button>
-    <button v-show="!$store.state.break" @click="stop">stop</button>
   </div>
 </template>
 
 <script>
 import videoStream from "./videoStream.vue";
 import waitingList from "./waitingList.vue";
+import mainHeader from "./header.vue";
 import chat from "./chat.vue";
 import { mapActions } from "vuex";
 
@@ -32,9 +31,10 @@ export default {
   components: {
     videoStream,
     waitingList,
-    chat
+    chat,
+    mainHeader
   },
-  methods: mapActions(["start", "stop", "startCam", "initSocket"]),
+  methods: mapActions(["startCam", "initSocket"]),
   mounted() {
     this.$store.dispatch("startCam");
     this.$store.dispatch("initSocket");
@@ -43,19 +43,40 @@ export default {
 </script>
 
 <style lang="sass">
+  body {
+    margin: 0;
+  }
   .app {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
   }
 
-  img {
-    width: 30px;
-    height: 30px;
+  .content {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: calc(100% - 60px);
+    margin: auto;
+    max-width: 1700px;
+    max-height: 1000px;
+    &__videos {
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      position: relative;
+      background-color: beige;
+      height: 100%;
+      width: 38%;
+      min-width: 400px;
+    }
+    &__adv {
+      display: inline-block;
+      position: relative;
+      height: 100%;
+      width: 20%;
+      background-color: brown;
+    }
   }
-
 
   @font-face {
     font-family: 'Font Awesome 5 Free';

@@ -20,6 +20,10 @@ export default {
 
 <style lang="sass">
   .chat {
-    display: inline_block;
+    display: inline-block;
+    width: 33%;
+    min-width: 300px;
+    height: 100%;
+    background: yellow;
   }
 </style>

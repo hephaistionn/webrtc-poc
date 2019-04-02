@@ -1,6 +1,5 @@
 <template>
-  <div class="videoStream">
-    <h2>Recepetion</h2>
+  <div class="videoStream" v-bind:class="{emitter: emitter}">
     <videoUsername v-bind:editable="emitter" v-bind:username="username"/>
     <video controls ref="videoRef"></video>
   </div>
@@ -26,6 +25,18 @@ export default {
 
 <style lang="sass">
   .videoStream {
-      display: inline_block;
+    position: relative;
+    width: 100%;
+    height:  0;
+    padding-top: 75%;
+    background: #9C27B0;
+    flex-basis: 100%;
+    video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
   }
 </style>

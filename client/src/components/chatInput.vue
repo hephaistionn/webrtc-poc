@@ -23,7 +23,7 @@ export default {
   .chatInput {
     position: relative;
     display: block;
-    width: 715px;
+    width: 90%;
     height: 100px;
     border: solid;
     margin: 5px 0 0 20px;
@@ -31,7 +31,7 @@ export default {
     &__input {
     position: relative;
     display: inline-block;
-    width: 639px;
+    width: 90%;
     height: 41px;
     margin: 5px 0 0 20px;
     }

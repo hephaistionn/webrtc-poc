@@ -1,6 +1,8 @@
 <template>
   <div class="waitingList">
-    <waitingItem v-bind:username="item" :key="item" v-for="item in $store.state.waitingList"/>
+    <div class="waitingList__list" v-show="!$store.state.peer2 && !$store.state.break">
+        <waitingItem v-bind:username="item" :key="item" v-for="item in $store.state.waitingList"/>
+    </div>
   </div>
 </template>
 
@@ -16,6 +18,10 @@ export default {
 
 <style lang="sass">
   .waitingList {
-      display: inline_block;
+    display: inline-block;
+    background: blue;
+    min-width: 100px;
+    width: 8%;
+    height: 100%;
   }
 </style>

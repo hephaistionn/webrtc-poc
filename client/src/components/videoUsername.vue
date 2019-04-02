@@ -49,7 +49,11 @@ export default {
   }
 
   .videoUsername {
-    display: inline_block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    background: darkseagreen;
     &__value {
       display: block;
     }

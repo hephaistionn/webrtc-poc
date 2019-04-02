@@ -1,5 +1,7 @@
 # POC WebRTC
 
+WebRTC + VueJS + VueX + Webpack
+
 ## Start project
   
 ```sh
