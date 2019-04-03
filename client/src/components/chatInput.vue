@@ -22,27 +22,26 @@ export default {
 <style lang="sass">
   .chatInput {
     position: relative;
-    display: block;
-    width: 90%;
+    display: flex;
     height: 100px;
-    border: solid;
-    margin: 5px 0 0 20px;
-    
+    padding: 15px 15px 15px 15px;
+    flex-direction: row;
+    justify-content: flex-start;
     &__input {
-    position: relative;
-    display: inline-block;
-    width: 90%;
-    height: 41px;
-    margin: 5px 0 0 20px;
+      position: relative;
+      display: inline-block;
+      flex-grow: 5;
     }
 
     &__send {
       display: inline-block;
+      flex-grow: 1;
       padding: 0 5px;
-      width: 71px;
-      height: 40px;
-      margin: 5px 0 0 6px;
-      vertical-align: top;
+      width: 100px;
+      height: 100px;
+      margin: 0 0 0 10px;
+      border: none;
+      font-size: 1.5rem;
     }
   }
 </style>

@@ -1,6 +1,5 @@
 <template>
   <div class="chat">
-    <h2>chat</h2>
     <chatStack/>
     <chatInput/>
   </div>
@@ -20,8 +19,9 @@ export default {
 
 <style lang="sass">
   .chat {
+    position: relative;
     display: inline-block;
-    width: 33%;
+    width: 34%;
     min-width: 300px;
     height: 100%;
     background: yellow;

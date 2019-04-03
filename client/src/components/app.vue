@@ -4,11 +4,11 @@
     <div class="content">
       <waitingList />
       <div class="content__videos">  
-        <videoStream
+        <stream
           v-bind:stream="$store.state.stream2"
           v-bind:emitter="false"
           v-bind:username="$store.state.username2"/>
-        <videoStream
+        <stream
           v-bind:stream="$store.state.stream1"
           v-bind:emitter="true"
           v-bind:username="$store.state.username1"/>
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import videoStream from "./videoStream.vue";
+import stream from "./stream.vue";
 import waitingList from "./waitingList.vue";
 import mainHeader from "./header.vue";
 import chat from "./chat.vue";
@@ -29,7 +29,7 @@ import { mapActions } from "vuex";
 export default {
   name: "app",
   components: {
-    videoStream,
+    stream,
     waitingList,
     chat,
     mainHeader
@@ -75,6 +75,13 @@ export default {
       height: 100%;
       width: 20%;
       background-color: brown;
+    }
+  }
+
+  button {
+    cursor: pointer;
+    &:hover {
+      background-color: red;
     }
   }
 

@@ -17,10 +17,8 @@ export default {
 <style lang="sass">
   .chatStack {
     position: relative;
-    display: block;
-    width: 90%;
-    height: calc(100% - 200px);
-    border: solid;
-    margin: 5px 0 0 20px;
-}
+    display: flex;
+    height: calc(100% - 164px);
+    padding: 15px 15px 15px 15px;
+  } 
 </style>

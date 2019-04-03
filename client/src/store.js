@@ -105,6 +105,9 @@ export default new Vuex.Store({
         saveUsename({ commit }, username) {
             commit('setUsername1', username);
             state.socket.emit('update_username', username);
+        },
+        setMute({commit}, value) {
+            state.stream1.getAudioTracks()[0].enabled = value;
         }
     },
     mutations: {
