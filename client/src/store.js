@@ -25,6 +25,7 @@ const state = {
     avatar2: 0,
     waitingList: [],
     break: true,
+    edit: false,
 };
 
 export default new Vuex.Store({
@@ -112,6 +113,9 @@ export default new Vuex.Store({
         },
         setMute({commit}, value) {
             state.stream1.getAudioTracks()[0].enabled = value;
+        },
+        toggleEdit({commit, state}) {
+            commit('setEdit', !state.edit);
         }
     },
     mutations: {
@@ -180,6 +184,9 @@ export default new Vuex.Store({
         },
         setBreak(state, value) {
             state.break = value;
+        },
+        setEdit(state, value) {
+            state.edit = value;
         }
     }
 });

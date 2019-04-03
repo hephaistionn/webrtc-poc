@@ -17,6 +17,10 @@
       </div>
       <chat />
       <div class='content__adv'> </div>
+      <editor  
+        v-if='$store.state.edit' 
+        v-bind:avatar='$store.state.avatar1'
+        v-bind:username='$store.state.username1'  />
     </div>
   </div>
 </template>
@@ -25,6 +29,7 @@
 import stream from './stream.vue';
 import waitingList from './waitingList.vue';
 import mainHeader from './header.vue';
+import editor from './editor.vue';
 import chat from './chat.vue';
 import { mapActions } from 'vuex';
 
@@ -34,7 +39,8 @@ export default {
     stream,
     waitingList,
     chat,
-    mainHeader
+    mainHeader,
+    editor
   },
   methods: mapActions(['startCam', 'initSocket']),
   mounted() {
