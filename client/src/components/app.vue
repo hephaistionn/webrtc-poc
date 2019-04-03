@@ -7,10 +7,12 @@
         <stream
           v-bind:stream="$store.state.stream2"
           v-bind:emitter="false"
+          v-bind:avatar="$store.state.avatar2"
           v-bind:username="$store.state.username2"/>
         <stream
           v-bind:stream="$store.state.stream1"
           v-bind:emitter="true"
+          v-bind:avatar="$store.state.avatar1"
           v-bind:username="$store.state.username1"/>
       </div>
       <chat />
@@ -83,6 +85,10 @@ export default {
     &:hover {
       background-color: red;
     }
+  }
+
+  .avatar {
+    background-image: url("./../../assets/avatars.jpg");
   }
 
   @font-face {

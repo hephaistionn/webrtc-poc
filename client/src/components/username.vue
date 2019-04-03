@@ -1,5 +1,9 @@
 <template>
   <div class="username">
+    <div
+      class="username__avatar avatar"
+      v-bind:style="{backgroundPositionX: avatarX, backgroundPositionY: avatarY}"
+    ></div>
     <div v-if="editing === false" class="username__value">
       <div class="username__value__content">{{ username }}</div>
       <div class="username__value__icon" v-show="editable" v-on:click="edit"></div>
@@ -16,13 +20,24 @@ export default {
   name: "username",
   props: {
     editable: Boolean,
-    username: String
+    username: String,
+    avatar: Number
   },
   data() {
     return {
       editing: false,
-      editUsername: ""
+      editUsername: "",
+      avatarX: 0,
+      avatarY: 0
     };
+  },
+  watch: {
+    avatar: function(index) {
+      const col = 4;
+      const row = 4;
+      this.avatarX = -(index % col) * 80 + "px";
+      this.avatarY = -Math.floor(index / row) * 85 + "px";
+    }
   },
   methods: {
     edit: function() {
@@ -53,16 +68,27 @@ export default {
 
   .username {
     position: absolute;
-    display: inline-block;
+    display: flex;
     top: 0;
     left: 0;
     width: 100%;
     margin: 10px 10px;
     color: white;
     text-shadow: 0 0 5px black;
+    &__avatar {
+      display: inline-block;
+      margin-right: 10px;
+      width: 80px;
+      height: 90px;
+      background-color: yellow;
+      background-size: 320px;
+      background-repeat: no-repeat;
+      background-position: -84px -86px;
+    }
     &__value {
       display: flex;
       align-content: baseline;
+      width: calc(100% - 100px);
       &__icon {
         display: none;
         cursor: pointer;

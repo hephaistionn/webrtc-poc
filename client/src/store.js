@@ -7,6 +7,7 @@ let clientId = localStorage.getItem('clientId');
 clientId = clientId ? clientId : new Uint8Array(10).reduce(id => id + Math.random().toString(36).substr(2, 9));
 const usernameList = ['Ardal', 'Alvin', 'Justine', 'Pauline', 'Yaroslav', 'Bob', 'Terika', 'Carlene', 'Jetta', 'Toya'];
 const username = usernameList[Math.floor(Math.random() * usernameList.length * 0.99999)] + Math.floor(Math.random() * 99);
+const avatar = Math.floor(Math.random() * 15.99);
 
 Vue.use(Vuex);
 
@@ -20,6 +21,8 @@ const state = {
     socket: null,
     username1: 'Username1',
     username2: 'Username2',
+    avatar1: 0,
+    avatar2: 0,
     waitingList: [],
     break: true,
 };
@@ -61,6 +64,7 @@ export default new Vuex.Store({
                 commit('setUsername2', targetUsername);
             });
             commit('setUsername1', username);
+            commit('setAvatar1', avatar);
             commit('setSocket', socket);
         },
         initPeers({ commit, state }) {
@@ -161,6 +165,12 @@ export default new Vuex.Store({
         },
         setUsername2(state, username) {
             state.username2 = username;
+        },
+        setAvatar1(state, username) {
+            state.avatar1 = username;
+        },
+        setAvatar2(state, username) {
+            state.avatar2 = username;
         },
         updateWaitingList(state, list) {
             state.waitingList = list;
