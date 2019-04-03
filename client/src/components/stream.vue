@@ -1,17 +1,17 @@
 <template>
-  <div class="stream" v-bind:class="{emitter: emitter}">
-    <video ref="videoRef"></video>
-    <username v-bind:editable="emitter" v-bind:username="username" v-bind:avatar="avatar" />
-    <div v-show="emitter && mute" class="stream__mute" v-on:click="toggleMute"></div>
-    <div v-show="emitter && !mute" class="stream__unmute" v-on:click="toggleMute"></div>
+  <div class='stream' v-bind:class='{emitter: emitter}'>
+    <video ref='videoRef'></video>
+    <username v-bind:editable='emitter' v-bind:username='username' v-bind:avatar='avatar' />
+    <div v-show='emitter && mute' class='stream__mute' v-on:click='toggleMute'></div>
+    <div v-show='emitter && !mute' class='stream__unmute' v-on:click='toggleMute'></div>
   </div>
 </template>
 
 <script>
-import username from "./username.vue";
+import username from './username.vue';
 export default {
-  name: "stream",
-  props: ["stream", "emitter", "username", "avatar"],
+  name: 'stream',
+  props: ['stream', 'emitter', 'username', 'avatar'],
   components: {
     username
   },
@@ -31,13 +31,13 @@ export default {
      toggleMute: function() {
        this.mute = !this.mute; 
        this.$refs.videoRef.muted = this.mute;
-       this.$store.dispatch("setMute", this.mute);
+       this.$store.dispatch('setMute', this.mute);
      }
   }
 };
 </script>
 
-<style lang="sass">
+<style lang='sass'>
 
   @mixin icon {
     -moz-osx-font-smoothing: grayscale;
@@ -74,7 +74,7 @@ export default {
       display: none;
       &:before {
           @include icon;
-          content: "\f131";
+          content: '\f131';
       }
     }
     &__mute {

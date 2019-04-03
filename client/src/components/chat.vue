@@ -1,15 +1,15 @@
 <template>
-  <div class="chat">
+  <div class='chat'>
     <chatStack/>
     <chatInput/>
   </div>
 </template>
 
 <script>
-import chatStack from "./chatStack.vue";
-import chatInput from "./chatInput.vue";
+import chatStack from './chatStack.vue';
+import chatInput from './chatInput.vue';
 export default {
-  name: "chat",
+  name: 'chat',
   components: {
     chatStack,
     chatInput
@@ -17,7 +17,7 @@ export default {
 };
 </script>
 
-<style lang="sass">
+<style lang='sass'>
   .chat {
     position: relative;
     display: inline-block;

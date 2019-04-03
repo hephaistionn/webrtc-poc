@@ -1,20 +1,20 @@
 <template>
-  <div class="chatStack">
-    <chatMessage v-bind:message="message" v-for="message in $store.state.stack" :key="message"/>
+  <div class='chatStack'>
+    <chatMessage v-bind:message='message' v-for='message in $store.state.stack' :key='message'/>
   </div>
 </template>
 
 <script>
-import chatMessage from "./chatMessage.vue";
+import chatMessage from './chatMessage.vue';
 export default {
-  name: "chatStack",
+  name: 'chatStack',
   components: {
     chatMessage
   }
 };
 </script>
 
-<style lang="sass">
+<style lang='sass'>
   .chatStack {
     position: relative;
     display: flex;

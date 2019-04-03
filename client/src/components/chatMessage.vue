@@ -1,17 +1,17 @@
 <template>
-  <div class="chatMessage">{{message}}</div>
+  <div class='chatMessage'>{{message}}</div>
 </template>
 
 <script>
 export default {
-  name: "chatMessage",
+  name: 'chatMessage',
   props: {
     message: String
   }
 };
 </script>
 
-<style lang="sass">
+<style lang='sass'>
   .chatMessage {
       display: inline_block;
   }

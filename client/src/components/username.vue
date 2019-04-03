@@ -1,23 +1,23 @@
 <template>
-  <div class="username">
+  <div class='username'>
     <div
-      class="username__avatar avatar"
-      v-bind:style="{backgroundPositionX: avatarX, backgroundPositionY: avatarY}"
+      class='username__avatar avatar'
+      v-bind:style='{backgroundPositionX: avatarX, backgroundPositionY: avatarY}'
     ></div>
-    <div v-if="editing === false" class="username__value">
-      <div class="username__value__content">{{ username }}</div>
-      <div class="username__value__icon" v-show="editable" v-on:click="edit"></div>
+    <div v-if='editing === false' class='username__value'>
+      <div class='username__value__content'>{{ username }}</div>
+      <div class='username__value__icon' v-show='editable' v-on:click='edit'></div>
     </div>
-    <div v-else class="username__edit">
-      <input v-model="editUsername" class="username__edit__input" maxlength="40">
-      <div class="username__edit__icon" v-on:click="save"></div>
+    <div v-else class='username__edit'>
+      <input v-model='editUsername' class='username__edit__input' maxlength='40'>
+      <div class='username__edit__icon' v-on:click='save'></div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "username",
+  name: 'username',
   props: {
     editable: Boolean,
     username: String,
@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       editing: false,
-      editUsername: "",
+      editUsername: '',
       avatarX: 0,
       avatarY: 0
     };
@@ -35,8 +35,8 @@ export default {
     avatar: function(index) {
       const col = 4;
       const row = 4;
-      this.avatarX = -(index % col) * 80 + "px";
-      this.avatarY = -Math.floor(index / row) * 85 + "px";
+      this.avatarX = -(index % col) * 80 + 'px';
+      this.avatarY = -Math.floor(index / row) * 85 + 'px';
     }
   },
   methods: {
@@ -48,13 +48,13 @@ export default {
     },
     save: function() {
       this.editing = false;
-      this.$store.dispatch("saveUsename", this.editUsername);
+      this.$store.dispatch('saveUsename', this.editUsername);
     }
   }
 };
 </script>
 
-<style lang="sass">
+<style lang='sass'>
   @mixin icon {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
@@ -96,7 +96,7 @@ export default {
         line-height: 2.5rem;
         &:before {
             @include icon;
-            content: "\f044";
+            content: '\f044';
         }
       }
       &__content {
@@ -118,7 +118,7 @@ export default {
         line-height: 2.5rem;
         &:before {
             @include icon;
-            content: "\f0c7";
+            content: '\f0c7';
         }
       }
       &__input {

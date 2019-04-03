@@ -1,17 +1,17 @@
 <template>
-  <div class="waitingItem">{{username}}</div>
+  <div class='waitingItem'>{{username}}</div>
 </template>
 
 <script>
 export default {
-  name: "waitingItem",
+  name: 'waitingItem',
   props: {
     username: String
   }
 };
 </script>
 
-<style lang="sass">
+<style lang='sass'>
   .waitingItem {
       display: inline_block;
   }

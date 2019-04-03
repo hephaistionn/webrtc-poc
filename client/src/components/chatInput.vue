@@ -1,25 +1,25 @@
 <template>
-  <div class="chatInput">
-    <textarea class="chatInput__input" rows="5" cols="33" v-model="message"></textarea>
-    <button class="chatInput__send" v-on:click="sendMessage(message);message=''">send</button>
+  <div class='chatInput'>
+    <textarea class='chatInput__input' rows='5' cols='33' v-model='message'></textarea>
+    <button class='chatInput__send' v-on:click='sendMessage(message);message=""'>send</button>
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex';
 
 export default {
-  name: "chatInput",
+  name: 'chatInput',
   data() {
     return {
-      message: ""
+      message: ''
     };
   },
-  methods: mapActions(["sendMessage"])
+  methods: mapActions(['sendMessage'])
 };
 </script>
 
-<style lang="sass">
+<style lang='sass'>
   .chatInput {
     position: relative;
     display: flex;

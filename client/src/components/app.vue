@@ -1,50 +1,50 @@
 <template>
-  <div class="app">
+  <div class='app'>
     <mainHeader /> 
-    <div class="content">
+    <div class='content'>
       <waitingList />
-      <div class="content__videos">  
+      <div class='content__videos'>  
         <stream
-          v-bind:stream="$store.state.stream2"
-          v-bind:emitter="false"
-          v-bind:avatar="$store.state.avatar2"
-          v-bind:username="$store.state.username2"/>
+          v-bind:stream='$store.state.stream2'
+          v-bind:emitter='false'
+          v-bind:avatar='$store.state.avatar2'
+          v-bind:username='$store.state.username2'/>
         <stream
-          v-bind:stream="$store.state.stream1"
-          v-bind:emitter="true"
-          v-bind:avatar="$store.state.avatar1"
-          v-bind:username="$store.state.username1"/>
+          v-bind:stream='$store.state.stream1'
+          v-bind:emitter='true'
+          v-bind:avatar='$store.state.avatar1'
+          v-bind:username='$store.state.username1'/>
       </div>
       <chat />
-      <div class="content__adv"> </div>
+      <div class='content__adv'> </div>
     </div>
   </div>
 </template>
 
 <script>
-import stream from "./stream.vue";
-import waitingList from "./waitingList.vue";
-import mainHeader from "./header.vue";
-import chat from "./chat.vue";
-import { mapActions } from "vuex";
+import stream from './stream.vue';
+import waitingList from './waitingList.vue';
+import mainHeader from './header.vue';
+import chat from './chat.vue';
+import { mapActions } from 'vuex';
 
 export default {
-  name: "app",
+  name: 'app',
   components: {
     stream,
     waitingList,
     chat,
     mainHeader
   },
-  methods: mapActions(["startCam", "initSocket"]),
+  methods: mapActions(['startCam', 'initSocket']),
   mounted() {
-    this.$store.dispatch("startCam");
-    this.$store.dispatch("initSocket");
+    this.$store.dispatch('startCam');
+    this.$store.dispatch('initSocket');
   }
 };
 </script>
 
-<style lang="sass">
+<style lang='sass'>
   body {
     margin: 0;
   }
@@ -88,14 +88,14 @@ export default {
   }
 
   .avatar {
-    background-image: url("./../../assets/avatars.jpg");
+    background-image: url('./../../assets/avatars.jpg');
   }
 
   @font-face {
     font-family: 'Font Awesome 5 Free';
     font-style: normal;
     font-weight: 900;
-    src: url("./../../assets/fa-solid-900.woff2") format("woff2"), url("./../../assets/fa-solid-900.woff") format("woff"); 
+    src: url('./../../assets/fa-solid-900.woff2') format('woff2'), url('./../../assets/fa-solid-900.woff') format('woff'); 
   }
 
   @mixin icon {

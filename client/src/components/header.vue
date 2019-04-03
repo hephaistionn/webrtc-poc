@@ -1,24 +1,24 @@
 <template>
-  <div class="header"> 
-    <div class="header__container">
-      <img class="header__container__icon" src="./../../assets/logo.png"> 
-      <button class="header__container__button" v-show="$store.state.break" @click="start">start</button>
-      <button class="header__container__button" v-show="!$store.state.break" @click="stop">stop</button>
-    </div>  
+  <div class='header'>
+    <div class='header__container'>
+      <img class='header__container__icon' src='./../../assets/logo.png'>
+      <button class='header__container__button' v-show='$store.state.break' @click='start'>start</button>
+      <button class='header__container__button' v-show='!$store.state.break' @click='stop'>stop</button>
+    </div>
   </div>
 </template>
 
 <script>
-  import { mapActions } from "vuex";
-  import chatStack from "./chatStack.vue";
-  import chatInput from "./chatInput.vue";
-  export default {
-    name: "header",
-    methods: mapActions(["start", "stop"])
-  };
+import { mapActions } from 'vuex';
+import chatStack from './chatStack.vue';
+import chatInput from './chatInput.vue';
+export default {
+  name: 'header',
+  methods: mapActions(['start', 'stop'])
+};
 </script>
 
-<style lang="sass">
+<style lang='sass'>
   .header {
     display: flex;
     position: relative;

@@ -1,22 +1,22 @@
 <template>
-  <div class="waitingList">
-    <div class="waitingList__list" v-show="!$store.state.peer2 && !$store.state.break">
-        <waitingItem v-bind:username="item" :key="item" v-for="item in $store.state.waitingList"/>
+  <div class='waitingList'>
+    <div class='waitingList__list' v-show='!$store.state.peer2 && !$store.state.break'>
+        <waitingItem v-bind:username='item' :key='item' v-for='item in $store.state.waitingList'/>
     </div>
   </div>
 </template>
 
 <script>
-import waitingItem from "./waitingItem.vue";
+import waitingItem from './waitingItem.vue';
 export default {
-  name: "waitingList",
+  name: 'waitingList',
   components: {
     waitingItem
   }
 };
 </script>
 
-<style lang="sass">
+<style lang='sass'>
   .waitingList {
     display: inline-block;
     background: blue;
