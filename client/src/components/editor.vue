@@ -1,9 +1,21 @@
 <template>
-  <div class='editor'>
+  <div class='editor' v-on:click.self='close'>
     <div class='editor__modal'>
-      <div class='editor__avatar avatar'></div>
+      <div class='editor__helper'>Edit yout profile</div>
       <input v-model='editUsername' class='editor__input' maxlength='40'>
-      <div class='editor__icon' v-on:click='save'></div>
+      <div class='editor__avacontainer'>
+        <div
+          class='editor__avacontainer__avatar avatar'
+          v-for='(avatar, index) in avatars'
+          v-bind:key='index'
+          v-bind:class='{selected: selectAvatar===index}'
+          v-on:click='select(index)'
+          v-bind:style='{backgroundPositionX: avatar.x, backgroundPositionY: avatar.y}'
+        ></div>
+      </div>
+
+      <div class='editor__save' v-on:click='save'></div>
+      <div class='editor__close' v-on:click='close'></div>
     </div>
   </div>
 </template>
@@ -18,27 +30,38 @@ export default {
   data() {
     return {
       editUsername: '',
-      avatarX: 0,
-      avatarY: 0
+      nbAvatars: 16,
+      avatars: [],
+      selectAvatar: 0
     };
-  },
-  watch: {
-    avatar: function(index) {
-      const col = 4;
-      const row = 4;
-      this.avatarX = -(index % col) * 80 + 'px';
-      this.avatarY = -Math.floor(index / row) * 85 + 'px';
-    }
   },
   methods: {
     save: function() {
-      this.editing = false;
       this.$store.dispatch('saveUsename', this.editUsername);
+      this.$store.dispatch('saveAvatar', this.selectAvatar);
       this.$store.dispatch('toggleEdit');
+    },
+    close: function() {
+      this.$store.dispatch('toggleEdit');
+    },
+    select: function(index) {
+      this.selectAvatar = index;
     }
   },
   mounted() {
     this.editUsername = this.username;
+    this.selectAvatar = this.avatar;
+    let x;
+    let y;
+    const col = 4;
+    const row = 4;
+    const avatars = [];
+    for (let i = 0; i < this.nbAvatars; i++) {
+      x = -(i % col) * 80 + 'px';
+      y = -Math.floor(i / row) * 85 + 'px';
+      avatars.push({ x, y });
+    }
+    this.avatars = avatars;
   }
 };
 </script>
@@ -55,6 +78,10 @@ export default {
     cursor: pointer;
   }
 
+  .selected {
+    border: solid;
+  }
+
   .editor {
     position: fixed;
     width: 100%;
@@ -64,23 +91,43 @@ export default {
     align-items: center;
     justify-content: center;
     &__modal {
-        position: fixed;
-        display: flex;
-        width: 800px;
-        height: 600px;
-        background-color: gray;
-    }
-    &__avatar {
+      position: fixed;
       display: inline-block;
-      margin-right: 10px;
-      width: 80px;
-      height: 90px;
-      background-color: yellow;
-      background-size: 320px;
-      background-repeat: no-repeat;
-      background-position: -84px -86px;
+      width: 800px;
+      background-color: gray;
     }
-    &__icon {
+    &__helper {
+      position: relative;
+      display: block;
+      margin: 30px;
+      font-size: 1.5rem;
+    }
+    &__avacontainer {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      width: calc(100% - 60px);
+      margin: 30px;
+      height: 117px;
+      overflow-y: hidden;
+      overflow-x: scroll;
+      &__avatar {
+        display: inline-block;
+        margin-right: 10px;
+        width: 80px;
+        height: 90px;
+        background-color: yellow;
+        background-size: 320px;
+        background-repeat: no-repeat;
+        min-width: 80px;
+        background-position: -84px -86px;
+      }
+    }
+    &__save {
+        position: absolute;
+        bottom:: 10px;
+        right: 30px;
         display: inline-block;
         cursor: pointer;
         font-size: 1.5rem;
@@ -90,10 +137,26 @@ export default {
             content: '\f0c7';
         }
     }
+    &__close {
+        position: absolute;
+        top:: 10px;
+        right: 30px;
+        display: inline-block;
+        cursor: pointer;
+        font-size: 1.5rem;
+        line-height: 2.5rem;
+        &:before {
+            @include icon;
+            content: '\f410';
+        }
+    }
     &__input {
-        display: block;
-        font-size: 2rem;
-        height: 100px;
+      position: relative;
+      margin: 30px;
+      display: block;
+      font-size: 2rem;
+      width: calc(100% - 60px);
+      height: 100px;
     } 
   }
 
