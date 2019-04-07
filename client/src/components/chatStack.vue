@@ -1,6 +1,6 @@
 <template>
   <div class='chatStack'>
-    <chatMessage v-bind:message='message' v-for='message in $store.state.stack' :key='message'/>
+    <chatMessage v-bind:message='message' v-for='(message, index) in $store.state.stack' :key='index'/>
   </div>
 </template>
 

@@ -53,6 +53,7 @@ module.exports = function socket(serveur) {
         });
 
         socket.on('update_profile', (profile) => {
+            console.log('profile ', profile)
             usernames.set(clientId, profile.username);
             avatars.set(clientId, profile.avatar);
             const status = users.get(clientId);

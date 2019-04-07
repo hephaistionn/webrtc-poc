@@ -4,7 +4,7 @@
         <waitingItem 
           v-bind:username='item.username'
           v-bind:avatar='item.avatar'
-          :key='item.username' v-for='item in $store.state.waitingList'/>
+          :key='index' v-for='(item, index) in $store.state.waitingList'/>
     </div>
   </div>
 </template>
