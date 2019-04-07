@@ -37,8 +37,7 @@ export default {
   },
   methods: {
     save: function() {
-      this.$store.dispatch('saveUsename', this.editUsername);
-      this.$store.dispatch('saveAvatar', this.selectAvatar);
+      this.$store.dispatch('saveProfile', {username: this.editUsername, avatar: this.selectAvatar });
       this.$store.dispatch('toggleEdit');
     },
     close: function() {

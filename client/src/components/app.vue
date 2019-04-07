@@ -20,7 +20,7 @@
       <editor  
         v-if='$store.state.edit' 
         v-bind:avatar='$store.state.avatar1'
-        v-bind:username='$store.state.username1'  />
+        v-bind:username='$store.state.username1' />
     </div>
   </div>
 </template>

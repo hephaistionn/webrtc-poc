@@ -6,7 +6,8 @@
 export default {
   name: 'waitingItem',
   props: {
-    username: String
+    username: String,
+    avatar: Number
   }
 };
 </script>

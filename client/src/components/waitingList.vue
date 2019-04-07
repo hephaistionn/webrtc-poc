@@ -1,7 +1,10 @@
 <template>
   <div class='waitingList'>
     <div class='waitingList__list' v-show='!$store.state.peer2 && !$store.state.break'>
-        <waitingItem v-bind:username='item' :key='item' v-for='item in $store.state.waitingList'/>
+        <waitingItem 
+          v-bind:username='item.username'
+          v-bind:avatar='item.avatar'
+          :key='item.username' v-for='item in $store.state.waitingList'/>
     </div>
   </div>
 </template>

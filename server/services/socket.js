@@ -1,6 +1,7 @@
 const socketio = require('socket.io');
 
 const users = new Map();
+const avatars = new Map();
 const rooms = new Map();
 const usernames = new Map();
 
@@ -16,11 +17,12 @@ module.exports = function socket(serveur) {
     const io = socketio(serveur);
 
     io.on('connection', (socket) => {
-
         const clientId = socket.handshake.query.clientId;
         const username = socket.handshake.query.username;
+        const avatar = socket.handshake.query.avatar;
         users.set(clientId, BREAK);
         usernames.set(clientId, username);
+        avatars.set(clientId, avatar);
         socket.join(clientId);
 
         socket.on('stream1Signal', (signal) => {
@@ -50,14 +52,15 @@ module.exports = function socket(serveur) {
             updateWaitingList();
         });
 
-        socket.on('update_username', (newUsername) => {
-            usernames.set(clientId, newUsername);
+        socket.on('update_profile', (profile) => {
+            usernames.set(clientId, profile.username);
+            avatars.set(clientId, profile.avatar);
             const status = users.get(clientId);
             const targetId = rooms.get(clientId)
             if (status === AVAILABLE) {
                 updateWaitingList();
             } else if (targetId) {
-                io.sockets.to(targetId).emit('room_update_username', newUsername);
+                io.sockets.to(targetId).emit('room_update_profile', profile);
             }
         });
 
@@ -69,6 +72,7 @@ module.exports = function socket(serveur) {
             users.delete(clientId);
             rooms.delete(clientId);
             usernames.delete(clientId);
+            avatars.delete(clientId);
             updateWaitingList();
         });
     });
@@ -84,8 +88,8 @@ module.exports = function socket(serveur) {
                 users.set(client2, BUSY);
                 rooms.set(client1, client2);
                 rooms.set(client2, client1);
-                io.sockets.to(client1).emit('room_started', usernames.get(client2));
-                io.sockets.to(client2).emit('room_started', usernames.get(client1));
+                io.sockets.to(client1).emit('room_started', {username: usernames.get(client2), avatar: avatars.get(client2)});
+                io.sockets.to(client2).emit('room_started', {username: usernames.get(client1), avatar: avatars.get(client1)});
             }
         }
         updateWaitingList();
@@ -93,14 +97,18 @@ module.exports = function socket(serveur) {
 
     function updateWaitingList() {
         waitingList = [];
-        nameList = [];
+        usernameList = [];
+        avatarList = [];
         for (let [id, status] of users) {
             if (status === AVAILABLE) {
                 waitingList.push(id);
-                nameList.push(usernames.get(id));
+                usernameList.push(usernames.get(id));
+                avatarList.push(avatars.get(id));
             }
         }
-        io.sockets.to('waitingRoom').emit('waitingList_updated', nameList);
+        io.sockets.to('waitingRoom').emit('waitingList_updated', {
+            usernameList, avatarList, length: waitingList.length
+        });
     }
 
 };

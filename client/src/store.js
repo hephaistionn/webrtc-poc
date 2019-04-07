@@ -43,7 +43,7 @@ export default new Vuex.Store({
       });
     },
     initSocket({ commit, dispatch }) {
-      const socket = io.connect('', { query: { clientId: clientId, username: username } });
+      const socket = io.connect('', { query: {clientId, username, avatar} });
       socket.on('stream2Signal', (signal) => {
         commit('setSignal2', signal);
       });
@@ -58,11 +58,19 @@ export default new Vuex.Store({
       socket.on('room_leaved', () => {
         dispatch('stop');
       });
-      socket.on('waitingList_updated', (list) => {
+      socket.on('waitingList_updated', (waitingList) => {
+        const list = [];
+        for(let i=0; i<waitingList.length; i++) {
+          list.push({
+            username: waitingList.usernameList[i],
+            avatar:  parseInt(waitingList.avatarList[i], 10),
+          });
+        }
         commit('updateWaitingList', list);
       });
-      socket.on('room_update_username', (targetUsername) => {
-        commit('setUsername2', targetUsername);
+      socket.on('room_update_profile', (profile) => {
+        commit('setUsername2', profile.username);
+        commit('setAvatar2', profile.avatar);
       });
       commit('setUsername1', username);
       commit('setAvatar1', avatar);
@@ -107,13 +115,10 @@ export default new Vuex.Store({
       commit('addMessage1', message);
       commit('emitPeer1', message);
     },
-    saveUsename({ commit }, username) {
-      commit('setUsername1', username);
-      state.socket.emit('update_username', username);
-    },
-    saveAvatar({ commit }, avatar) {
-      commit('setAvatar1', avatar);
-      state.socket.emit('update_avatar', avatar);
+    saveProfile({ commit }, profile) {
+      commit('setUsername1', profile.username);
+      commit('setAvatar1', profile.avatar);
+      state.socket.emit('update_profile', profile);
     },
     setMute({ commit }, value) {
       state.stream1.getAudioTracks()[0].enabled = value;
