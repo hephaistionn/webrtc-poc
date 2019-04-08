@@ -3,8 +3,8 @@ import Vuex from 'vuex';
 import io from 'socket.io-client';
 import Peer from 'simple-peer';
 
-let clientId = localStorage.getItem('clientId');
-clientId = clientId ? clientId : new Uint8Array(10).reduce(id => id + Math.random().toString(36).substr(2, 9));
+let clientId1 = localStorage.getItem('clientId');
+clientId1 = clientId1 ? clientId1 : new Uint8Array(10).reduce(id => id + Math.random().toString(36).substr(2, 9));
 const usernameList = ['Ardal', 'Alvin', 'Justine', 'Pauline', 'Yaroslav', 'Bob', 'Terika', 'Carlene', 'Jetta', 'Toya'];
 const username = usernameList[Math.floor(Math.random() * usernameList.length * 0.99999)] + Math.floor(Math.random() * 99);
 const avatar = Math.floor(Math.random() * 15.99);
@@ -12,7 +12,8 @@ const avatar = Math.floor(Math.random() * 15.99);
 Vue.use(Vuex);
 
 const state = {
-  clientId,
+  clientId1: null,
+  clientId2: null,
   peer1: null,
   peer2: null,
   stream1: null,
@@ -38,25 +39,30 @@ export default new Vuex.Store({
         audio: true
       }, stream => {
         commit('setStream1', stream);
+        commit('setClientId1', clientId1);
       }, error => {
         console.log(error);
       });
     },
     initSocket({ commit, dispatch }) {
-      const socket = io.connect('', { query: {clientId, username, avatar} });
+      const socket = io.connect('', { query: {clientId: clientId1, username, avatar} });
       socket.on('stream2Signal', (signal) => {
         commit('setSignal2', signal);
       });
       socket.on('stream1Signal', (signal) => {
         commit('setSignal1', signal);
       });
-      socket.on('room_started', (targetUsername) => {
-        dispatch('initPeers');
-        dispatch('initPeersListener');
-        commit('setUsername2', targetUsername);
+      socket.on('room_started', (profile) => {
+        commit('setClientId2', profile.id);
+        setTimeout(()=> {
+          dispatch('initPeers');
+          dispatch('initPeersListener');
+          commit('setUsername2', profile.username);
+          commit('setAvatar2', profile.avatar);
+        },1500);
       });
       socket.on('room_leaved', () => {
-        dispatch('stop');
+        dispatch('stop'); 
       });
       socket.on('waitingList_updated', (waitingList) => {
         const list = [];
@@ -64,6 +70,7 @@ export default new Vuex.Store({
           list.push({
             username: waitingList.usernameList[i],
             avatar:  parseInt(waitingList.avatarList[i], 10),
+            id: waitingList.cientIdList[i]
           });
         }
         commit('updateWaitingList', list);
@@ -100,6 +107,7 @@ export default new Vuex.Store({
       state.peer2.on('error', err => console.log(err));
     },
     start({ commit, state }) {
+      commit('setClientId2', null);
       commit('emitSocket', { key: 'go_waitingList' });
       commit('setBreak', false);
     },
@@ -184,6 +192,12 @@ export default new Vuex.Store({
     },
     setAvatar2(state, username) {
       state.avatar2 = username;
+    },
+    setClientId1(state, id) {
+      state.clientId1 = id;
+    },
+    setClientId2(state, id) {
+      state.clientId2 = id;
     },
     updateWaitingList(state, list) {
       state.waitingList = list;

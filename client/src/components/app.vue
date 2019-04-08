@@ -2,7 +2,9 @@
   <div class='app'>
     <mainHeader /> 
     <div class='content'>
-      <waitingList />
+      <waitingList 
+        v-bind:list='$store.state.waitingList'
+        v-bind:target='$store.state.clientId2'/>
       <div class='content__videos'>  
         <stream
           v-bind:stream='$store.state.stream2'

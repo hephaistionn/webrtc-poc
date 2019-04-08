@@ -53,7 +53,6 @@ module.exports = function socket(serveur) {
         });
 
         socket.on('update_profile', (profile) => {
-            console.log('profile ', profile)
             usernames.set(clientId, profile.username);
             avatars.set(clientId, profile.avatar);
             const status = users.get(clientId);
@@ -89,26 +88,26 @@ module.exports = function socket(serveur) {
                 users.set(client2, BUSY);
                 rooms.set(client1, client2);
                 rooms.set(client2, client1);
-                io.sockets.to(client1).emit('room_started', {username: usernames.get(client2), avatar: avatars.get(client2)});
-                io.sockets.to(client2).emit('room_started', {username: usernames.get(client1), avatar: avatars.get(client1)});
+                io.sockets.to(client1).emit('room_started', {username: usernames.get(client2), avatar: avatars.get(client2), id: client2});
+                io.sockets.to(client2).emit('room_started', {username: usernames.get(client1), avatar: avatars.get(client1), id: client1});
             }
         }
-        updateWaitingList();
     }
 
     function updateWaitingList() {
-        waitingList = [];
+        cientIdList = [];
         usernameList = [];
         avatarList = [];
         for (let [id, status] of users) {
             if (status === AVAILABLE) {
-                waitingList.push(id);
+                cientIdList.push(id);
                 usernameList.push(usernames.get(id));
                 avatarList.push(avatars.get(id));
             }
         }
+        waitingList = cientIdList;
         io.sockets.to('waitingRoom').emit('waitingList_updated', {
-            usernameList, avatarList, length: waitingList.length
+            usernameList, avatarList, cientIdList, length: cientIdList.length
         });
     }
 
