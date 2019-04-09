@@ -1,7 +1,7 @@
 <template>
   <div class='stream' v-bind:class='{emitter: emitter}'>
     <video ref='videoRef'></video>
-    <username v-bind:editable='emitter' v-bind:username='username' v-bind:avatar='avatar' />
+    <username v-show='actived' v-bind:editable='emitter' v-bind:username='username' v-bind:avatar='avatar' />
     <div v-show='emitter && mute' class='stream__mute' v-on:click='toggleMute'></div>
     <div v-show='emitter && !mute' class='stream__unmute' v-on:click='toggleMute'></div>
   </div>
@@ -11,7 +11,7 @@
 import username from './username.vue';
 export default {
   name: 'stream',
-  props: ['stream', 'emitter', 'username', 'avatar'],
+  props: ['stream', 'emitter', 'username', 'avatar', 'actived'],
   components: {
     username
   },

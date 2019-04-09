@@ -36,7 +36,7 @@ export default {
       const col = 4;
       const row = 4;
       this.avatarX = -(index % col) * 135 + 'px';
-      this.avatarY = -Math.floor(index / row) * 135 + 'px';
+      this.avatarY = -Math.floor(index / row) * 152 + 'px';
     }
   }
 };
@@ -45,7 +45,7 @@ export default {
 <style lang='sass'>
   .waitingItem {
     position: relative;
-    display: inline_block;
+    display: inline-block;
     &__username {
       position: absolute;
       display: inline-block;

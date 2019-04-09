@@ -9,7 +9,7 @@ const AVAILABLE = 0;
 const BUSY = 1;
 const BREAK = 2;
 
-const waintingRoomSize = 4;
+const waintingRoomSize = 2;
 
 let waitingList = [];
 

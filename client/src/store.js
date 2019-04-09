@@ -21,11 +21,12 @@ const state = {
   stack: [],
   socket: null,
   username1: 'Username1',
-  username2: 'Username2',
+  username2: '',
   avatar1: 0,
   avatar2: 0,
   waitingList: [],
   break: true,
+  live: false,
   edit: false,
 };
 
@@ -59,7 +60,8 @@ export default new Vuex.Store({
           dispatch('initPeersListener');
           commit('setUsername2', profile.username);
           commit('setAvatar2', profile.avatar);
-        },1500);
+          commit('setLive', true);
+        },5000);
       });
       socket.on('room_leaved', () => {
         dispatch('stop'); 
@@ -107,7 +109,6 @@ export default new Vuex.Store({
       state.peer2.on('error', err => console.log(err));
     },
     start({ commit, state }) {
-      commit('setClientId2', null);
       commit('emitSocket', { key: 'go_waitingList' });
       commit('setBreak', false);
     },
@@ -118,6 +119,9 @@ export default new Vuex.Store({
       commit('cleanWaitingList');
       commit('setBreak', true);
       commit('setUsername2', '');
+      commit('setAvatar2', 0);
+      commit('setClientId2', null);
+      commit('setLive', false);
     },
     sendMessage({ commit }, message) {
       commit('addMessage1', message);
@@ -198,6 +202,9 @@ export default new Vuex.Store({
     },
     setClientId2(state, id) {
       state.clientId2 = id;
+    },
+    setLive(state, value) {
+      state.live = value;
     },
     updateWaitingList(state, list) {
       state.waitingList = list;

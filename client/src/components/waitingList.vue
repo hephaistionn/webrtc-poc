@@ -1,15 +1,15 @@
 <template>
   <div class='waitingList'>
-    <div class='waitingList__container'>
+    <div class='waitingList__container' v-if='!live'>
       <div class='waitingList__list' 
-        v-bind:style='{transform: translate}'
-        v-show='!$store.state.break'>
+        v-bind:style='{transform: translate}'>
           <waitingItem 
             v-bind:username='item.username'
             v-bind:avatar='item.avatar'
             :key='index' v-for='(item, index) in computedList'/>
       </div>
     </div>
+    <div class='waitingList__focus' v-if='!live && target'> </div>
   </div>
 </template>
 
@@ -19,7 +19,8 @@ export default {
   name: 'waitingList',
   props: {
     list: Array,
-    target: String
+    target: String,
+    live: Boolean
   },
   data() {
     return {
@@ -33,33 +34,48 @@ export default {
   },
   watch: {
     list: function(list) {
-      let computedList = list.slice(0);
-      computedList = computedList.concat(list);
-      computedList = computedList.concat(list);
-      let i = 0;
-      while(computedList.length < this.minLength) {
-        computedList.push(list[i]);
-        i++;
-        if(i >= list.length) {
-          i = 0;
+      if(list.length)  {
+        let computedList = list.slice(0);
+        computedList = computedList.concat(list);
+        computedList = computedList.concat(list);
+        let i = 0;
+        while(computedList.length < this.minLength) {
+          computedList.push(list[i]);
+          i++;
+          if(i >= list.length) {
+            i = 0;
+          }
         }
+        this.computedList = computedList;
+      } else {
+        this.computedList = [];
       }
-      this.computedList = computedList;
-      this.translate = 'translateY(0px)'
     },
     target: function(target) {
-      this.roulette(target);
+      if(target) {
+        this.roulette(target);
+      }
+    },
+    live: function(live) {
+      if(live) {
+        this.moveTarget(0);
+      }
     }
   },
   methods: {
     roulette  : function(clientId) {
+      debugger;
       const startIndexMid = Math.floor(this.computedList.length/2);
       const part2 = this.computedList.slice(startIndexMid);
       const index = startIndexMid + part2.map(a=>a.id).indexOf(clientId);
       const offset = - index * 152; 
-      this.translate = `translateY(${offset}px)`;
+      this.moveTarget(offset);
       console.log( this.translate);
+    },
+    moveTarget: function(y) {
+      this.translate = `translateY(${y}px)`;
     }
+
   }
 };
 </script>
@@ -83,7 +99,17 @@ export default {
       position: absolute;
       top: 0;
       left: 0;
-      transition: transform 1s;
+      transition: transform 4.5s;
+      transition-timing-function: ease;
+    }
+    &__focus {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 135px;
+      height: 152px;
+      border: solid 4px;
+      box-sizing: border-box;
     }
   }
 </style>

@@ -4,16 +4,19 @@
     <div class='content'>
       <waitingList 
         v-bind:list='$store.state.waitingList'
+        v-bind:live='$store.state.live'
         v-bind:target='$store.state.clientId2'/>
       <div class='content__videos'>  
         <stream
           v-bind:stream='$store.state.stream2'
           v-bind:emitter='false'
+          v-bind:actived='$store.state.live'
           v-bind:avatar='$store.state.avatar2'
           v-bind:username='$store.state.username2'/>
         <stream
           v-bind:stream='$store.state.stream1'
           v-bind:emitter='true'
+          v-bind:actived='true'
           v-bind:avatar='$store.state.avatar1'
           v-bind:username='$store.state.username1'/>
       </div>
