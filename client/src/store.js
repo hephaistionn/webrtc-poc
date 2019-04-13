@@ -12,18 +12,14 @@ const avatar = Math.floor(Math.random() * 15.99);
 Vue.use(Vuex);
 
 const state = {
-  clientId1: null,
-  clientId2: null,
   peer1: null,
   peer2: null,
   stream1: null,
   stream2: null,
   stack: [],
   socket: null,
-  username1: 'Username1',
-  username2: '',
-  avatar1: 0,
-  avatar2: 0,
+  user1: null,
+  user2: null,
   waitingList: [],
   break: true,
   live: false,
@@ -54,12 +50,10 @@ export default new Vuex.Store({
         commit('setSignal1', signal);
       });
       socket.on('room_started', (profile) => {
-        commit('setClientId2', profile.id);
+        commit('setUser2', profile);
         setTimeout(()=> {
           dispatch('initPeers');
           dispatch('initPeersListener');
-          commit('setUsername2', profile.username);
-          commit('setAvatar2', profile.avatar);
           commit('setLive', true);
         },5000);
       });
@@ -78,11 +72,9 @@ export default new Vuex.Store({
         commit('updateWaitingList', list);
       });
       socket.on('room_update_profile', (profile) => {
-        commit('setUsername2', profile.username);
-        commit('setAvatar2', profile.avatar);
+        commit('setUser2', profile);
       });
-      commit('setUsername1', username);
-      commit('setAvatar1', avatar);
+      commit('setUser1', {username, avatar});
       commit('setSocket', socket);
     },
     initPeers({ commit, state }) {
@@ -118,9 +110,7 @@ export default new Vuex.Store({
       commit('deletePeer2');
       commit('cleanWaitingList');
       commit('setBreak', true);
-      commit('setUsername2', '');
-      commit('setAvatar2', 0);
-      commit('setClientId2', null);
+      commit('setUser2', null);
       commit('setLive', false);
     },
     sendMessage({ commit }, message) {
@@ -128,8 +118,7 @@ export default new Vuex.Store({
       commit('emitPeer1', message);
     },
     saveProfile({ commit }, profile) {
-      commit('setUsername1', profile.username);
-      commit('setAvatar1', profile.avatar);
+      commit('setUser2', profile);
       state.socket.emit('update_profile', profile);
     },
     setMute({ commit }, value) {
@@ -168,10 +157,10 @@ export default new Vuex.Store({
       state.peer1.send(message);
     },
     addMessage1(state, message) {
-      state.stack.push(`user1 : ${message}`);
+      state.stack.push({author: 1, content: message});
     },
     addMessage2(state, message) {
-      state.stack.push(`user2 : ${message}`);
+      state.stack.push({author: 2, content: message});
     },
     setSocket(state, socket) {
       state.socket = socket;
@@ -185,23 +174,27 @@ export default new Vuex.Store({
     setSignal2(state, signal) {
       state.peer2.signal(signal);
     },
-    setUsername1(state, username) {
-      state.username1 = username;
+    setUser1(state, user) {
+      if(user) {
+        state.user1 = {
+          username: user.username,
+          avatar: user.avatar,
+          id: user.id
+        };
+      } else {
+        state.user1 = user;
+      }
     },
-    setUsername2(state, username) {
-      state.username2 = username;
-    },
-    setAvatar1(state, username) {
-      state.avatar1 = username;
-    },
-    setAvatar2(state, username) {
-      state.avatar2 = username;
-    },
-    setClientId1(state, id) {
-      state.clientId1 = id;
-    },
-    setClientId2(state, id) {
-      state.clientId2 = id;
+    setUser2(state, user) {
+      if(user) {
+        state.user2 = {
+          username: user.username,
+          avatar: user.avatar,
+          id: user.id
+        };
+      } else {
+        state.user2 = user;
+      } 
     },
     setLive(state, value) {
       state.live = value;

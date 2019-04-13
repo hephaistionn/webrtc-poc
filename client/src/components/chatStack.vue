@@ -1,6 +1,10 @@
 <template>
   <div class='chatStack'>
-    <chatMessage v-bind:message='message' v-for='(message, index) in $store.state.stack' :key='index'/>
+    <chatMessage 
+    v-bind:message='message.content'
+    v-bind:class='{current : message.author===1}'
+    v-bind:author='message.author===1 ? user1 : user2'
+    v-for='(message, index) in stack' :key='index'/>
   </div>
 </template>
 
@@ -8,6 +12,11 @@
 import chatMessage from './chatMessage.vue';
 export default {
   name: 'chatStack',
+  props: {
+    stack: Array,
+    user1: Object,
+    user2: Object
+  },
   components: {
     chatMessage
   }

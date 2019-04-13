@@ -1,7 +1,13 @@
 <template>
   <div class='chat'>
-    <chatStack v-show='actived'/>
-    <chatInput v-show='actived'/>
+    <chatStack v-show='actived' 
+    v-bind:user1='$store.state.user1'
+    v-bind:user2='$store.state.user2'
+    v-bind:stack='$store.state.stack'/>
+    <chatInput v-show='actived'
+    v-bind:user1='$store.state.user1'
+    v-bind:user2='$store.state.user2'
+    v-bind:stack='$store.state.stack'/>
   </div>
 </template>
 

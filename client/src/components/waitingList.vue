@@ -53,7 +53,7 @@ export default {
     },
     target: function(target) {
       if(target) {
-        this.roulette(target);
+        this.roulette(target.id);
       }
     },
     live: function(live) {
