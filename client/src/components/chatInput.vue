@@ -1,7 +1,9 @@
 <template>
   <div class='chatInput'>
-    <textarea class='chatInput__input' rows='5' cols='33' v-model='message'></textarea>
-    <button class='chatInput__send' v-on:click='sendMessage(message);message=""'>send</button>
+    <textarea class='chatInput__input' rows='5' cols='33' 
+    v-on:keyup.enter.prevent='send'
+    v-model='message'></textarea>
+    <button class='chatInput__send' v-on:click='send'>send</button>
   </div>
 </template>
 
@@ -15,7 +17,15 @@ export default {
       message: ''
     };
   },
-  methods: mapActions(['sendMessage'])
+  methods: {
+    send: function () {
+      let mgs = this.message.trim();
+      if(mgs) {
+        this.$store.dispatch('sendMessage', mgs);
+      }
+      this.message = '';
+    }
+  }
 };
 </script>
 

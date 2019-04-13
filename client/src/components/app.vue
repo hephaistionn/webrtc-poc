@@ -20,7 +20,7 @@
           v-bind:avatar='$store.state.avatar1'
           v-bind:username='$store.state.username1'/>
       </div>
-      <chat />
+      <chat v-bind:actived='$store.state.live'/>
       <div class='content__adv'> </div>
       <editor  
         v-if='$store.state.edit' 

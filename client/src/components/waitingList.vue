@@ -64,7 +64,6 @@ export default {
   },
   methods: {
     roulette  : function(clientId) {
-      debugger;
       const startIndexMid = Math.floor(this.computedList.length/2);
       const part2 = this.computedList.slice(startIndexMid);
       const index = startIndexMid + part2.map(a=>a.id).indexOf(clientId);

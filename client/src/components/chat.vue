@@ -1,7 +1,7 @@
 <template>
   <div class='chat'>
-    <chatStack/>
-    <chatInput/>
+    <chatStack v-show='actived'/>
+    <chatInput v-show='actived'/>
   </div>
 </template>
 
@@ -10,6 +10,9 @@ import chatStack from './chatStack.vue';
 import chatInput from './chatInput.vue';
 export default {
   name: 'chat',
+  props: {
+    actived: Boolean
+  },
   components: {
     chatStack,
     chatInput
