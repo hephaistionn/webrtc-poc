@@ -32,7 +32,8 @@ export default {
       this.$refs.videoRef.volume = 0;
       this.$refs.videoRef.play();
     },
-    avatar: function(index) {
+    user: function(user) {
+      const index = user.avatar;
       const col = 4;
       const row = 4;
       this.avatarX = -(index % col) * 80 + 'px';

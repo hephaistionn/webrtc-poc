@@ -117,7 +117,7 @@ export default new Vuex.Store({
       })
       state.peer2.on('close', function () {
         if(state.status === LIVE) {
-          dispatch('stop'); 
+          dispatch('next'); 
         }
       })
       state.peer1.on('error', err => console.log(err));
