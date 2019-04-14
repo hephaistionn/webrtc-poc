@@ -30,7 +30,7 @@ export default {
 </script>
 
 <style lang='sass'>
-  .chatInput {
+  .submitter {
     position: relative;
     display: flex;
     height: 100px;
@@ -52,6 +52,8 @@ export default {
       margin: 0 0 0 10px;
       border: none;
       font-size: 1.5rem;
+      background: green;
+      color: white;
     }
   }
 </style>

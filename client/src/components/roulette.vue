@@ -1,5 +1,13 @@
 <template>
   <div class='roulette'>
+    <div class='roulette__title'>
+      chatrolette
+    </div>
+    <div 
+      class='roulette__waiting'
+      v-show='!target'>
+      participants waiting {{participantIndicator}}
+    </div>
     <div class='roulette__container' v-if='!live'>
       <div class='roulette__list' 
         v-bind:style='{transform: translate}'>
@@ -9,7 +17,10 @@
             :key='index' v-for='(item, index) in computedList'/>
       </div>
     </div>
-    <div class='roulette__focus' v-if='!live && target'> </div>
+    <div 
+      class='roulette__focus' 
+      v-show='!live && target'
+      v-bind:style='{left: focusPosition}'> </div>
   </div>
 </template>
 
@@ -26,7 +37,10 @@ export default {
     return {
       computedList: [],
       minLength: 40,
-      translate: 'translateX(0px)'
+      translate: 'translateX(0px)',
+      focusPosition: '0px',
+      participantMin: '/2',
+      participantIndicator: ''
     };
   },
   components: {
@@ -47,8 +61,10 @@ export default {
           }
         }
         this.computedList = computedList;
+        this.participantIndicator = `${list.length}${this.participantMin}`;
       } else {
         this.computedList = [];
+        this.participantIndicator = `0${this.participantMin}`;
       }
     },
     target: function(target) {
@@ -58,6 +74,7 @@ export default {
     },
     show: function(displayed) {
       if(displayed) {
+        this.centerfocus();
         this.$store.dispatch('initSocket');
       } else {
         this.moveTarget(0);
@@ -66,14 +83,21 @@ export default {
   },
   methods: {
     roulette : function(clientId) {
+      this.centerfocus();
+      const tileSize = 145;
       const startIndexMid = Math.floor(this.computedList.length/2);
       const part2 = this.computedList.slice(startIndexMid);
       const index = startIndexMid + part2.map(a=>a.id).indexOf(clientId);
-      const offset = - index * 135; 
+      const offset = - index * tileSize + this.focusPosition; 
       this.moveTarget(offset);
     },
     moveTarget: function(x) {
       this.translate = `translateX(${x}px)`;
+    },
+    centerfocus: function() {
+      const tileSize = 145;
+      const tileIndex = Math.floor(window.innerWidth/2/tileSize);
+      this.focusPosition = tileIndex * tileSize;
     }
   }
 };
@@ -82,10 +106,24 @@ export default {
 <style lang='sass'>
   .roulette {
     display: inline-block;
-    background: blue;
-    min-height: 140px;
     width: 100%;
-    height: 8%;
+    height: 100%;
+    &__title {
+      position: absolute;
+      font-size: 3rem;
+      text-transform: UPPERCASE;
+      text-align: center;
+      width: 100%;
+      top: 30%;
+    }
+    &__waiting {
+      position: absolute;
+      font-size: 1rem;
+      text-transform: UPPERCASE;
+      text-align: center;
+      width: 100%;
+      top: 37%;
+    }
     &__container {
       display: inline-block;
       position: absolute;
@@ -105,12 +143,12 @@ export default {
     }
     &__focus {
       position: absolute;
-      top: 0;
+      top: 49%;
       left: 0;
-      width: 135px;
-      height: 152px;
-      border: solid 4px;
-      box-sizing: border-box;
+      width: 130px;
+      height: 140px;
+      border: solid 5px;
+      z-index: 2;
     }
   }
 </style>

@@ -2,11 +2,11 @@
   <div class='stream' v-bind:class='{emitter: emitter}'>
     <video ref='videoRef'></video>
     <div class='stream__profile'>
-      <div v-if='user' class='stream__profile__username'>{{ user.username }}</div>
       <div
         class='stream__profile__avatar avatar'
         v-bind:style='{backgroundPositionX: avatarX, backgroundPositionY: avatarY}'>
       </div>
+      <div v-if='user' class='stream__profile__username'>{{ user.username }}</div>
     </div>
     <div v-show='emitter && mute' class='stream__button  microon' v-on:click='toggleMute'></div>
     <div v-show='emitter && !mute' class='stream__button microoff' v-on:click='toggleMute'></div>
@@ -64,10 +64,10 @@ export default {
   .stream {
     position: relative;
     width: 100%;
-    height:  0;
-    padding-top: 75%;
-    background: #9C27B0;
+    height: 50%;
     flex-basis: 100%;
+    margin-bottom: 10px;
+    background: black;
     video {
       position: absolute;
       top: 0;

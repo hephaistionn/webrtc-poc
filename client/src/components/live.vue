@@ -11,13 +11,15 @@
           v-bind:emitter='true'
           v-bind:user='user1'/>
     </div>
-    <button class='live__stop' @click='stop'>stop</button>
-    <button class='live__next' @click='next'>next</button>
     <chat
       v-bind:user1='user1'
       v-bind:user2='user2'
       v-bind:stack='stack'/>
-    <div class='content__adv'> </div>
+    <div class='live__adv'> </div>
+    <div class='live__action'>
+      <button class='live__action__stop' @click='stop'>stop</button>
+      <button class='live__action__next' @click='next'>next</button>
+    </div>
   </div>
 </template>
 
@@ -57,7 +59,7 @@ export default {
     position: fixed;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: white;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -66,17 +68,49 @@ export default {
       flex-wrap: wrap;
       align-content: flex-start;
       position: relative;
-      background-color: beige;
       height: 100%;
-      width: 38%;
+      width: 50%;
       min-width: 400px;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    &__action {
+      display: flex;
+      position: absolute;
+      width: 150px;
+      height: 80px;
+      top: calc(50% - 40px);
+      left: calc(50% - 75px);
+      button {
+        cursor: pointer;
+        border: none;
+        padding: 12px 19px;
+        width: 75px;
+        height: 100%;
+        color: white;
+        font-size: 1.3rem;
+      }
+      &__stop {
+        display: inline-block;
+        border-bottom-left-radius: 70px;
+        border-top-left-radius: 70px;
+        background-color: red;
+      }
+      &__next {
+        display: inline-block;
+        border-bottom-right-radius: 70px;
+        border-top-right-radius: 70px;
+        background-color: green;
+      }
     }
     &__adv {
       display: inline-block;
       position: relative;
       height: 100%;
-      width: 20%;
+      width: 15%;
       background-color: brown;
+      background-image: url(./../../assets/ads.jpg);
+      background-size: 40px;
     }
   }
 </style>
