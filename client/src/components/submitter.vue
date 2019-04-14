@@ -1,9 +1,9 @@
 <template>
-  <div class='chatInput'>
-    <textarea class='chatInput__input' rows='5' cols='33' 
+  <div class='submitter'>
+    <textarea class='submitter__input' rows='5' cols='33' 
     v-on:keyup.enter.prevent='send'
     v-model='message'></textarea>
-    <button class='chatInput__send' v-on:click='send'>send</button>
+    <button class='submitter__send' v-on:click='send'>send</button>
   </div>
 </template>
 
@@ -11,7 +11,7 @@
 import { mapActions } from 'vuex';
 
 export default {
-  name: 'chatInput',
+  name: 'submitter',
   data() {
     return {
       message: ''

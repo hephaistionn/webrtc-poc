@@ -3,11 +3,15 @@ import Vuex from 'vuex';
 import io from 'socket.io-client';
 import Peer from 'simple-peer';
 
-let clientId1 = localStorage.getItem('clientId');
-clientId1 = clientId1 ? clientId1 : new Uint8Array(10).reduce(id => id + Math.random().toString(36).substr(2, 9));
+let id = localStorage.getItem('clientId');
+id = id ? id : new Uint8Array(10).reduce(id => id + Math.random().toString(36).substr(2, 9));
 const usernameList = ['Ardal', 'Alvin', 'Justine', 'Pauline', 'Yaroslav', 'Bob', 'Terika', 'Carlene', 'Jetta', 'Toya'];
 const username = usernameList[Math.floor(Math.random() * usernameList.length * 0.99999)] + Math.floor(Math.random() * 99);
 const avatar = Math.floor(Math.random() * 15.99);
+const HOME = 0;
+const LIVE = 1;
+const WAITING = 2;
+
 
 Vue.use(Vuex);
 
@@ -21,8 +25,7 @@ const state = {
   user1: null,
   user2: null,
   waitingList: [],
-  break: true,
-  live: false,
+  status: HOME,
   edit: false,
 };
 
@@ -36,29 +39,37 @@ export default new Vuex.Store({
         audio: true
       }, stream => {
         commit('setStream1', stream);
-        commit('setClientId1', clientId1);
+        commit('setUser1', {username, avatar, id});
       }, error => {
         console.log(error);
       });
     },
-    initSocket({ commit, dispatch }) {
-      const socket = io.connect('', { query: {clientId: clientId1, username, avatar} });
+    initSocket({ commit, dispatch, state}) {
+      if(state.socket) {
+        state.socket.disconnect();
+      }
+      const socket = io.connect('', { query: state.user1 });
       socket.on('stream2Signal', (signal) => {
         commit('setSignal2', signal);
+        // BAD FIX
+        setTimeout(()=>{
+          commit('setSocket', null);
+        },300);
       });
       socket.on('stream1Signal', (signal) => {
         commit('setSignal1', signal);
+        // BAD FIX
+        setTimeout(()=>{
+          commit('setSocket', null);
+        },300);
       });
       socket.on('room_started', (profile) => {
         commit('setUser2', profile);
         setTimeout(()=> {
           dispatch('initPeers');
           dispatch('initPeersListener');
-          commit('setLive', true);
+          commit('setStatus', LIVE);
         },5000);
-      });
-      socket.on('room_leaved', () => {
-        dispatch('stop'); 
       });
       socket.on('waitingList_updated', (waitingList) => {
         const list = [];
@@ -71,17 +82,13 @@ export default new Vuex.Store({
         }
         commit('updateWaitingList', list);
       });
-      socket.on('room_update_profile', (profile) => {
-        commit('setUser2', profile);
-      });
-      commit('setUser1', {username, avatar});
       commit('setSocket', socket);
     },
-    initPeers({ commit, state }) {
+    initPeers({ commit, state, dispatch }) {
       commit('setPeer1', new Peer({ initiator: true, stream: state.stream1, trickle: false }));
       commit('setPeer2', new Peer({ initiator: false, trickle: false }));
     },
-    initPeersListener({ commit, state }) {
+    initPeersListener({ commit, state, dispatch}) {
       state.peer1.on('signal', function (data) {
         commit('emitSocket', { key: 'stream1Signal', data });
       })
@@ -97,35 +104,43 @@ export default new Vuex.Store({
       state.peer2.on('data', function (message) {
         commit('addMessage2', message);
       });
+      state.peer1.on('close', function () {
+        if(state.status === LIVE) {
+          dispatch('stop'); 
+        }
+      })
+      state.peer2.on('close', function () {
+        if(state.status === LIVE) {
+          dispatch('stop'); 
+        }
+      })
       state.peer1.on('error', err => console.log(err));
       state.peer2.on('error', err => console.log(err));
     },
-    start({ commit, state }) {
-      commit('emitSocket', { key: 'go_waitingList' });
-      commit('setBreak', false);
+    start({ commit }, profile) {
+      commit('setUser1', profile);
+      commit('setStatus', WAITING);
     },
     stop({ commit }) {
-      commit('emitSocket', { key: 'leave' });
       commit('deletePeer1');
       commit('deletePeer2');
       commit('cleanWaitingList');
-      commit('setBreak', true);
       commit('setUser2', null);
-      commit('setLive', false);
+      commit('setStatus', HOME);
+    },
+    next({commit}) {
+      commit('deletePeer1');
+      commit('deletePeer2');
+      commit('cleanWaitingList');
+      commit('setUser2', null);
+      commit('setStatus', WAITING);
     },
     sendMessage({ commit }, message) {
       commit('addMessage1', message);
       commit('emitPeer1', message);
     },
-    saveProfile({ commit }, profile) {
-      commit('setUser2', profile);
-      state.socket.emit('update_profile', profile);
-    },
     setMute({ commit }, value) {
       state.stream1.getAudioTracks()[0].enabled = value;
-    },
-    toggleEdit({ commit, state }) {
-      commit('setEdit', !state.edit);
     }
   },
   mutations: {
@@ -163,7 +178,12 @@ export default new Vuex.Store({
       state.stack.push({author: 2, content: message});
     },
     setSocket(state, socket) {
-      state.socket = socket;
+      if(socket) {
+        state.socket = socket;
+      } else {
+        state.socket.disconnect();
+        state.socket = null;
+      }
     },
     emitSocket(state, event) {
       state.socket.emit(event.key, event.data);
@@ -179,7 +199,7 @@ export default new Vuex.Store({
         state.user1 = {
           username: user.username,
           avatar: user.avatar,
-          id: user.id
+          id: user.id || state.user1.id
         };
       } else {
         state.user1 = user;
@@ -196,20 +216,14 @@ export default new Vuex.Store({
         state.user2 = user;
       } 
     },
-    setLive(state, value) {
-      state.live = value;
+    setStatus(state, value) {
+      state.status = value;
     },
     updateWaitingList(state, list) {
       state.waitingList = list;
     },
     cleanWaitingList(state) {
       state.waitingList = [];
-    },
-    setBreak(state, value) {
-      state.break = value;
-    },
-    setEdit(state, value) {
-      state.edit = value;
     }
   }
 });

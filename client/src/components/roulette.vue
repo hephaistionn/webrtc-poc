@@ -1,36 +1,36 @@
 <template>
-  <div class='waitingList'>
-    <div class='waitingList__container' v-if='!live'>
-      <div class='waitingList__list' 
+  <div class='roulette'>
+    <div class='roulette__container' v-if='!live'>
+      <div class='roulette__list' 
         v-bind:style='{transform: translate}'>
-          <waitingItem 
+          <participant 
             v-bind:username='item.username'
             v-bind:avatar='item.avatar'
             :key='index' v-for='(item, index) in computedList'/>
       </div>
     </div>
-    <div class='waitingList__focus' v-if='!live && target'> </div>
+    <div class='roulette__focus' v-if='!live && target'> </div>
   </div>
 </template>
 
 <script>
-import waitingItem from './waitingItem.vue';
+import participant from './participant.vue';
 export default {
-  name: 'waitingList',
+  name: 'roulette',
   props: {
     list: Array,
     target: String,
-    live: Boolean
+    show: Boolean
   },
   data() {
     return {
       computedList: [],
       minLength: 40,
-      translate: 'translateY(0px)'
+      translate: 'translateX(0px)'
     };
   },
   components: {
-    waitingItem
+    participant
   },
   watch: {
     list: function(list) {
@@ -56,46 +56,48 @@ export default {
         this.roulette(target.id);
       }
     },
-    live: function(live) {
-      if(live) {
+    show: function(displayed) {
+      if(displayed) {
+        this.$store.dispatch('initSocket');
+      } else {
         this.moveTarget(0);
       }
     }
   },
   methods: {
-    roulette  : function(clientId) {
+    roulette : function(clientId) {
       const startIndexMid = Math.floor(this.computedList.length/2);
       const part2 = this.computedList.slice(startIndexMid);
       const index = startIndexMid + part2.map(a=>a.id).indexOf(clientId);
-      const offset = - index * 152; 
+      const offset = - index * 135; 
       this.moveTarget(offset);
-      console.log( this.translate);
     },
-    moveTarget: function(y) {
-      this.translate = `translateY(${y}px)`;
+    moveTarget: function(x) {
+      this.translate = `translateX(${x}px)`;
     }
-
   }
 };
 </script>
 
 <style lang='sass'>
-  .waitingList {
+  .roulette {
     display: inline-block;
     background: blue;
-    min-width: 100px;
-    width: 8%;
-    height: 100%;
+    min-height: 140px;
+    width: 100%;
+    height: 8%;
     &__container {
       display: inline-block;
-      position: relative;
-      height: 100%;
+      position: absolute;
+      top: 50%;
+      height: 140px;
       width: 100%;
       overflow: hidden;
     }
     &__list {
       display: inline-block;
       position: absolute;
+      white-space: nowrap;
       top: 0;
       left: 0;
       transition: transform 4.5s;

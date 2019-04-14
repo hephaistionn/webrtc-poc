@@ -1,27 +1,26 @@
 <template>
   <div class='chat'>
-    <chatStack v-show='actived' 
-    v-bind:user1='$store.state.user1'
-    v-bind:user2='$store.state.user2'
-    v-bind:stack='$store.state.stack'/>
-    <chatInput v-show='actived'
-    v-bind:user1='$store.state.user1'
-    v-bind:user2='$store.state.user2'
-    v-bind:stack='$store.state.stack'/>
+    <stack 
+      v-bind:user1='user1'
+      v-bind:user2='user2'
+      v-bind:stack='stack'/>
+    <submitter/>
   </div>
 </template>
 
 <script>
-import chatStack from './chatStack.vue';
-import chatInput from './chatInput.vue';
+import stack from './stack.vue';
+import submitter from './submitter.vue';
 export default {
   name: 'chat',
   props: {
-    actived: Boolean
+    user1: Object,
+    user2: Object,
+    stack: Array
   },
   components: {
-    chatStack,
-    chatInput
+    stack,
+    submitter
   }
 };
 </script>

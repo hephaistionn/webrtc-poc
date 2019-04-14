@@ -1,54 +1,41 @@
 <template>
   <div class='app'>
-    <mainHeader /> 
     <div class='content'>
-      <waitingList 
+      <home 
+        v-show='$store.state.status === 0'
+        v-bind:user='$store.state.user1'/>
+      <roulette 
+        v-show='$store.state.status === 2'
+        v-bind:show='$store.state.status === 2'
         v-bind:list='$store.state.waitingList'
-        v-bind:live='$store.state.live'
         v-bind:target='$store.state.user2'/>
-      <div class='content__videos'>  
-        <stream
-          v-bind:stream='$store.state.stream2'
-          v-bind:emitter='false'
-          v-bind:actived='$store.state.live'
-          v-bind:user='$store.state.user2'/>
-        <stream
-          v-bind:stream='$store.state.stream1'
-          v-bind:emitter='true'
-          v-bind:actived='true'
-          v-bind:user='$store.state.user1'/>
-      </div>
-      <chat v-bind:actived='$store.state.live'/>
-      <div class='content__adv'> </div>
-      <editor  
-        v-if='$store.state.edit && $store.state.user1' 
-        v-bind:avatar='$store.state.user1.avatar'
-        v-bind:username='$store.state.user1.username' />
+      <live
+        v-show='$store.state.status === 1'
+        v-bind:stream2='$store.state.stream2'
+        v-bind:user2='$store.state.user2'
+        v-bind:stream1='$store.state.stream1'
+        v-bind:user1='$store.state.user1'
+        v-bind:stack='$store.state.stack'/>
     </div>
   </div>
 </template>
 
 <script>
-import stream from './stream.vue';
-import waitingList from './waitingList.vue';
-import mainHeader from './header.vue';
-import editor from './editor.vue';
-import chat from './chat.vue';
+import live from './live.vue';
+import roulette from './roulette.vue';
+import home from './home.vue';
 import { mapActions } from 'vuex';
 
 export default {
   name: 'app',
   components: {
-    stream,
-    waitingList,
-    chat,
-    mainHeader,
-    editor
+    live,
+    roulette,
+    home
   },
-  methods: mapActions(['startCam', 'initSocket']),
+  methods: mapActions(['startCam', 'initSocket', 'stop']),
   mounted() {
     this.$store.dispatch('startCam');
-    this.$store.dispatch('initSocket');
   }
 };
 </script>
@@ -70,23 +57,6 @@ export default {
     margin: auto;
     max-width: 1700px;
     max-height: 1000px;
-    &__videos {
-      display: flex;
-      flex-wrap: wrap;
-      align-content: flex-start;
-      position: relative;
-      background-color: beige;
-      height: 100%;
-      width: 38%;
-      min-width: 400px;
-    }
-    &__adv {
-      display: inline-block;
-      position: relative;
-      height: 100%;
-      width: 20%;
-      background-color: brown;
-    }
   }
 
   button {

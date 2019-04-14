@@ -1,30 +1,30 @@
 <template>
-  <div class='chatStack'>
-    <chatMessage 
+  <div class='stack'>
+    <message 
     v-bind:message='message.content'
-    v-bind:class='{current : message.author===1}'
+    v-bind:current='message.author===1'
     v-bind:author='message.author===1 ? user1 : user2'
     v-for='(message, index) in stack' :key='index'/>
   </div>
 </template>
 
 <script>
-import chatMessage from './chatMessage.vue';
+import message from './message.vue';
 export default {
-  name: 'chatStack',
+  name: 'stack',
   props: {
     stack: Array,
     user1: Object,
     user2: Object
   },
   components: {
-    chatMessage
+    message
   }
 };
 </script>
 
 <style lang='sass'>
-  .chatStack {
+  .stack {
     position: relative;
     display: flex;
     flex-direction: column;
