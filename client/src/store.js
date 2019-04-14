@@ -51,17 +51,9 @@ export default new Vuex.Store({
       const socket = io.connect('', { query: state.user1 });
       socket.on('stream2Signal', (signal) => {
         commit('setSignal2', signal);
-        // BAD FIX
-        setTimeout(()=>{
-          commit('setSocket', null);
-        },300);
       });
       socket.on('stream1Signal', (signal) => {
         commit('setSignal1', signal);
-        // BAD FIX
-        setTimeout(()=>{
-          commit('setSocket', null);
-        },300);
       });
       socket.on('room_started', (profile) => {
         commit('setUser2', profile);
@@ -84,16 +76,30 @@ export default new Vuex.Store({
       });
       commit('setSocket', socket);
     },
+    closeSocket({ commit, dispatch, state}) {
+      setTimeout(()=> {
+        commit('setSocket', null);
+      },1000)
+    },
     initPeers({ commit, state, dispatch }) {
       commit('setPeer1', new Peer({ initiator: true, stream: state.stream1, trickle: false }));
       commit('setPeer2', new Peer({ initiator: false, trickle: false }));
     },
     initPeersListener({ commit, state, dispatch}) {
+      let connected = false;
       state.peer1.on('signal', function (data) {
         commit('emitSocket', { key: 'stream1Signal', data });
+        if(connected) {
+          dispatch('closeSocket');
+        }
+        connected = true;
       })
       state.peer2.on('signal', function (data) {
         commit('emitSocket', { key: 'stream2Signal', data });
+        if(connected) {
+          dispatch('closeSocket');
+        }
+        connected = true;
       });
       state.peer2.on('stream', function (stream) {
         commit('setStream2', stream);

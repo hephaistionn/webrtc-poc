@@ -14,10 +14,6 @@ module.exports = function socket(serveur) {
         const clientId = socket.handshake.query.id;
         const username = socket.handshake.query.username;
         const avatar = socket.handshake.query.avatar;
-        console.log('--------connection---------');
-        console.log('clientId : ', clientId);
-        console.log('username : ', username);
-        console.log('avatar : ', avatar);
         usernames.set(clientId, username);
         avatars.set(clientId, avatar);
         socket.join(clientId);
@@ -35,8 +31,6 @@ module.exports = function socket(serveur) {
         });
 
         socket.on('disconnect', function () {
-            console.log('-------disconnect----------');
-            console.log('clientId : ', clientId);
             rooms.delete(clientId);
             usernames.delete(clientId);
             avatars.delete(clientId);
@@ -58,6 +52,10 @@ module.exports = function socket(serveur) {
                 rooms.set(client2, client1);
                 io.sockets.to(client1).emit('room_started', {username: usernames.get(client2), avatar: avatars.get(client2), id: client2});
                 io.sockets.to(client2).emit('room_started', {username: usernames.get(client1), avatar: avatars.get(client1), id: client1});
+                usernames.delete(client1);
+                usernames.delete(client2)
+                avatars.delete(client1);
+                avatars.delete(client2);
             }
         }
     }
