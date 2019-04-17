@@ -63,23 +63,23 @@ export default {
   }
   .stream {
     position: relative;
-    width: 100%;
-    height: 50%;
-    flex-basis: 100%;
+    display: inline-block;
+    width: fit-content;
     margin-bottom: 10px;
+    align-self: flex-end;
+    height: 50%;
+    max-width: 100%;
     video {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
+      position: relative;
       height: 100%;
+      max-width: 100%;
     }
     &__profile {
       position: absolute;
       display: flex;
       top: 0;
       left: 0;
-      margin: 10px 10px;
+      margin: 34px 22px;
       color: white;
       text-shadow: 0 0 5px black;
       width: calc(100% - 100px);

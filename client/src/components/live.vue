@@ -1,6 +1,7 @@
 
 <template>
   <div class='live'>
+    <div class='live__adv'> </div>
     <div class='live__stream'>
       <stream
           v-bind:stream='stream2'
@@ -59,20 +60,21 @@ export default {
     position: fixed;
     width: 100%;
     height: 100%;
+    min-width: 1200px;
     background-color: white;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: auto;
     &__stream {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       align-content: flex-start;
       position: relative;
       height: 100%;
-      width: 50%;
-      min-width: 400px;
-      padding: 20px;
+      padding: 0;
       box-sizing: border-box;
+      margin-left: 20px;
     }
     &__action {
       display: flex;

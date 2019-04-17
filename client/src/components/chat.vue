@@ -29,8 +29,7 @@ export default {
   .chat {
     position: relative;
     display: inline-block;
-    width: 35%;
-    min-width: 300px;
+    width: 30%;
     height: 100%;
   }
 </style>
