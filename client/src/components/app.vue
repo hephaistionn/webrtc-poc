@@ -1,22 +1,20 @@
 <template>
   <div class='app'>
-    <div class='content'>
-      <home 
-        v-show='$store.state.status === 0'
-        v-bind:user='$store.state.user1'/>
-      <roulette 
-        v-show='$store.state.status === 2'
-        v-bind:show='$store.state.status === 2'
-        v-bind:list='$store.state.waitingList'
-        v-bind:target='$store.state.user2'/>
-      <live
-        v-show='$store.state.status === 1'
-        v-bind:stream2='$store.state.stream2'
-        v-bind:user2='$store.state.user2'
-        v-bind:stream1='$store.state.stream1'
-        v-bind:user1='$store.state.user1'
-        v-bind:stack='$store.state.stack'/>
-    </div>
+    <home 
+      v-show='$store.state.status === 0'
+      v-bind:user='$store.state.user1'/>
+    <roulette 
+      v-show='$store.state.status === 2'
+      v-bind:show='$store.state.status === 2'
+      v-bind:list='$store.state.waitingList'
+      v-bind:target='$store.state.user2'/>
+    <live
+      v-show='$store.state.status === 1'
+      v-bind:stream2='$store.state.stream2'
+      v-bind:user2='$store.state.user2'
+      v-bind:stream1='$store.state.stream1'
+      v-bind:user1='$store.state.user1'
+      v-bind:stack='$store.state.stack'/>
   </div>
 </template>
 

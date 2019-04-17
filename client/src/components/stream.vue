@@ -67,7 +67,6 @@ export default {
     height: 50%;
     flex-basis: 100%;
     margin-bottom: 10px;
-    background: black;
     video {
       position: absolute;
       top: 0;
