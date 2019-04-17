@@ -23,17 +23,22 @@ export default {
     max-width: 70%;
     align-self: flex-start;
     &__author {
+      margin: 5px;
       font-size: 0.9rem;
     }
     &__content {
       padding: 15px;
       font-size: 1.2rem;
       border-radius: 20px;
-      background: #cac1c1;
+      background: #45c0d6;
+      color: white;
     }
     &.current {
       align-self: flex-end;
       .message__content {
+        text-align: right;
+      }
+      .message__author {
         text-align: right;
       }
     }

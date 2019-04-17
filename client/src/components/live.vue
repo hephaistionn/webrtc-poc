@@ -96,13 +96,13 @@ export default {
         display: inline-block;
         border-bottom-left-radius: 70px;
         border-top-left-radius: 70px;
-        background-color: red;
+        background-color: #ff9c3a;
       }
       &__next {
         display: inline-block;
         border-bottom-right-radius: 70px;
         border-top-right-radius: 70px;
-        background-color: green;
+        background-color: #3f51b5;
       }
     }
     &__adv {
