@@ -3,7 +3,7 @@
     <div 
       class='roulette__title'
       v-show='!target'>
-      Attente des participants
+      WAITING FOR PARTICIPANTS
     </div>
     <div 
       class='roulette__waiting'
@@ -126,7 +126,7 @@ export default {
     }
     &__waiting {
       position: absolute;
-      font-size: 1rem;
+      font-size: 2rem;
       text-transform: UPPERCASE;
       text-align: center;
       width: 100%;

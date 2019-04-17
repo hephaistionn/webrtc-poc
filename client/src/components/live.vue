@@ -79,29 +79,21 @@ export default {
     &__action {
       display: flex;
       position: absolute;
-      width: 150px;
-      height: 80px;
       top: calc(50% - 40px);
-      left: calc(50% - 75px);
+      left: calc(50% - 0px);
       button {
         cursor: pointer;
         border: none;
-        padding: 12px 19px;
-        width: 75px;
-        height: 100%;
+        padding: 29px 19px;
         color: white;
         font-size: 1.3rem;
       }
       &__stop {
         display: inline-block;
-        border-bottom-left-radius: 70px;
-        border-top-left-radius: 70px;
         background-color: #ff9c3a;
       }
       &__next {
         display: inline-block;
-        border-bottom-right-radius: 70px;
-        border-top-right-radius: 70px;
         background-color: #3f51b5;
       }
     }
