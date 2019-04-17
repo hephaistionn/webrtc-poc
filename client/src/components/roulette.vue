@@ -1,12 +1,19 @@
 <template>
   <div class='roulette'>
-    <div class='roulette__title'>
-      chatrolette
+    <div 
+      class='roulette__title'
+      v-show='!target'>
+      Attente des participants
     </div>
     <div 
       class='roulette__waiting'
       v-show='!target'>
-      participants waiting {{participantIndicator}}
+      {{participantIndicator}}
+    </div>
+    <div 
+      class='roulette__starting' 
+      v-show='target'>
+      STARTING
     </div>
     <div class='roulette__container' v-if='!live'>
       <div class='roulette__list' 
@@ -20,7 +27,8 @@
     <div 
       class='roulette__focus' 
       v-show='!live && target'
-      v-bind:style='{left: focusPosition}'> </div>
+      v-bind:style='{left: focusPosition}'>
+    </div>
   </div>
 </template>
 
@@ -149,6 +157,14 @@ export default {
       height: 140px;
       border: solid 5px;
       z-index: 2;
+    }
+    &__starting {
+      position: absolute;
+      font-size: 3rem;
+      text-transform: UPPERCASE;
+      text-align: center;
+      width: 100%;
+      top: 30%;
     }
   }
 </style>
