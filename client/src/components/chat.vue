@@ -1,5 +1,5 @@
 <template>
-  <div class='chat'>
+  <div class='chat' v-if='false'>
     <stack 
       v-bind:user1='user1'
       v-bind:user2='user2'

@@ -1,7 +1,7 @@
 <template>
   <div class='stream' v-bind:class='{emitter: emitter}'>
     <video ref='videoRef'></video>
-    <div class='stream__profile'>
+    <div class='stream__profile' v-bind:class='{emitter: emitter}'>
       <div
         class='stream__profile__avatar avatar'
         v-bind:style='{backgroundPositionX: avatarX, backgroundPositionY: avatarY}'>
@@ -26,7 +26,7 @@ export default {
   props: ['stream', 'emitter', 'user'],
   data() {
     return {
-      mute: false,
+      mute: true,
       hidden: false,
       avatarX: 0,
       avatarY: 0
@@ -36,6 +36,7 @@ export default {
     stream: function(newVal, oldVal) {
       this.$refs.videoRef.srcObject = newVal;
       this.$refs.videoRef.volume = 1;
+      this.$refs.videoRef.muted = this.mute;
       this.$refs.videoRef.play();
     },
     user: function(user) {
@@ -43,8 +44,8 @@ export default {
         const index = user.avatar;
         const col = 4;
         const row = 4;
-        this.avatarX = -(index % col) * 80 + 'px';
-        this.avatarY = -Math.floor(index / row) * 85 + 'px';
+        this.avatarX = -(index % col) * 60 + 'px';
+        this.avatarY = -Math.floor(index / row) * 65 + 'px';
       }
     }
   },
@@ -86,12 +87,10 @@ export default {
   }
 
   .stream {
-    position: fixed;
+    position: relative;
     display: inline-block;
     width: fit-content;
     height: 100%;
-    bottom: 0;
-    left: 0;
     max-width: 100%;
     video {
       position: relative;
@@ -99,14 +98,15 @@ export default {
       max-width: 100%;
     }
     &.emitter {
+      position: absolute;
+      display: inline-block;
       height: 25%;
+      width: fit-content;
       left: 0;
       bottom: 0;
-      max-width:50%;
-      border: solid 1px red;
+      max-width: 50%;
       z-index: 2;
     }
-
     &__profile {
       position: absolute;
       display: flex;
@@ -115,20 +115,23 @@ export default {
       margin: 5px 5px;
       color: white;
       text-shadow: 0 0 5px black;
-      width: 100%;
+      align-items: center;
       &__avatar {
         display: inline-block;
         margin-right: 10px;
-        width: 80px;
-        height: 90px;
+        width: 60px;
+        height: 65px;
         background-color: yellow;
-        background-size: 320px;
+        background-size: 250px;
         background-repeat: no-repeat;
-        background-position: -84px -86px;
+        background-position: -60px -65px;
       }
       &__username {
         display: inline-block;
         font-size: 2rem;
+      }
+      &.emitter {
+        left: 3%;
       }
     }
 

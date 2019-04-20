@@ -51,17 +51,15 @@ export default {
     cursor: pointer;
   }
   .live {
-    position: fixed;
-    width: 100%;
-    height: 100%;
+    position: relative;
+    width: fit-content;
     min-width: 600px;
-    background-color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: black;
+    margin: auto;
     button {
-      position: fixed;
+      position: absolute;
       cursor: pointer;
       border: none;
       padding: 29px 19px;
