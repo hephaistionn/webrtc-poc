@@ -39,11 +39,13 @@ export default {
       this.$refs.videoRef.play();
     },
     user: function(user) {
-      const index = user.avatar;
-      const col = 4;
-      const row = 4;
-      this.avatarX = -(index % col) * 80 + 'px';
-      this.avatarY = -Math.floor(index / row) * 85 + 'px';
+      if(user) {
+        const index = user.avatar;
+        const col = 4;
+        const row = 4;
+        this.avatarX = -(index % col) * 80 + 'px';
+        this.avatarY = -Math.floor(index / row) * 85 + 'px';
+      }
     }
   },
   methods: {
@@ -55,7 +57,6 @@ export default {
         }
       },
       toggleVideo: function() {
-        debugger; 
         this.hidden = !this.hidden;
         if (this.emitter) {
           this.$store.dispatch('enableVideo', !this.hidden);

@@ -33,7 +33,7 @@ export default {
   },
   methods: mapActions(['startCam', 'initSocket', 'stop']),
   mounted() {
-    this.$store.dispatch('startCam');
+    this.$store.dispatch('initUser');
   }
 };
 </script>

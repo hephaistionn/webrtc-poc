@@ -33,18 +33,36 @@ export default new Vuex.Store({
   state,
   getters: {},
   actions: {
+    initUser({commit, dispatch}) {
+      commit('setUser1', {username, avatar, id});
+      dispatch('startCam');
+    },
     startCam({ commit }) {
+        /*navigator.getUserMedia({
+          video: true,
+          audio: true
+        }, stream => {
+          commit('setStream1', stream);
+          commit('setUser1', {username, avatar, id});
+        }, error => {
+          console.log(error);
+        });*/
       navigator.mediaDevices.getUserMedia({
         video: true,
         audio: true
       })
       .then(function(stream) {
         commit('setStream1', stream);
-        commit('setUser1', {username, avatar, id});
       })
       .catch(function(err) {
         console.log(error);
       });
+    },
+    stopCam({state }) {
+      if(state.stream1) {
+        const track = state.stream1.getTracks()[0];
+        track.stop();
+      }
     },
     initSocket({ commit, dispatch, state}) {
       if(state.socket) {
@@ -57,11 +75,11 @@ export default new Vuex.Store({
       socket.on('stream1Signal', (signal) => {
         commit('setSignal1', signal);
       });
-      socket.on('room_started', (profile) => {
+      socket.on('room_started', async (profile) => {
         commit('setUser2', profile);
-        setTimeout(()=> {
-          dispatch('initPeers');
-          dispatch('initPeersListener');
+        await dispatch('initPeers');
+        await dispatch('initPeersListener');
+        setTimeout(async ()=> {
           commit('setStatus', LIVE);
         },5000);
       });
@@ -129,16 +147,18 @@ export default new Vuex.Store({
       commit('setUser1', profile);
       commit('setStatus', WAITING);
     },
-    stop({ commit }) {
+    stop({ commit, dispatch}) {
       commit('deletePeer1');
       commit('deletePeer2');
+      dispatch('stopCam');
       commit('cleanWaitingList');
       commit('setUser2', null);
       commit('setStatus', HOME);
     },
-    next({commit}) {
+    next({commit, dispatch}) {
       commit('deletePeer1');
       commit('deletePeer2');
+      dispatch('stopCam');
       commit('cleanWaitingList');
       commit('setUser2', null);
       commit('setStatus', WAITING);
