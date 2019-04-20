@@ -147,8 +147,11 @@ export default new Vuex.Store({
       commit('addMessage1', message);
       commit('emitPeer1', message);
     },
-    setMute({ commit }, value) {
+    enableAudio({ commit }, value) {
       state.stream1.getAudioTracks()[0].enabled = value;
+    },
+    enableVideo({ commit }, value) {
+      state.stream1.getVideoTracks()[0].enabled = value;
     }
   },
   mutations: {

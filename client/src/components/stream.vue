@@ -8,10 +8,15 @@
       </div>
       <div v-if='user' class='stream__profile__username'>{{ user.username }}</div>
     </div>
-    <div v-show='emitter && mute' class='stream__button  microon' v-on:click='toggleMute'></div>
-    <div v-show='emitter && !mute' class='stream__button microoff' v-on:click='toggleMute'></div>
-    <div v-show='!emitter && mute' class='stream__button  volumeon' v-on:click='toggleMute'></div>
-    <div v-show='!emitter && !mute' class='stream__button volumeoff' v-on:click='toggleMute'></div>
+    <div  
+      class='stream__button__audio button'
+      v-bind:class='{disabled: mute}'
+      v-on:click='toggleAudio'></div>
+    <div 
+      v-show='emitter'
+      class='stream__button__video button'
+      v-bind:class='{disabled: hidden}'
+      v-on:click='toggleVideo'></div>
   </div>
 </template>
 
@@ -22,6 +27,7 @@ export default {
   data() {
     return {
       mute: false,
+      hidden: false,
       avatarX: 0,
       avatarY: 0
     };
@@ -29,7 +35,7 @@ export default {
   watch: {
     stream: function(newVal, oldVal) {
       this.$refs.videoRef.srcObject = newVal;
-      this.$refs.videoRef.volume = 0;
+      this.$refs.videoRef.volume = 1;
       this.$refs.videoRef.play();
     },
     user: function(user) {
@@ -41,26 +47,43 @@ export default {
     }
   },
   methods: {
-     toggleMute: function() {
-       this.mute = !this.mute; 
-       this.$refs.videoRef.muted = this.mute;
-       this.$store.dispatch('setMute', this.mute);
-     }
+      toggleAudio: function() {
+        this.mute = !this.mute; 
+        this.$refs.videoRef.muted = this.mute;
+        if (this.emitter) {
+          this.$store.dispatch('enableAudio', !this.mute);
+        }
+      },
+      toggleVideo: function() {
+        debugger; 
+        this.hidden = !this.hidden;
+        if (this.emitter) {
+          this.$store.dispatch('enableVideo', !this.hidden);
+        }
+      }
   }
 };
 </script>
 
 <style lang='sass'>
   @mixin icon {
+    position: absolute;
+    bottom: 20px;
+    right: 35px;
+    width: 40px;
+    font-size: 2rem;
+    text-align: center;
+    cursor: pointer;
+    color: #3f51b5;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     font-style: normal;
     font-variant: normal;
     text-rendering: auto;
     font-family: 'Font Awesome 5 Free';
-    margin: 0 5px;
-    cursor: pointer;
+    text-shadow: 0 0 12px white;
   }
+
   .stream {
     position: relative;
     display: inline-block;
@@ -98,36 +121,34 @@ export default {
         
       }
     }
+
+    .button {
+      display:none; 
+    }
+    &:hover {
+      .button {
+        display: block;
+      }
+    }
+
     &__button  {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      width: 20px;
-      height: 20px;
-      cursor: pointer;
-      color: grey;
-      &__microon {
+      &__audio {
+        @include icon;
+        &.disabled:before {
+          content: '\f131';
+        }
         &:before {
-            @include icon;
-            content: '\f131';
+          content: '\f3c9';
         }
       }
-      &__microoff {
-        &:before {
-            @include icon;
-            content: '\f131';
+      &__video {
+        @include icon;
+        right: 70px;
+        &.disabled:before {
+          content: '\f4e2';
         }
-      }
-      &__volumeon {
         &:before {
-            @include icon;
-            content: '\f131';
-        }
-      }
-      &__volumeoff {
-        &:before {
-            @include icon;
-            content: '\f131';
+          content: '\f03d';
         }
       }
     }
