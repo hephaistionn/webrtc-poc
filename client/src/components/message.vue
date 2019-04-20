@@ -21,7 +21,7 @@ export default {
     display: block;
     margin: 7px 0;
     max-width: 70%;
-    align-self: flex-start;
+    align-self: flex-end;
     &__author {
       margin: 5px;
       font-size: 0.9rem;
@@ -34,9 +34,9 @@ export default {
       color: white;
     }
     &.current {
-      align-self: flex-end;
       .message__content {
         text-align: right;
+        background: #40c0d0;
       }
       .message__author {
         text-align: right;

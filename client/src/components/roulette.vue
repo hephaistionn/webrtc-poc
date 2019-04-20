@@ -116,21 +116,22 @@ export default {
     display: inline-block;
     width: 100%;
     height: 100%;
+    color: white;
     &__title {
       position: absolute;
-      font-size: 3rem;
+      font-size: 2.0rem;
       text-transform: UPPERCASE;
       text-align: center;
       width: 100%;
-      top: 30%;
+      top: 25%;
     }
     &__waiting {
       position: absolute;
-      font-size: 2rem;
+      font-size: 1.5rem;
       text-transform: UPPERCASE;
       text-align: center;
       width: 100%;
-      top: 37%;
+      top: 41%;
     }
     &__container {
       display: inline-block;

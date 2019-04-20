@@ -102,16 +102,16 @@ export default {
       display: inline-block;
       height: 25%;
       width: fit-content;
-      left: 0;
-      bottom: 0;
+      left: 35px;
+      bottom: 75px;
       max-width: 50%;
       z-index: 2;
     }
     &__profile {
       position: absolute;
       display: flex;
-      top: 0;
-      left: 38%;
+      top: 2%;
+      left: 33%;
       margin: 5px 5px;
       color: white;
       text-shadow: 0 0 5px black;
@@ -128,7 +128,7 @@ export default {
       }
       &__username {
         display: inline-block;
-        font-size: 2rem;
+        font-size: 1.5rem;
       }
       &.emitter {
         left: 3%;

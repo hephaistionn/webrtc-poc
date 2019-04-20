@@ -1,5 +1,5 @@
 <template>
-  <div class='chat' v-if='false'>
+  <div class='chat'>
     <stack 
       v-bind:user1='user1'
       v-bind:user2='user2'
@@ -27,9 +27,13 @@ export default {
 
 <style lang='sass'>
   .chat {
-    position: relative;
+    position: absolute;
     display: inline-block;
-    width: 30%;
-    height: 100%;
+    width: 100%;
+    min-width: 345px;
+    height: calc(100% - 223px);
+    right: 0;
+    z-index: 2;
+    bottom: 0;
   }
 </style>

@@ -13,8 +13,8 @@
       v-bind:user1='user1'
       v-bind:user2='user2'
       v-bind:stack='stack'/>
-    <button class='live__stop' @click='stop'>stop</button>
-    <button class='live__next' @click='next'>next</button>
+    <button class='live__stop button' @click='stop'>stop</button>
+    <button class='live__next button' @click='next'>next</button>
   </div>
 </template>
 
@@ -53,21 +53,22 @@ export default {
   .live {
     position: relative;
     width: fit-content;
-    min-width: 600px;
+    min-width: 374px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: auto;
-    button {
+    .button {
       position: absolute;
       cursor: pointer;
       border: none;
-      padding: 29px 19px;
+      padding: 18px 11px;
       color: white;
       font-size: 1.3rem;
       top: 3%;
     }
     &__stop {
+      position: absolute;
       display: inline-block;
       background-color: #ff9c3a;
       left: 2%;

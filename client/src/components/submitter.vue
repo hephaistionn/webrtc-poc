@@ -31,25 +31,26 @@ export default {
 
 <style lang='sass'>
   .submitter {
-    position: relative;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
     display: flex;
-    height: 100px;
-    padding: 15px 15px 15px 15px;
+    height: 60px;
     flex-direction: row;
     justify-content: flex-start;
     &__input {
       position: relative;
       display: inline-block;
       flex-grow: 5;
+      font-size: 1.5rem;
     }
-
     &__send {
+      position: relative;
       display: inline-block;
       flex-grow: 1;
       padding: 0 5px;
       width: 100px;
-      height: 100px;
-      margin: 0 0 0 10px;
+      margin: 0px 0 0 10px;
       border: none;
       font-size: 1.5rem;
       background: #3F51B5;

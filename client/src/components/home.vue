@@ -103,7 +103,7 @@ export default {
       flex-direction: column;
       &__title {
         position: relative;
-        font-size: 3rem;
+        font-size: 2.3rem;
         text-align: center;
       }
       &__helper {
@@ -117,7 +117,7 @@ export default {
         bottom: 0;
         display: flex;
         flex-wrap: wrap;
-        width: 404px;
+        width: 324px;
         background: #a7a1a1;
         padding: 10px;
         border-radius: 5px;
@@ -125,15 +125,14 @@ export default {
           position: relative;
           display: inline-block;
           cursor: pointer;
-          font-size: 1.5rem;
-          line-height: 2.5rem;
+          font-size: 1.4rem;
         }
         &__input {
           position: relative;
           display: block;
           margin-right: 10px;
           font-size: 1.4rem;
-          width: 260px;
+          width: 181px;
           padding: 5px 9px;
           height: 60px;
         } 
