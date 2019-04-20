@@ -86,27 +86,36 @@ export default {
   }
 
   .stream {
-    position: relative;
+    position: fixed;
     display: inline-block;
     width: fit-content;
-    margin-bottom: 10px;
-    align-self: flex-end;
-    height: 50%;
+    height: 100%;
+    bottom: 0;
+    left: 0;
     max-width: 100%;
     video {
       position: relative;
       height: 100%;
       max-width: 100%;
     }
+    &.emitter {
+      height: 25%;
+      left: 0;
+      bottom: 0;
+      max-width:50%;
+      border: solid 1px red;
+      z-index: 2;
+    }
+
     &__profile {
       position: absolute;
       display: flex;
       top: 0;
-      left: 0;
-      margin: 34px 22px;
+      left: 38%;
+      margin: 5px 5px;
       color: white;
       text-shadow: 0 0 5px black;
-      width: calc(100% - 100px);
+      width: 100%;
       &__avatar {
         display: inline-block;
         margin-right: 10px;
@@ -119,7 +128,7 @@ export default {
       }
       &__username {
         display: inline-block;
-        
+        font-size: 2rem;
       }
     }
 
