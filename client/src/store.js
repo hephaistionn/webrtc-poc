@@ -34,13 +34,15 @@ export default new Vuex.Store({
   getters: {},
   actions: {
     startCam({ commit }) {
-      navigator.getUserMedia({
+      navigator.mediaDevices.getUserMedia({
         video: true,
         audio: true
-      }, stream => {
+      })
+      .then(function(stream) {
         commit('setStream1', stream);
         commit('setUser1', {username, avatar, id});
-      }, error => {
+      })
+      .catch(function(err) {
         console.log(error);
       });
     },

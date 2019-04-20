@@ -30,5 +30,6 @@ export default {
     flex-direction: column;
     height: calc(100% - 164px);
     padding: 15px 15px 15px 15px;
+    overflow-y: scroll;
   } 
 </style>
