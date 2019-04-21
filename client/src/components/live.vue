@@ -13,8 +13,8 @@
       v-bind:user1='user1'
       v-bind:user2='user2'
       v-bind:stack='stack'/>
-    <button class='live__stop button' @click='stop'>stop</button>
-    <button class='live__next button' @click='next'>next</button>
+    <button class='live__stop button' @click='stop'></button>
+    <button class='live__next button' @click='next'></button>
   </div>
 </template>
 
@@ -49,6 +49,7 @@ export default {
     font-family: 'Font Awesome 5 Free';
     margin: 0 5px;
     cursor: pointer;
+    background-color: transparent;
   }
   .live {
     position: relative;
@@ -62,7 +63,6 @@ export default {
       position: absolute;
       cursor: pointer;
       border: none;
-      padding: 18px 11px;
       color: white;
       font-size: 1.3rem;
       top: 3%;
@@ -70,22 +70,19 @@ export default {
     &__stop {
       position: absolute;
       display: inline-block;
-      background-color: #ff9c3a;
       left: 2%;
+      @include icon;
+      &:before {
+        content: '\f28d';
+      }
     }
     &__next {
       display: inline-block;
-      background-color: #3f51b5;
       right: 2%;
+      @include icon;
+      &:before {
+        content: '\f522';
       }
-    &__adv {
-      display: inline-block;
-      position: relative;
-      height: 100%;
-      width: 15%;
-      background-color: brown;
-      background-image: url(./../../assets/ads.jpg);
-      background-size: 40px;
     }
   }
 </style>

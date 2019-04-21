@@ -31,7 +31,7 @@ export default {
     display: inline-block;
     width: 100%;
     min-width: 345px;
-    height: calc(100% - 223px);
+    height: calc(100% -  100px);
     right: 0;
     z-index: 2;
     bottom: 0;

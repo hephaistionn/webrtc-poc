@@ -44,8 +44,8 @@ export default {
         const index = user.avatar;
         const col = 4;
         const row = 4;
-        this.avatarX = -(index % col) * 60 + 'px';
-        this.avatarY = -Math.floor(index / row) * 65 + 'px';
+        this.avatarX = -(index % col) * 50 + 'px';
+        this.avatarY = -Math.floor(index / row) * 55 + 'px';
       }
     }
   },
@@ -119,12 +119,12 @@ export default {
       &__avatar {
         display: inline-block;
         margin-right: 10px;
-        width: 60px;
-        height: 65px;
+        width: 50px;
+        height: 55px;
         background-color: yellow;
-        background-size: 250px;
+        background-size: 195px;
         background-repeat: no-repeat;
-        background-position: -60px -65px;
+        background-position: -50px -55px;
       }
       &__username {
         display: inline-block;

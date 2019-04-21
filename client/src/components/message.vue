@@ -19,17 +19,17 @@ export default {
 <style lang='sass'>
   .message {
     display: block;
-    margin: 7px 0;
-    max-width: 70%;
+    margin: 0 0;
+    max-width: 50%;
     align-self: flex-end;
     &__author {
       margin: 5px;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
     }
     &__content {
-      padding: 15px;
-      font-size: 1.2rem;
-      border-radius: 20px;
+      padding: 0.5rem;
+      font-size: 0.9rem;
+      border-radius: 12px;
       background: #45c0d6;
       color: white;
     }

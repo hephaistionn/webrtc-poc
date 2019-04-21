@@ -31,7 +31,7 @@ export default {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    height: calc(100% - 160px);
+    height: calc(100% - 60px);
     padding: 15px 10px 15px 10px;
     justify-content: flex-end;
     overflow: hidden;
