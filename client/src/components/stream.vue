@@ -9,12 +9,12 @@
       <div v-if='user' class='stream__profile__username'>{{ user.username }}</div>
     </div>
     <div  
-      class='stream__button__audio button'
+      class='stream__button__audio controle'
       v-bind:class='{disabled: mute}'
       v-on:click='toggleAudio'></div>
     <div 
       v-show='emitter'
-      class='stream__button__video button'
+      class='stream__button__video controle'
       v-bind:class='{disabled: hidden}'
       v-on:click='toggleVideo'></div>
   </div>
@@ -35,7 +35,11 @@ export default {
   watch: {
     stream: function(newVal, oldVal) {
       this.$refs.videoRef.srcObject = newVal;
-      this.$refs.videoRef.volume = 1;
+      if (this.emitter) {
+        this.$refs.videoRef.volume = 0;
+      } else {
+        this.$refs.videoRef.volume = 1;
+      }
       this.$refs.videoRef.muted = this.mute;
       this.$refs.videoRef.play();
     },
@@ -70,48 +74,50 @@ export default {
 <style lang='sass'>
   @mixin icon {
     position: absolute;
-    bottom: 20px;
-    right: 35px;
+    bottom: calc(42% + 45px);
+    left: calc(1% + 13px);
     width: 40px;
     font-size: 2rem;
     text-align: center;
     cursor: pointer;
-    color: #3f51b5;
+    color: #01acca;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     font-style: normal;
     font-variant: normal;
     text-rendering: auto;
     font-family: 'Font Awesome 5 Free';
-    text-shadow: 0 0 12px white;
   }
 
   .stream {
     position: relative;
     display: inline-block;
-    width: fit-content;
     height: 100%;
-    max-width: 100%;
+    width: 100%;
+    overflow: hidden;
+    z-index: 1;
     video {
       position: relative;
       height: 100%;
-      max-width: 100%;
+      width: 100%;
+      object-fit: cover;
     }
     &.emitter {
       position: absolute;
       display: inline-block;
-      height: 25%;
-      width: fit-content;
-      left: 35px;
-      bottom: 75px;
-      max-width: 50%;
+      width: 36%;
+      height: 36%;
+      left: 1.5%;
+      bottom: 1.5%;
+      max-width: 600px;
+      max-height: 600px;
       z-index: 2;
     }
     &__profile {
       position: absolute;
       display: flex;
-      top: 2%;
-      left: 33%;
+      bottom: 38%;
+      left: 1.5%;
       margin: 5px 5px;
       color: white;
       text-shadow: 0 0 5px black;
@@ -129,18 +135,33 @@ export default {
       &__username {
         display: inline-block;
         font-size: 1.5rem;
+        @media (max-aspect-ratio: 8/5) {
+          font-size: 1rem;
+        }
       }
       &.emitter {
-        left: 3%;
+        left: 0;
+        top: 1%;
+        bottom: auto;
       }
     }
 
-    .button {
+    .controle {
       display:none; 
     }
     &:hover {
-      .button {
+      .controle {
         display: block;
+      }
+    }
+
+    &.emitter {
+      .controle {
+        bottom: 20px;
+        left: 35px;
+      }
+      .stream__button__video {
+        left: 80px;
       }
     }
 
@@ -156,7 +177,7 @@ export default {
       }
       &__video {
         @include icon;
-        right: 70px;
+        right: 80px;
         &.disabled:before {
           content: '\f4e2';
         }

@@ -17,7 +17,8 @@
         v-bind:stream1='$store.state.stream1'
         v-bind:user1='$store.state.user1'
         v-bind:stack='$store.state.stack'/>
-      </div>
+    </div>
+    <div class='adv'></div>  
   </div>
 </template>
 
@@ -46,40 +47,39 @@ export default {
     margin: 0;
   }
   .app {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     .screen {
+      position: relative;
       display: inline-block;
-      position: absolute;
-      width: calc(100% - 120px);
+      width: 80%;
       height: 100%;
-      top: 0;
-      left: 120px;
     }
     .adv {
+      position: relative;
       display: inline-block;
-      position: absolute;
       height: 100%;
-      width: 120px;
+      width: calc(10% - 5px);
       background-color: brown;
       background-image: url(./../../assets/ads.jpg);
       background-size: 40px;
-      top: 0;
-      left: 0;
     }
     @media (max-aspect-ratio: 8/5) {
-      background: yellow;
       .screen {
-        height: calc(100% - 120px);
         width: 100%;
-        left: 0;
-        top: 120px;
+        height: 80%;
       }
       .adv {
-        display: inline-block;
-        position: relative;
         width: 100%;
-        height: 120px;
+        height: calc(10% - 5px);
       }
     }
   }

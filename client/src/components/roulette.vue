@@ -155,7 +155,7 @@ export default {
       left: 0;
       width: 130px;
       height: 140px;
-      border: solid 5px;
+      border: solid 5px #01acca;
       z-index: 2;
     }
     &__starting {

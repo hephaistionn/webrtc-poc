@@ -33,7 +33,6 @@ export default {
     min-width: 345px;
     height: calc(100% -  100px);
     right: 0;
-    z-index: 2;
     bottom: 0;
   }
 </style>

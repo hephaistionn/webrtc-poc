@@ -40,49 +40,38 @@ export default {
 </script>
 
 <style lang='sass'>
-  @mixin icon {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    font-style: normal;
-    font-variant: normal;
-    text-rendering: auto;
-    font-family: 'Font Awesome 5 Free';
-    margin: 0 5px;
-    cursor: pointer;
-    background-color: transparent;
-  }
   .live {
     position: relative;
-    width: fit-content;
-    min-width: 374px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: auto;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     .button {
+      display: inline-block;
       position: absolute;
       cursor: pointer;
       border: none;
-      color: white;
-      font-size: 1.3rem;
       top: 3%;
+      background-image: url(./../../assets/icon.png);
+      background-size: auto 100%;
+      max-width: 90px;
+      max-height: 90px;
+      min-width: 30px;
+      min-height: 30px;
+      width: 6%;
+      background-color: transparent;
+      z-index: 1;
+      &:after {
+        content: "";
+        display: block;
+        padding-bottom: 122%;
+      }
     }
     &__stop {
-      position: absolute;
-      display: inline-block;
       left: 2%;
-      @include icon;
-      &:before {
-        content: '\f28d';
-      }
+      background-position-x: 50%;
     }
     &__next {
-      display: inline-block;
       right: 2%;
-      @include icon;
-      &:before {
-        content: '\f522';
-      }
     }
   }
 </style>

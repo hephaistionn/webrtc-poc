@@ -154,6 +154,7 @@ export default new Vuex.Store({
       commit('cleanWaitingList');
       commit('setUser2', null);
       commit('setStatus', HOME);
+      commit('cleanStack');
     },
     next({commit, dispatch}) {
       commit('deletePeer1');
@@ -162,6 +163,7 @@ export default new Vuex.Store({
       commit('cleanWaitingList');
       commit('setUser2', null);
       commit('setStatus', WAITING);
+      commit('cleanStack');
     },
     sendMessage({ commit }, message) {
       commit('addMessage1', message);
@@ -255,6 +257,9 @@ export default new Vuex.Store({
     },
     cleanWaitingList(state) {
       state.waitingList = [];
+    },
+    cleanStack() {
+      state.stack = [];
     }
   }
 });

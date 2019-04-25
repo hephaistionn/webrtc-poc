@@ -27,11 +27,11 @@ export default {
   .stack {
     position: absolute;
     width: 100%;
-    bottom: 60px;
+    bottom: 55px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    height: calc(100% - 60px);
+    height: calc(100% - 80px);
     padding: 15px 10px 15px 10px;
     justify-content: flex-end;
     overflow: hidden;
