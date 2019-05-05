@@ -7,7 +7,7 @@ let id = localStorage.getItem('clientId');
 id = id ? id : new Uint8Array(10).reduce(id => id + Math.random().toString(36).substr(2, 9));
 const usernameList = ['Ardal', 'Alvin', 'Justine', 'Pauline', 'Yaroslav', 'Bob', 'Terika', 'Carlene', 'Jetta', 'Toya'];
 const username = usernameList[Math.floor(Math.random() * usernameList.length * 0.99999)] + Math.floor(Math.random() * 99);
-const avatar = Math.floor(Math.random() * 15.99);
+const avatar = Math.floor(Math.random() * 99.99);
 const HOME = 0;
 const LIVE = 1;
 const WAITING = 2;
@@ -54,7 +54,7 @@ export default new Vuex.Store({
       .then(function(stream) {
         commit('setStream1', stream);
       })
-      .catch(function(err) {
+      .catch(function(error) {
         console.log(error);
       });
     },

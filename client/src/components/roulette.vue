@@ -92,7 +92,7 @@ export default {
   methods: {
     roulette : function(clientId) {
       this.centerfocus();
-      const tileSize = 145;
+      const tileSize = 150+10;
       const startIndexMid = Math.floor(this.computedList.length/2);
       const part2 = this.computedList.slice(startIndexMid);
       const index = startIndexMid + part2.map(a=>a.id).indexOf(clientId);
@@ -103,7 +103,7 @@ export default {
       this.translate = `translateX(${x}px)`;
     },
     centerfocus: function() {
-      const tileSize = 145;
+      const tileSize = 150+10;
       const tileIndex = Math.floor(window.innerWidth/2/tileSize);
       this.focusPosition = tileIndex * tileSize;
     }
@@ -136,7 +136,7 @@ export default {
       display: inline-block;
       position: absolute;
       top: 50%;
-      height: 140px;
+      height: 150px;
       width: 100%;
       overflow: hidden;
     }
@@ -151,12 +151,13 @@ export default {
     }
     &__focus {
       position: absolute;
-      top: 49%;
+      top: 50%;
       left: 0;
-      width: 130px;
-      height: 140px;
+      width: 150px;
+      height: 150px;
       border: solid 5px #01acca;
       z-index: 2;
+      box-sizing: border-box;
     }
     &__starting {
       position: absolute;

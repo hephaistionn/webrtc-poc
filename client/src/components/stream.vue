@@ -46,9 +46,9 @@ export default {
     user: function(user) {
       if(user) {
         const index = user.avatar;
-        const col = 4;
-        const row = 4;
-        this.avatarX = -(index % col) * 50 + 'px';
+        const col = 10
+        const row = 10;
+        this.avatarX = -(index % col) * 55 + 'px';
         this.avatarY = -Math.floor(index / row) * 55 + 'px';
       }
     }
@@ -74,9 +74,9 @@ export default {
 <style lang='sass'>
   @mixin icon {
     position: absolute;
-    bottom: calc(42% + 45px);
+    bottom: calc(42% + 55px);
     left: calc(1% + 13px);
-    width: 40px;
+    width: 55px;
     font-size: 2rem;
     text-align: center;
     cursor: pointer;
@@ -125,12 +125,11 @@ export default {
       &__avatar {
         display: inline-block;
         margin-right: 10px;
-        width: 50px;
+        width: 55px;
         height: 55px;
-        background-color: yellow;
-        background-size: 195px;
+        background-size: 550px;
         background-repeat: no-repeat;
-        background-position: -50px -55px;
+        background-position: -55px -55px;
       }
       &__username {
         display: inline-block;

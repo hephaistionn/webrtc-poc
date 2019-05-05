@@ -35,5 +35,6 @@ export default {
     padding: 15px 10px 15px 10px;
     justify-content: flex-end;
     overflow: hidden;
+    z-index: 2;
   } 
 </style>

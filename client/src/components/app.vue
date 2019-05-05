@@ -92,7 +92,7 @@ export default {
   }
 
   .avatar {
-    background-image: url('./../../assets/avatars.jpg');
+    background-image: url('./../../assets/avatars.png');
   }
 
   @font-face {

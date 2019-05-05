@@ -37,7 +37,7 @@ export default {
     return {
       username: '',
       avatar: 0,
-      nbAvatars: 16,
+      nbAvatars: 100,
       avatars: [],
       avatarX: 0,
       avatarY: 0,
@@ -63,8 +63,8 @@ export default {
       this.edit = false;
     },
     computeAvatar: function(index) {
-        const col = 4;
-        const row = 4;
+        const col = 10;
+        const row = 10;
         this.avatarX = -(index % col) * 60 + 'px';
         this.avatarY = -Math.floor(index / row) * 60 + 'px';
         this.scrollAvatar(index);
@@ -79,12 +79,12 @@ export default {
     this.selectAvatar = this.avatar;
     let x;
     let y;
-    const col = 4;
-    const row = 4;
+    const col = 10;
+    const row = 10;
     const avatars = [];
     for (let i = 0; i < this.nbAvatars; i++) {
       x = -(i % col) * 80 + 'px';
-      y = -Math.floor(i / row) * 85 + 'px';
+      y = -Math.floor(i / row) * 80 + 'px';
       avatars.push({ x, y });
     }
     this.avatars = avatars;
@@ -141,8 +141,7 @@ export default {
           width: 60px;
           height: 60px;
           margin-right: 10px;
-          background-color: yellow;
-          background-size: 240px;
+          background-size: 600px;
           background-repeat: no-repeat;
           background-position: -60px -60px;
           cursor: pointer;
@@ -169,12 +168,11 @@ export default {
             display: inline-block;
             margin-right: 10px;
             width: 80px;
-            height: 90px;
-            background-color: yellow;
-            background-size: 320px;
+            height: 80px;
+            background-size: 800px;
             background-repeat: no-repeat;
             min-width: 80px;
-            background-position: -84px -86px;
+            background-position: -80px -80px;
             &.selected {
               border: solid;
               box-sizing: border-box;
