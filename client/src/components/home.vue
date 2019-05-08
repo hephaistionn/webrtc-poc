@@ -1,7 +1,6 @@
 <template>
   <div class='home'>
     <div class='home__title'>CHATROULETTE.IO</div>
-    <div class='home__helper'>Press button to start the roulette</div>
     <div class='home__profile'>
       <div
         v-on:click='edit = true'
@@ -23,6 +22,7 @@
         </div>
       </div>
     </div>
+    <div class='home__helper'>Press button to start the roulette</div>
   </div>
 </template>
 
@@ -101,22 +101,24 @@ export default {
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      background-image: url(./../../assets/banner.png);
+      background-color: #ffffff;
+      background-image: url(./../../assets/banner4.png);
       &__title {
         position: relative;
-        font-size: 2.3rem;
+        font-size: 2.0rem;
         text-align: center;
         font-weight: bold;
-        color: #ff5f02;
-        text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+        color: #ffffff;
+        text-shadow: 2px 0 0 #3bb8ff, -2px 0 0 #3bb8ff, 0 2px 0 #3bb8ff, 0 -2px 0 #3bb8ff, 1px 1px #3bb8ff, -1px -1px 0 #3bb8ff, 1px -1px 0 #3bb8ff, -1px 1px 0 #3bb8ff;
       }
       &__helper {
         position: relative;
         display: block;
-        margin: 30px;
-        font-size: 1.4rem;
-        color: #020067;
-        text-shadow: 0 0 9px #f7f7f7;
+        margin: 10px;
+        margin-top: 80px;
+        font-size: 1rem;
+        color: #ffffff;
+        text-shadow: 0 0 9px #000000;
       }
       &__profile {
         position: relative;
@@ -124,16 +126,19 @@ export default {
         display: flex;
         flex-wrap: wrap;
         width: 324px;
-        background: #ff5f02;
+        background: #3bb8ff;
+        margin: 20px 0px;
         padding: 10px;
         border-radius: 5px;
+        box-shadow: -1px 2px 7px black;
         &__start {
           position: relative;
           display: inline-block;
           cursor: pointer;
           font-size: 1.4rem;
-          background: #ffdd01;
-          border: solid #ffa901;
+          background: #3bb8ff;
+          border: outset #3bd8ff;
+          color: white;
         }
         &__input {
           position: relative;

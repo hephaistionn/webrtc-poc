@@ -82,7 +82,7 @@ export default {
     font-size: 2rem;
     text-align: center;
     cursor: pointer;
-    color: #01acca;
+    color: #3bb8ff;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     font-style: normal;
@@ -139,7 +139,7 @@ export default {
         &.emitter {
           text-align: right;
         }
-        @media (max-aspect-ratio: 8/5) {
+        @media (max-aspect-ratio: 1/1) {
           font-size: 1rem;
           width: 250px;
           &.emitter {

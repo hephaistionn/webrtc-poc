@@ -30,7 +30,7 @@ const state = {
   edit: false,
 };
 
-export default new Vuex.Store({
+const store =  new Vuex.Store({
   state,
   getters: {},
   actions: {
@@ -167,6 +167,10 @@ export default new Vuex.Store({
       commit('setStatus', WAITING);
       commit('cleanStack');
     },
+    cancel({commit, dispatch}) {
+      dispatch('closeSocket');
+      dispatch('stop');
+    },
     sendMessage({ commit, dispatch}, message) {
       commit('addMessage1', message);
       commit('emitPeer1', message);
@@ -286,3 +290,9 @@ export default new Vuex.Store({
     }
   }
 });
+
+export default store;
+
+window.onbeforeunload = function (event) {
+  store.dispatch('stop');
+};

@@ -35,8 +35,8 @@ export default {
       const index = this.avatar;
       const col = 10;
       const row = 10;
-      this.avatarX = -(index % col) * 150 + 'px';
-      this.avatarY = -Math.floor(index / row) * 150 + 'px';
+      this.avatarX = -(index % col) * 120 + 'px';
+      this.avatarY = -Math.floor(index / row) * 120 + 'px';
     }
   }
 };
@@ -49,19 +49,29 @@ export default {
     &__username {
       position: absolute;
       display: inline-block;
-      top: 5px;
-      left: 10px;
+      top: 0px;
+      left: 0px;
+      width: 112px;
+      background-color: #ffffff5c;
+      color: #00335d;
+      padding: 4px;
+      white-space: normal;
     }
     &__avatar {
       display: inline-block;
-      margin-right: 10px;
-      width: 150px;
-      height: 150px;
-      background-size: 1500px;
+      width: 120px;
+      height: 120px;
+      background-size: 1200px;
       background-repeat: no-repeat;
-      background-position: -150px -150px;
-      border: solid #01abca;
+      background-position: -120px -120px;
       box-sizing: border-box;
-    }  
+      border: solid 2px #87c9ff;
+      border-left-width: 1px;
+      border-right-width: 1px;
+      @media (max-aspect-ratio: 1/1) {
+        border-bottom-width: 1px;
+        border-top-width: 1px;
+      }
+    }
   }
 </style>

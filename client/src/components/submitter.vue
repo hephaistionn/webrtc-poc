@@ -57,6 +57,7 @@ export default {
       display: inline-block;
       flex-grow: 5;
       font-size: 1.4rem;
+      line-height: 2rem;
       padding: 6px;
       resize: none;
       overflow: hidden;
@@ -66,7 +67,8 @@ export default {
       margin: 0 1rem;
       height: 45px;
       align-self: flex-end;
-      background: #ffffff6b;
+      background: #3bb8ff54;
+      color: white;
       z-index: 3;
     }
     &__send {

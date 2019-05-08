@@ -68,11 +68,10 @@ export default {
       display: inline-block;
       height: 100%;
       width: calc(10% - 5px);
-      background-color: brown;
-      background-image: url(./../../assets/ads.jpg);
-      background-size: 40px;
+      // background-image: url(./../../assets/ads.jpg);
+      // background-size: 40px;
     }
-    @media (max-aspect-ratio: 8/5) {
+    @media (max-aspect-ratio: 1/1) {
       .screen {
         width: 100%;
         height: 90%;
@@ -90,7 +89,7 @@ export default {
   button {
     cursor: pointer;
     &:hover {
-      background-color: red;
+      transform: scale(1.05);
     }
   }
 
