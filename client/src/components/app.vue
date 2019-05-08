@@ -18,7 +18,7 @@
         v-bind:user1='$store.state.user1'
         v-bind:stack='$store.state.stack'/>
     </div>
-    <div class='adv'></div>  
+    <div class='adv large'></div>  
   </div>
 </template>
 
@@ -75,11 +75,14 @@ export default {
     @media (max-aspect-ratio: 8/5) {
       .screen {
         width: 100%;
-        height: 80%;
+        height: 90%;
       }
       .adv {
         width: 100%;
         height: calc(10% - 5px);
+        &.large {
+          display: none;
+        }
       }
     }
   }

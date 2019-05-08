@@ -11,6 +11,7 @@ const avatar = Math.floor(Math.random() * 99.99);
 const HOME = 0;
 const LIVE = 1;
 const WAITING = 2;
+let timerStack;
 
 
 Vue.use(Vuex);
@@ -126,6 +127,7 @@ export default new Vuex.Store({
       });
       state.peer1.on('data', function (message) {
         commit('addMessage1', message);
+        dispatch('depilator'); 
       });
       state.peer2.on('data', function (message) {
         commit('addMessage2', message);
@@ -165,15 +167,25 @@ export default new Vuex.Store({
       commit('setStatus', WAITING);
       commit('cleanStack');
     },
-    sendMessage({ commit }, message) {
+    sendMessage({ commit, dispatch}, message) {
       commit('addMessage1', message);
       commit('emitPeer1', message);
+      dispatch('depilator'); 
     },
     enableAudio({ commit }, value) {
       state.stream1.getAudioTracks()[0].enabled = value;
     },
     enableVideo({ commit }, value) {
       state.stream1.getVideoTracks()[0].enabled = value;
+    },
+    depilator({commit, state, dispatch}) {
+      clearTimeout(timerStack);
+      timerStack = setTimeout(() => {
+          commit('removeMessage');
+          if(state.stack.length) {
+            dispatch('depilator'); 
+          }
+      }, 6000);
     }
   },
   mutations: {
@@ -206,9 +218,20 @@ export default new Vuex.Store({
     },
     addMessage1(state, message) {
       state.stack.push({author: 1, content: message});
+      if(state.stack.length>4) {
+        state.stack.splice(0, 1);
+      }
     },
     addMessage2(state, message) {
       state.stack.push({author: 2, content: message});
+      if(state.stack.length>4) {
+        state.stack.splice(0, 1);
+      }
+    },
+    removeMessage(state) {
+      if(state.stack.length) {
+        state.stack.splice(0, 1);
+      }
     },
     setSocket(state, socket) {
       if(socket) {

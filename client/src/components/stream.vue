@@ -6,7 +6,9 @@
         class='stream__profile__avatar avatar'
         v-bind:style='{backgroundPositionX: avatarX, backgroundPositionY: avatarY}'>
       </div>
-      <div v-if='user' class='stream__profile__username'>{{ user.username }}</div>
+      <div v-if='user'
+        v-bind:class='{emitter: emitter}'
+        class='stream__profile__username'>{{ user.username }}</div>
     </div>
     <div  
       class='stream__button__audio controle'
@@ -48,8 +50,8 @@ export default {
         const index = user.avatar;
         const col = 10
         const row = 10;
-        this.avatarX = -(index % col) * 55 + 'px';
-        this.avatarY = -Math.floor(index / row) * 55 + 'px';
+        this.avatarX = -(index % col) * 45 + 'px';
+        this.avatarY = -Math.floor(index / row) * 45 + 'px';
       }
     }
   },
@@ -74,9 +76,9 @@ export default {
 <style lang='sass'>
   @mixin icon {
     position: absolute;
-    bottom: calc(42% + 55px);
-    left: calc(1% + 13px);
-    width: 55px;
+    top: 1rem;
+    right: 1rem;
+    width: 45px;
     font-size: 2rem;
     text-align: center;
     cursor: pointer;
@@ -90,58 +92,67 @@ export default {
   }
 
   .stream {
-    position: relative;
+    position: absolute;
     display: inline-block;
     height: 100%;
     width: 100%;
-    overflow: hidden;
+    overflow: visible;
     z-index: 1;
+    &.emitter {
+      width: 33%;
+      height: 36%;
+      right: 0;
+      bottom: 0;
+      max-width: 300px;
+      max-height: 600px;
+      z-index: 2;
+    }
     video {
-      position: relative;
+      position: absolute;
       height: 100%;
       width: 100%;
       object-fit: cover;
     }
-    &.emitter {
-      position: absolute;
-      display: inline-block;
-      width: 36%;
-      height: 36%;
-      left: 1.5%;
-      bottom: 1.5%;
-      max-width: 600px;
-      max-height: 600px;
-      z-index: 2;
-    }
     &__profile {
       position: absolute;
       display: flex;
-      bottom: 38%;
-      left: 1.5%;
-      margin: 5px 5px;
+      align-items: start;
+      top: 0;
+      left: 0;
       color: white;
       text-shadow: 0 0 5px black;
-      align-items: center;
       &__avatar {
         display: inline-block;
-        margin-right: 10px;
-        width: 55px;
-        height: 55px;
-        background-size: 550px;
+        margin: 1rem;
+        width: 45px;
+        height: 45px;
+        background-size: 450px;
         background-repeat: no-repeat;
-        background-position: -55px -55px;
+        background-position: -45px -45px;
+        border-radius: 60px;
       }
       &__username {
         display: inline-block;
+        margin: 1rem 0px;
         font-size: 1.5rem;
+        width: 500px;
+        &.emitter {
+          text-align: right;
+        }
         @media (max-aspect-ratio: 8/5) {
           font-size: 1rem;
+          width: 250px;
+          &.emitter {
+            display: none;
+          }
         }
       }
       &.emitter {
-        left: 0;
-        top: 1%;
-        bottom: auto;
+        flex-direction: row-reverse;
+        align-items: flex-end;
+        left: inherit;
+        right: 0;
+        top: -70px;
       }
     }
 
@@ -151,16 +162,6 @@ export default {
     &:hover {
       .controle {
         display: block;
-      }
-    }
-
-    &.emitter {
-      .controle {
-        bottom: 20px;
-        left: 35px;
-      }
-      .stream__button__video {
-        left: 80px;
       }
     }
 
@@ -176,7 +177,7 @@ export default {
       }
       &__video {
         @include icon;
-        right: 80px;
+        right: 4rem;
         &.disabled:before {
           content: '\f4e2';
         }

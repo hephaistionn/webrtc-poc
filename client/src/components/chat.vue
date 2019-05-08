@@ -27,12 +27,11 @@ export default {
 
 <style lang='sass'>
   .chat {
-    position: absolute;
+    position: relative;
     display: inline-block;
-    width: 100%;
-    min-width: 345px;
-    height: calc(100% -  100px);
-    right: 0;
-    bottom: 0;
+    width: calc(100% - 151px);
+    min-width: 209px;
+    max-width: 467px;
+    height: 45px;
   }
 </style>

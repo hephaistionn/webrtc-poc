@@ -27,14 +27,15 @@ export default {
         this.$store.dispatch('sendMessage', mgs);
       }
       this.message = '';
-      this.$refs.textarea.style.height = "34px";
+      this.$refs.textarea.style.height = "45px";
     },
     autogrow : function () {
       if(!this.message) {
-        this.$refs.textarea.style.height = "34px";
+        this.$refs.textarea.style.height = "45px";
       } else {
         this.$refs.textarea.style.height = "5px";
-        this.$refs.textarea.style.height = (this.$refs.textarea.scrollHeight)+"px";
+        const height = Math.max(this.$refs.textarea.scrollHeight, 45);
+        this.$refs.textarea.style.height = height+"px";
       }
     }
   }
@@ -45,9 +46,9 @@ export default {
   .submitter {
     position: absolute;
     width: 100%;
-    max-width: 500px;
-    bottom: 0.9%;
-    right: 0.45%;
+    height: 100%;
+    bottom: 0;
+    right: 0;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -62,21 +63,25 @@ export default {
       min-height: 2rem;
       max-height: 100px;
       border: none;
-      margin: 0 0 5px 10px;
+      margin: 0 1rem;
+      height: 45px;
+      align-self: flex-end;
+      background: #ffffff6b;
       z-index: 3;
     }
     &__send {
       position: relative;
       display: inline-block;
-      margin: 0px 5px 5px 10px;
+      flex-basis: 45px;
+      flex-shrink: 0;
       border: none;
       background-color: transparent;
       background-image: url(./../../assets/icon.png);
       background-size: auto 100%;
       background-position-x: 100%;
-      width: 35px;
-      height: 35px;
-      z-index: 1;
+      width: 45px;
+      height: 45px;
+      z-index: 2;
     }
   }
 </style>

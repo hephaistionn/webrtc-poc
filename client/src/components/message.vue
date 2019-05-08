@@ -19,20 +19,16 @@ export default {
 <style lang='sass'>
   .message {
     display: block;
-    margin: 0 0;
-    max-width: 33%;
-    align-self: flex-end;
+    margin-top: 1rem;
     &__author {
       margin: 5px;
       font-size: 0.8rem;
       color: white;
       text-shadow: 0 0 3px black;
+      display: none;
     }
 
     @media (min-aspect-ratio: 8/5) {
-      .message {
-        margin: 6px 0;
-      }
       .message__content {
         padding: 0.8rem;
         font-size: 1.4rem;
@@ -46,16 +42,14 @@ export default {
       padding: 0.5rem;
       font-size: 0.9rem;
       border-radius: 12px;
-      background: #45c0d6;
+      background: rgba(0, 0, 0, 0.3);
       color: white;
+      display: inline-block;
     }
     &.current {
       .message__content {
         text-align: right;
-        background: #40c0d0;
-      }
-      .message__author {
-        text-align: right;
+        background: rgba(1, 172, 202, 0.2);
       }
     }
   }
