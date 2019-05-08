@@ -101,16 +101,22 @@ export default {
       align-items: center;
       justify-content: center;
       flex-direction: column;
+      background-image: url(./../../assets/banner.png);
       &__title {
         position: relative;
         font-size: 2.3rem;
         text-align: center;
+        font-weight: bold;
+        color: #ff5f02;
+        text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
       }
       &__helper {
         position: relative;
         display: block;
         margin: 30px;
-        font-size: 1.5rem;
+        font-size: 1.4rem;
+        color: #020067;
+        text-shadow: 0 0 9px #f7f7f7;
       }
       &__profile {
         position: relative;
@@ -118,7 +124,7 @@ export default {
         display: flex;
         flex-wrap: wrap;
         width: 324px;
-        background: #a7a1a1;
+        background: #ff5f02;
         padding: 10px;
         border-radius: 5px;
         &__start {
@@ -126,6 +132,8 @@ export default {
           display: inline-block;
           cursor: pointer;
           font-size: 1.4rem;
+          background: #ffdd01;
+          border: solid #ffa901;
         }
         &__input {
           position: relative;
