@@ -98,7 +98,7 @@ export default {
       const part2 = this.computedList.slice(startIndexMid);
       const index = startIndexMid + part2.map(a=>a.id).indexOf(clientId);
       let screenMid;
-      if(window.innerHeight > window.innerWidth) {
+      if(window.innerWidth/window.innerHeight < 8/5) {
         screenMid = Math.floor(this.$refs.screen.offsetHeight/2);
       } else {
         screenMid = Math.floor(this.$refs.screen.offsetWidth/2);
@@ -107,7 +107,7 @@ export default {
       this.moveTarget(offset);
     },
     moveTarget: function(offset) {
-      if(window.innerHeight > window.innerWidth) {
+      if(window.innerWidth/window.innerHeight < 8/5) {
         this.translate = `translate(0px,${offset}px)`;
       } else {
         this.translate = `translate(${offset}px,0px)`;
@@ -211,7 +211,7 @@ export default {
         background-color: #87c9ff;
       }
     }
-    @media (max-aspect-ratio: 1/1) {
+    @media (max-aspect-ratio: 8/5) {
       .roulette__container {
         top: 0;
         left: calc(50% - 60px);

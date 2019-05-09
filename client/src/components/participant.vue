@@ -68,7 +68,7 @@ export default {
       border: solid 2px #87c9ff;
       border-left-width: 1px;
       border-right-width: 1px;
-      @media (max-aspect-ratio: 1/1) {
+      @media (max-aspect-ratio: 8/5) {
         border-bottom-width: 1px;
         border-top-width: 1px;
       }

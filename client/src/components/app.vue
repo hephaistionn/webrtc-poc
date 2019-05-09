@@ -71,7 +71,7 @@ export default {
       // background-image: url(./../../assets/ads.jpg);
       // background-size: 40px;
     }
-    @media (max-aspect-ratio: 1/1) {
+    @media (max-aspect-ratio: 8/5) {
       .screen {
         width: 100%;
         height: 90%;

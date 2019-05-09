@@ -139,7 +139,7 @@ export default {
         &.emitter {
           text-align: right;
         }
-        @media (max-aspect-ratio: 1/1) {
+        @media (max-aspect-ratio: 8/5) {
           font-size: 1rem;
           width: 250px;
           &.emitter {
