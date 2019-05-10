@@ -8,7 +8,7 @@
       <avatar
         class='home__profile__avatar'
         v-bind:avatar='avatar'
-        v-on:click='edit = true'/>
+        v-on:click.native='edit = true'/>
       <div class='home__profile__username'> 
         <input v-model='username' maxlength='40'>
         <div class='icon'></div>
@@ -23,8 +23,8 @@
         <div class='home__profile__sexe__v3 icon' v-on:click='sexe = 3' v-bind:class='{selected: sexe===3}'></div>
       </div>
       <button class='home__profile__start' v-on:click='start'>start</button>
-      <avatars v-if='edit' @select="select"/>
     </div>
+    <avatars v-show='edit' @select="select"/>
   </div>
 </template>
 
@@ -91,12 +91,6 @@ export default {
 </script>
 
 <style lang='sass'>
-    :root {
-      --color1: #ffcd15;
-      --color2: #22262A;
-      --selected: #000;
-    }
-    
     .home {
       position: absolute;
       width: 100%;
@@ -171,6 +165,14 @@ export default {
           left: calc(50% - 64px);
           border-radius: 70px;
           border: solid 5px var(--color1);
+          cursor: pointer;
+
+          width: 120px;
+          height: 120px;
+          margin-right: 10px;
+          background-size: 1200px;
+          background-repeat: no-repeat;
+          background-position: -120px -120px;
         }
         &__username {
           position: relative;

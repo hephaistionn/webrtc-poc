@@ -43,6 +43,11 @@ export default {
 </script>
 
 <style lang='sass'>
+  :root {
+    --color1: #ffcd15;
+    --color2: #22262A;
+    --selected: #000;
+  }
   body {
     margin: 0;
   }
