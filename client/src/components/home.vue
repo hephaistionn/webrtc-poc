@@ -1,7 +1,8 @@
 <template>
   <div class='home'>
     <div class='home__header'>
-      <div class='home__header__title'>CHATROULETTE.IO</div>
+      <div class='home__header__pic'></div>
+      <div class='home__header__title'>CAMROULETTE</div>
     </div>
     <div class='home__profile'>
       <avatar
@@ -90,28 +91,44 @@ export default {
 </script>
 
 <style lang='sass'>
+    :root {
+      --color1: #d4a366;
+      --color2: #22262A;
+    }
+    
     .home {
       position: absolute;
       width: 100%;
       height: 100%;
-      background: black;
+      background: #22262A;
       &__header {
         position: relative;
         display: flex;
         justify-content: center;
         flex-direction: column;
         width: 100%;
-        height: 33%;
-        min-height: 200px;
-        background-color: #ffffff;
-        background-image: url(./../../assets/banner4.png);
+        min-height: 250px;
+        background-color: #fbd8b5;
+        border-bottom: solid 9px #d4a366;
+        &__pic {
+          position:absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-image: url(./../../assets/banner6.png);
+          background-size: cover;
+          filter: blur(3px);
+          opacity: 0.3;
+        }
         &__title {
           position: relative;
-          font-size: 2.0rem;
+          font-size: 1.5rem;
           text-align: center;
           font-weight: bold;
-          color: #ffffff;
-          text-shadow: 2px 0 0 #3bb8ff, -2px 0 0 #3bb8ff, 0 2px 0 #3bb8ff, 0 -2px 0 #3bb8ff, 1px 1px #3bb8ff, -1px -1px 0 #3bb8ff, 1px -1px 0 #3bb8ff, -1px 1px 0 #3bb8ff;
+          color: #fff;
+          text-shadow: 3px 0 0 var(--color2), -3px 0 0 var(--color2), 0 3px 0 var(--color2), 0 -3px 0 var(--color2), 2px 2px var(--color2), -2px -2px 0 var(--color2), 2px -2px 0 var(--color2), -2px 2px 0 var(--color2);
+          font-family: 'Xirod';
         }
       }
       &__profile {
@@ -130,6 +147,7 @@ export default {
           padding-left: 3rem;
           width: 100%;
           border-radius: 10px;
+          border: solid 4px var(--color1);
         }
         .icon {
             position: absolute;
@@ -140,16 +158,17 @@ export default {
         }
         &__avatar {
           position: absolute;
-          top: -60px;
-          left: calc(50% - 60px);
+          top: -63px;
+          left: calc(50% - 64px);
           border-radius: 70px;
+          border: solid 8px var(--color1);
         }
         &__username {
           position: relative;
           display: block;
           width: 100%;
           height: 41px;
-          margin: 3rem 0 0 0;
+          margin: 5rem 0 0 0;
           .icon {
             &:before {
               content: '\f007';
@@ -159,7 +178,7 @@ export default {
         &__age {
           position: relative;
           display: block;
-          width: 110px;
+          width: 105px;
           height: 41px;
           margin: 2rem 3rem 0 0;
           .icon {
@@ -171,19 +190,20 @@ export default {
         &__sexe {
           position: relative;
           display: block;
-          height: 41px;
+          height: 37px;
           margin: 2rem 0 0 0;
           background: white;
           border-radius: 10px;
+          border: solid 4px var(--color1);
           .icon {
             position: relative;
             display: inline-block;
             top: inherit;
             left: inherit;
-            margin: 9px 10px;
+            margin: 6px 8px;
           }
           .selected {
-            color: #3bb8ff;
+            color: var(--color1);
           }
           &__v1 {
             &.icon{
@@ -213,9 +233,9 @@ export default {
           width: 168px;
           cursor: pointer;
           font-size: 1.4rem;
-          background: #3bb8ff;
+          background: var(--color1);
           color: white;
-          margin: 60px auto 0 auto;
+          margin: 30px auto 0 auto;
           padding: 6px 5px;
           border-radius: 20px;
         }

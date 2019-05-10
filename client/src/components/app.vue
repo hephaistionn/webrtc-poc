@@ -97,6 +97,10 @@ export default {
     background-image: url('./../../assets/avatars.png');
   }
 
+ @font-face {
+    font-family: 'Xirod';
+    src: url('./../../assets/xirod.ttf'); 
+  }
   @font-face {
     font-family: 'Font Awesome 5 Free';
     font-style: normal;
