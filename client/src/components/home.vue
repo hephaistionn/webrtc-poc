@@ -92,8 +92,9 @@ export default {
 
 <style lang='sass'>
     :root {
-      --color1: #d4a366;
+      --color1: #ffcd15;
       --color2: #22262A;
+      --selected: #000;
     }
     
     .home {
@@ -108,27 +109,35 @@ export default {
         flex-direction: column;
         width: 100%;
         min-height: 250px;
-        background-color: #fbd8b5;
-        border-bottom: solid 9px #d4a366;
+        background-color: #fff9f2;
+        border-bottom: solid 5px var(--color1);
         &__pic {
           position:absolute;
           top: 0;
           left: 0;
           width: 100%;
           height: 100%;
-          background-image: url(./../../assets/banner6.png);
+          background-image: url(./../../assets/people4.jpg);
           background-size: cover;
-          filter: blur(3px);
-          opacity: 0.3;
+          // filter: blur(3px);
+          opacity: 0.8;
         }
         &__title {
           position: relative;
-          font-size: 1.5rem;
+          font-size: 2.3rem;
           text-align: center;
           font-weight: bold;
           color: #fff;
           text-shadow: 3px 0 0 var(--color2), -3px 0 0 var(--color2), 0 3px 0 var(--color2), 0 -3px 0 var(--color2), 2px 2px var(--color2), -2px -2px 0 var(--color2), 2px -2px 0 var(--color2), -2px 2px 0 var(--color2);
           font-family: 'Xirod';
+        }
+        @media (max-aspect-ratio: 1/1) {
+          .home__header__pic {
+            background-position-x: -173px;
+          }
+          .home__header__title {
+            font-size: 1.5rem;
+          }
         }
       }
       &__profile {
@@ -154,14 +163,14 @@ export default {
             top: 8px;
             left: 8px;
             font-size: 1.5rem;
-            color: black;
+            color: var(--color1);
         }
         &__avatar {
           position: absolute;
-          top: -63px;
+          top: -68px;
           left: calc(50% - 64px);
           border-radius: 70px;
-          border: solid 8px var(--color1);
+          border: solid 5px var(--color1);
         }
         &__username {
           position: relative;
@@ -178,9 +187,12 @@ export default {
         &__age {
           position: relative;
           display: block;
-          width: 105px;
+          width: calc(50% - 1.5rem);
           height: 41px;
           margin: 2rem 3rem 0 0;
+          input {
+            padding-left: 43%;
+          }
           .icon {
             &:before {
               content: '\f1fd';
@@ -189,11 +201,15 @@ export default {
         }
         &__sexe {
           position: relative;
-          display: block;
-          height: 37px;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          height: 46px;
           margin: 2rem 0 0 0;
           background: white;
           border-radius: 10px;
+          width: calc(50% - 1.5rem);
+          box-sizing: border-box;
           border: solid 4px var(--color1);
           .icon {
             position: relative;
@@ -203,7 +219,7 @@ export default {
             margin: 6px 8px;
           }
           .selected {
-            color: var(--color1);
+            color: var(--selected);
           }
           &__v1 {
             &.icon{
@@ -230,14 +246,15 @@ export default {
         &__start {
           position: relative;
           display: inline-block;
-          width: 168px;
+          width: 100%;
           cursor: pointer;
-          font-size: 1.4rem;
+          font-size: 1.6rem;
           background: var(--color1);
-          color: white;
-          margin: 30px auto 0 auto;
-          padding: 6px 5px;
-          border-radius: 20px;
+          margin: 35px auto 0 auto;
+          padding: 5px 5px 8px 5px;
+          border-radius: 10px;
+          border: none;
+          text-transform: uppercase;
         }
       }
   }
