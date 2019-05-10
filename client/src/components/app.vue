@@ -104,7 +104,7 @@ export default {
     src: url('./../../assets/fa-solid-900.woff2') format('woff2'), url('./../../assets/fa-solid-900.woff') format('woff'); 
   }
 
-  @mixin icon {
+  .icon {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     font-style: normal;
@@ -113,5 +113,6 @@ export default {
     font-family: 'Font Awesome 5 Free';
     margin: 0 5px;
     cursor: pointer;
+    color: gray;
   }
 </style>
