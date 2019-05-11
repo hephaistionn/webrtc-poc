@@ -63,29 +63,43 @@ export default {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    background: var(--color2);
     .screen {
-      position: relative;
+      position: absolute;
       display: inline-block;
+      top: 0;
+      left: 10%;
       width: 80%;
       height: 100%;
+      margin: 0;
     }
     .adv {
-      position: relative;
+      position: absolute;
       display: inline-block;
       height: 100%;
-      width: calc(10% - 5px);
+      width: 10%;
+      top: 0;
+      left: 0;
+      margin: 0;
       background-color: var(--color2);
-      // background-image: url(./../../assets/ads.jpg);
-      // background-size: 40px;
+      background-image: url(./../../assets/ads.jpg);
+      background-size: 40px;
+      &.large {
+        left: 90%;
+      }
     }
     @media (max-aspect-ratio: 8/5) {
       .screen {
+        top: 0;
+        left: 0;
         width: 100%;
         height: 90%;
       }
       .adv {
+        top: 90%;
+        left: 0;
         width: 100%;
-        height: calc(10% - 5px);
+        height: 10%;
         &.large {
           display: none;
         }
@@ -101,7 +115,7 @@ export default {
   }
 
   .avatar {
-    background-image: url('./../../assets/avatars.png');
+    background-image: url('./../../assets/avatars.jpg');
   }
 
  @font-face {

@@ -68,6 +68,7 @@ export default {
         height: 100%;
         background-color: var(--color2);
         overflow: hidden scroll;
+        z-index: 2;
         &__container {
           display: flex;
           align-items: center;

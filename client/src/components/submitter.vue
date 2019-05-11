@@ -67,7 +67,7 @@ export default {
       margin: 0 1rem;
       height: 45px;
       align-self: flex-end;
-      background: #3bb8ff54;
+      background: #ffffff;
       color: white;
       z-index: 3;
     }

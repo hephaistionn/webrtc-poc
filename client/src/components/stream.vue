@@ -82,7 +82,7 @@ export default {
     font-size: 2rem;
     text-align: center;
     cursor: pointer;
-    color: #3bb8ff;
+    color: var(--color1);
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     font-style: normal;
