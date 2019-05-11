@@ -1,5 +1,5 @@
 <template>
-  <div class='app'>
+  <div class='app' v-bind:class='{live: $store.state.status === 1}'>
     <div class='adv'></div>
     <div class='screen'>
       <home 
@@ -90,13 +90,13 @@ export default {
     }
     @media (max-aspect-ratio: 8/5) {
       .screen {
-        top: 0;
+        top: 10%;
         left: 0;
         width: 100%;
         height: 90%;
       }
       .adv {
-        top: 90%;
+        top: 0;
         left: 0;
         width: 100%;
         height: 10%;

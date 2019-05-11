@@ -68,8 +68,9 @@ export default {
       height: 45px;
       align-self: flex-end;
       background: #ffffff;
-      color: white;
+      color: var(--color2);
       z-index: 3;
+      border: solid 4px var(--color1);
     }
     &__send {
       position: relative;

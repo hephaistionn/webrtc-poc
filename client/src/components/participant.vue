@@ -52,8 +52,8 @@ export default {
       top: 0px;
       left: 0px;
       width: 112px;
-      background-color: #ffffff5c;
-      color: #00335d;
+      background-color: #ffcd15ba;
+      color: var(--color2);
       padding: 4px;
       white-space: normal;
     }

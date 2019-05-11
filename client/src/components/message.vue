@@ -49,7 +49,7 @@ export default {
     &.current {
       .message__content {
         text-align: right;
-        background: rgba(1, 172, 202, 0.2);
+        background: rgba(255, 255, 255, 0.2);
       }
     }
   }
