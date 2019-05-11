@@ -23,7 +23,7 @@ export default {
     &__author {
       margin: 5px;
       font-size: 0.8rem;
-      color: white;
+      color: var(--color2);
       text-shadow: 0 0 3px black;
       display: none;
     }
@@ -49,7 +49,7 @@ export default {
     &.current {
       .message__content {
         text-align: right;
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 205, 22, 0.5)
       }
     }
   }

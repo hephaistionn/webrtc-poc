@@ -5,8 +5,7 @@
       <div class='roulette__list' 
         v-bind:style='{transform: translate}'>
           <participant 
-            v-bind:username='item.username'
-            v-bind:avatar='item.avatar'
+            v-bind:profile='item'
             :key='index' v-for='(item, index) in computedList'/>
       </div>
     </div>
@@ -95,7 +94,7 @@ export default {
   methods: {
     ...mapActions(['cancel']),
     roulette : function(clientId) {
-      const tileSize = 120;
+      const tileSize = 120 + 8; //border + margin
       const startIndexMid = Math.floor(this.computedList.length/2);
       const part2 = this.computedList.slice(startIndexMid);
       const index = startIndexMid + part2.map(a=>a.id).indexOf(clientId);
@@ -161,9 +160,9 @@ export default {
     &__container {
       display: inline-block;
       position: absolute;
-      top: calc(50% - 60px);
+      top: calc(50% - 64px);
       left: 0;
-      height: 120px;
+      height: 128px;
       width: 100%;
       overflow: hidden;
       box-sizing: border-box;
@@ -179,10 +178,10 @@ export default {
     }
     &__focus {
       position: absolute;
-      top: calc(50% - 60px);
-      left: calc(50% - 60px);
-      width: 120px;
-      height: 120px;
+      top: calc(50% - 75px);
+      left: calc(50% - 75px);
+      width: 150px;
+      height: 150px;
       z-index: 2;
       box-sizing: border-box;
       &__pointer1{
@@ -213,9 +212,9 @@ export default {
     @media (max-aspect-ratio: 8/5) {
       .roulette__container {
         top: 0;
-        left: calc(50% - 60px);
+        left: calc(50% - 62px);
         height: 100%;
-        width: 120px;
+        width: 128px;
       }
       .roulette__list {
         display: inline-block;

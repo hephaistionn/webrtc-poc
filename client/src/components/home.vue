@@ -59,12 +59,14 @@ export default {
       if(user) {
         this.avatar = user.avatar;
         this.username = user.username;
+        this.age = user.age;
+        this.sexe = user.sexe;
       }
     }
   },
   methods: {
     start: function() {
-      this.$store.dispatch('start', {username: this.username, avatar: this.avatar })
+      this.$store.dispatch('start', {username: this.username, avatar: this.avatar, age: this.age, sexe: this.sexe});
     },
     select: function(index) {
       this.avatar = index;
@@ -218,6 +220,7 @@ export default {
             top: inherit;
             left: inherit;
             margin: 6px 8px;
+            cursor: pointer;
           }
           .selected {
             color: var(--selected);

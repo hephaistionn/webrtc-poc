@@ -47,6 +47,7 @@ export default {
   :root {
     --color1: #ffcd15;
     --color2: #22262A;
+    --color3: #5eeaf3;
     --selected: #000;
   }
   body {
@@ -137,7 +138,5 @@ export default {
     text-rendering: auto;
     font-family: 'Font Awesome 5 Free';
     margin: 0 5px;
-    cursor: pointer;
-    color: gray;
   }
 </style>

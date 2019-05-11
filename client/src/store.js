@@ -8,6 +8,8 @@ id = id ? id : new Uint8Array(10).reduce(id => id + Math.random().toString(36).s
 const usernameList = ['Ardal', 'Alvin', 'Justine', 'Pauline', 'Yaroslav', 'Bob', 'Terika', 'Carlene', 'Jetta', 'Toya'];
 const username = usernameList[Math.floor(Math.random() * usernameList.length * 0.99999)] + Math.floor(Math.random() * 99);
 const avatar = Math.floor(Math.random() * 99.99);
+const age = 25;
+const sexe = 1;
 const HOME = 0;
 const LIVE = 1;
 const WAITING = 2;
@@ -35,19 +37,10 @@ const store =  new Vuex.Store({
   getters: {},
   actions: {
     initUser({commit, dispatch}) {
-      commit('setUser1', {username, avatar, id});
+      commit('setUser1', {username, avatar, id, age, sexe});
       dispatch('startCam');
     },
     startCam({ commit }) {
-        /*navigator.getUserMedia({
-          video: true,
-          audio: true
-        }, stream => {
-          commit('setStream1', stream);
-          commit('setUser1', {username, avatar, id});
-        }, error => {
-          console.log(error);
-        });*/
       navigator.mediaDevices.getUserMedia({
         video: true,
         audio: true
@@ -69,7 +62,14 @@ const store =  new Vuex.Store({
       if(state.socket) {
         state.socket.disconnect();
       }
-      const socket = io.connect('', { query: state.user1 });
+      const sep = '¨^*';
+      const userId = state.user1.id;
+      const username = state.user1.username;
+      const avatar = state.user1.avatar;
+      const age = state.user1.age;
+      const sexe = state.user1.sexe;
+      const userData = `${username}${sep}${avatar}${sep}${age}${sep}${sexe}`;
+      const socket = io.connect('', { query: {userId, userData} });
       socket.on('stream2Signal', (signal) => {
         commit('setSignal2', signal);
       });
@@ -77,7 +77,18 @@ const store =  new Vuex.Store({
         commit('setSignal1', signal);
       });
       socket.on('room_started', async (profile) => {
-        commit('setUser2', profile);
+        const datas = profile.userData.split(sep);
+        const username = datas[0]||'unknown';
+        const avatar = datas[1]||0;
+        const age = datas[2]||99;
+        const sexe = datas[3]||3;
+        commit('setUser2', {
+          username: username,
+          avatar:  parseInt(avatar, 10),
+          age:  parseInt(age, 10),
+          sexe:  parseInt(sexe, 10),
+          id: profile.id
+        });
         await dispatch('initPeers');
         await dispatch('initPeersListener');
         setTimeout(async ()=> {
@@ -86,11 +97,18 @@ const store =  new Vuex.Store({
       });
       socket.on('waitingList_updated', (waitingList) => {
         const list = [];
-        for(let i=0; i<waitingList.length; i++) {
+        for(let id in waitingList) {
+          const datas = waitingList[id].split(sep);
+          const username = datas[0]||'unknown';
+          const avatar = datas[1]||0;
+          const age = datas[2]||99;
+          const sexe = datas[3]||3;
           list.push({
-            username: waitingList.usernameList[i],
-            avatar:  parseInt(waitingList.avatarList[i], 10),
-            id: waitingList.cientIdList[i]
+            username: username,
+            avatar:  parseInt(avatar, 10),
+            age:  parseInt(age, 10),
+            sexe:  parseInt(sexe, 10),
+            id
           });
         }
         commit('updateWaitingList', list);
@@ -189,7 +207,7 @@ const store =  new Vuex.Store({
           if(state.stack.length) {
             dispatch('depilator'); 
           }
-      }, 6000);
+      }, 30000);
     }
   },
   mutations: {
@@ -222,7 +240,7 @@ const store =  new Vuex.Store({
     },
     addMessage1(state, message) {
       state.stack.push({author: 1, content: message});
-      if(state.stack.length>4) {
+      if(state.stack.length>6) {
         state.stack.splice(0, 1);
       }
     },
@@ -259,7 +277,9 @@ const store =  new Vuex.Store({
         state.user1 = {
           username: user.username,
           avatar: user.avatar,
-          id: user.id || state.user1.id
+          id: user.id || state.user1.id,
+          sexe: user.sexe,
+          age: user.age
         };
       } else {
         state.user1 = user;
@@ -270,7 +290,9 @@ const store =  new Vuex.Store({
         state.user2 = {
           username: user.username,
           avatar: user.avatar,
-          id: user.id
+          id: user.id,
+          sexe: user.sexe,
+          age: user.age
         };
       } else {
         state.user2 = user;

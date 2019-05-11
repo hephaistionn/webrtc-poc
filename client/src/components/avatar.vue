@@ -44,6 +44,5 @@ export default {
         background-size: 1200px;
         background-repeat: no-repeat;
         background-position: -120px -120px;
-        cursor: pointer;
     }   
 </style>

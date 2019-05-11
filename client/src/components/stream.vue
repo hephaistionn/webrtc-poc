@@ -38,7 +38,7 @@ export default {
     stream: function(newVal, oldVal) {
       this.$refs.videoRef.srcObject = newVal;
       if (this.emitter) {
-        this.$refs.videoRef.volume = 0;
+        this.$refs.videoRef.volume = 1;
       } else {
         this.$refs.videoRef.volume = 1;
       }

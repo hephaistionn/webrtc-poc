@@ -1,21 +1,13 @@
 const socketio = require('socket.io');
 
-const avatars = new Map();
-const usernames = new Map();
+let waitingList = {};
 const rooms = new Map();
-
-const waintingRoomSize = 2;
-let waitingList = [];
 
 module.exports = function socket(serveur) {
     const io = socketio(serveur);
-
     io.on('connection', (socket) => {
-        const clientId = socket.handshake.query.id;
-        const username = socket.handshake.query.username;
-        const avatar = socket.handshake.query.avatar;
-        usernames.set(clientId, username);
-        avatars.set(clientId, avatar);
+        const clientId = socket.handshake.query.userId;
+        waitingList[clientId] = socket.handshake.query.userData;
         socket.join(clientId);
         socket.join('waitingRoom');
 
@@ -32,8 +24,7 @@ module.exports = function socket(serveur) {
 
         socket.on('disconnect', function () {
             rooms.delete(clientId);
-            usernames.delete(clientId);
-            avatars.delete(clientId);
+            delete waitingList[clientId];
             updateWaitingList();
         });
 
@@ -42,38 +33,28 @@ module.exports = function socket(serveur) {
     });
 
     function rouletteProcess() {
-        const length = waitingList.length;
-        if (waitingList.length >= waintingRoomSize && waitingList.length % 2 === 0) {
-            waitingList.sort(function () { return 0.5 - Math.random() });
+        const length = Object.keys(waitingList).length
+        const waintingRoomSize = 2;
+        if (length >= waintingRoomSize && length % 2 === 0) {
+            const ids = [];
+            for (let cliId in waitingList) {
+                ids.push(cliId);
+            }
+            ids.sort(function () { return 0.5 - Math.random() });
             for (let i = 0; i < length; i += 2) {
-                const client1 = waitingList[i];
-                const client2 = waitingList[i + 1];
+                const client1 = ids[i];
+                const client2 = ids[i + 1];
                 rooms.set(client1, client2);
                 rooms.set(client2, client1);
-                io.sockets.to(client1).emit('room_started', {username: usernames.get(client2), avatar: avatars.get(client2), id: client2});
-                io.sockets.to(client2).emit('room_started', {username: usernames.get(client1), avatar: avatars.get(client1), id: client1});
-                usernames.delete(client1);
-                usernames.delete(client2)
-                avatars.delete(client1);
-                avatars.delete(client2);
+                io.sockets.to(client1).emit('room_started', {userData: waitingList[client2], id: client2});
+                io.sockets.to(client2).emit('room_started', {userData: waitingList[client1], id: client1});
             }
+            waitingList = {};
         }
     }
 
     function updateWaitingList() {
-        cientIdList = [];
-        usernameList = [];
-        avatarList = [];
-        for (let [id, username] of usernames) {
-            cientIdList.push(id);
-            usernameList.push(username);
-            avatarList.push(avatars.get(id));
-        }
-        waitingList = cientIdList;
-        
-        io.sockets.to('waitingRoom').emit('waitingList_updated', {
-            usernameList, avatarList, cientIdList, length: cientIdList.length
-        });
+        io.sockets.to('waitingRoom').emit('waitingList_updated', waitingList);
     }
 
 };
