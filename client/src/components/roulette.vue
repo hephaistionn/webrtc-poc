@@ -1,5 +1,6 @@
 <template>
   <div class='roulette' ref='screen'>
+    <video v-show='show' ref='videoRef'></video>
     <div class='roulette__container' v-if='!live'>
       <div class='roulette__list' 
         v-bind:style='{transform: translate}'>
@@ -17,20 +18,15 @@
       <div 
         class='roulette__title'
         v-show='!target'>
-        WAITING FOR PARTICIPANTS
+        WAITING FOR PARTICIPANTS  {{participantIndicator}}
       </div>
       <div 
-        class='roulette__waiting'
-        v-show='!target'>
-        {{participantIndicator}}
-      </div>
-      <div 
-        class='roulette__starting' 
+        class='roulette__title' 
         v-show='target'>
         STARTING
       </div>
+      <button class='roulette__cancel button' @click='cancel' v-show='!target'>Cancel</button>
     </div>
-    <button class='roulette__cancel button' @click='cancel' v-show='!target'>Cancel</button>
   </div>
 </template>
 
@@ -42,7 +38,8 @@ export default {
   props: {
     list: Array,
     target: String,
-    show: Boolean
+    show: Boolean,
+    stream: Object
   },
   data() {
     return {
@@ -88,6 +85,11 @@ export default {
       } else {
         this.moveTarget(0);
       }
+    },
+    stream: function(stream) {
+      this.$refs.videoRef.srcObject = stream;
+      this.$refs.videoRef.muted = true;
+      this.$refs.videoRef.play();
     }
   },
   methods: {
@@ -123,47 +125,38 @@ export default {
     display: inline-block;
     width: 100%;
     height: 100%;
+    overflow: hidden;
     &__modal {
-      position: relative;
-      margin: 110px auto 0 auto;
-      padding: 1rem 0;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      padding: 0.5rem 1rem;
+      box-sizing: border-box;
       width: 100%;
-      max-width: 400px;
-      background-color: #008cff78;
+      background: var(--color2);
+      border-top: solid 5px var(--color1);
     }
     &__title {
       position: relative;
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       text-transform: UPPERCASE;
       text-align: center;
       color: white;
       margin: 0 0 0.5rem 0;
     }
-    &__waiting {
-      position: relative;
-      font-size: 1.2rem;
-      text-transform: UPPERCASE;
-      text-align: center;
-      color: white;
-    }
     &__cancel {
-      position: absolute;
-      bottom: 2rem;
-      left: calc(50% - 40px);
+      position: relative;
       display: block;
+      width: 70%;
       cursor: pointer;
-      font-size: 1.4rem;
-      background: transparent;
+      font-size: 1.6rem;
+      background: var(--color1);
+      margin: 1px auto 0 auto;
+      padding: 5px 5px 8px 5px;
+      border-radius: 10px;
       border: none;
-      color: #87c9ff;
-      margin: 0 auto;
-      margin-top: 14px;
-    }
-    &__starting {
-      font-size: 3rem;
-      text-transform: UPPERCASE;
-      text-align: center;
-      color: white;
+      text-transform: uppercase;
+      max-width: 210px;
     }
     &__container {
       display: inline-block;
@@ -199,7 +192,7 @@ export default {
         width: 100%;
         height: 15px;
         clip-path: polygon(50% 100%, 0 0, 100% 0);
-        background-color: #87c9ff;
+        background-color: var(--color1);
       }
       &__pointer2{
         position: absolute;
@@ -208,8 +201,14 @@ export default {
         width: 100%;
         height: 15px;
         clip-path: polygon(0 100%, 50% 0, 100% 100%);
-        background-color: #87c9ff;
+        background-color: var(--color1);
       }
+    }
+    video {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
     }
     @media (max-aspect-ratio: 8/5) {
       .roulette__container {
@@ -237,10 +236,6 @@ export default {
         width: 15px;
         height: 100%;
         clip-path: polygon(100% 100%, 100% 0, 0 50%);
-      }
-      .roulette__cancel {
-        left: 20px;
-        bottom: 13px;
       }
     }
   }

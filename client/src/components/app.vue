@@ -7,6 +7,7 @@
         v-bind:user='$store.state.user1'/>
       <roulette 
         v-show='$store.state.status === 2'
+        v-bind:stream='$store.state.stream1'
         v-bind:show='$store.state.status === 2'
         v-bind:list='$store.state.waitingList'
         v-bind:target='$store.state.user2'/>
@@ -73,6 +74,7 @@ export default {
       display: inline-block;
       height: 100%;
       width: calc(10% - 5px);
+      background-color: var(--color2);
       // background-image: url(./../../assets/ads.jpg);
       // background-size: 40px;
     }

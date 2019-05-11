@@ -71,7 +71,6 @@ export default {
       this.edit = false;
     }
   },
-  
   mounted() {
     this.editUsername = this.username;
     this.selectAvatar = this.avatar;

@@ -65,7 +65,7 @@ export default {
       background-repeat: no-repeat;
       background-position: -120px -120px;
       box-sizing: border-box;
-      border: solid 2px #87c9ff;
+      border: solid 2px var(--color2);
       border-left-width: 1px;
       border-right-width: 1px;
       @media (max-aspect-ratio: 8/5) {

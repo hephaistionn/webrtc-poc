@@ -121,7 +121,7 @@ export default {
       left: 0;
       color: white;
       text-shadow: 0 0 5px black;
-      &__avatar {
+      .avatar {
         display: inline-block;
         margin: 1rem;
         width: 45px;
