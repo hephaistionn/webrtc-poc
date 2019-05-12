@@ -32,12 +32,6 @@ export default {
   methods: {
     select: function(index) {
       this.$emit('select', index);
-    },
-    computeAvatar: function(index) {
-        const col = 10;
-        const row = 10;
-        this.avatarX = -(index % col) * 120 + 'px';
-        this.avatarY = -Math.floor(index / row) * 120 + 'px';
     }
   },
   
@@ -46,12 +40,13 @@ export default {
     this.selectAvatar = this.avatar;
     let x;
     let y;
+    const size = 120;
     const col = 10;
     const row = 10;
     const avatars = [];
     for (let i = 0; i < this.nbAvatars; i++) {
-      x = -(i % col) * 120 + 'px';
-      y = -Math.floor(i / row) * 120 + 'px';
+      x = -(i % col) * size + 'px';
+      y = -Math.floor(i / row) * size + 'px';
       avatars.push({ x, y });
     }
     this.avatars = avatars;
@@ -81,6 +76,7 @@ export default {
             transition: transform 300ms;
             box-sizing: border-box;
             border: solid 2px var(--color2);
+            cursor: pointer;
             &:hover {
               z-index:4;
               border: solid 2px var(--color1);

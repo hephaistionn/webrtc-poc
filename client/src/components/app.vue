@@ -1,5 +1,5 @@
 <template>
-  <div class='app' v-bind:class='{live: $store.state.status === 1}'>
+  <div class='app' v-bind:class="['v'+$store.state.status]">
     <div class='adv'></div>
     <div class='screen'>
       <home 
@@ -47,10 +47,12 @@ export default {
   :root {
     --color1: #ffcd15;
     --color2: #22262A;
+    --color3: #5eeaf3;
     --selected: #000;
   }
   body {
     margin: 0;
+    font-family: sans-serif;
   }
   .app {
     position: absolute;
@@ -104,6 +106,14 @@ export default {
           display: none;
         }
       }
+      &.v0 {
+        .screen {
+          top:0;
+        }
+        .adv {
+          top: 90%;
+        }
+      }
     }
   }
 
@@ -111,6 +121,12 @@ export default {
     cursor: pointer;
     &:hover {
       transform: scale(1.05);
+    }
+    &:disabled {
+      opacity: 0.6;
+      &:hover {
+        transform: scale(1);
+      }
     }
   }
 
@@ -136,8 +152,5 @@ export default {
     font-variant: normal;
     text-rendering: auto;
     font-family: 'Font Awesome 5 Free';
-    margin: 0 5px;
-    cursor: pointer;
-    color: gray;
   }
 </style>

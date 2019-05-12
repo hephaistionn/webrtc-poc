@@ -8,7 +8,7 @@
       </div>
       <div v-if='user'
         v-bind:class='{emitter: emitter}'
-        class='stream__profile__username'>{{ user.username }}</div>
+        class='stream__profile__username'>{{ user.username + ' ' + user.age }}</div>
     </div>
     <div  
       class='stream__button__audio controle'
@@ -103,9 +103,15 @@ export default {
       height: 36%;
       right: 0;
       bottom: 0;
-      max-width: 300px;
+      max-width: 500px;
       max-height: 600px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
       z-index: 2;
+      video {
+        position: relative;
+      }
     }
     video {
       position: absolute;
@@ -116,11 +122,9 @@ export default {
     &__profile {
       position: absolute;
       display: flex;
-      align-items: start;
+      align-items: center;
       top: 0;
       left: 0;
-      color: white;
-      text-shadow: 0 0 5px black;
       .avatar {
         display: inline-block;
         margin: 1rem;
@@ -130,12 +134,14 @@ export default {
         background-repeat: no-repeat;
         background-position: -45px -45px;
         border-radius: 60px;
+        border: solid 2px var(--color1);
       }
       &__username {
         display: inline-block;
-        margin: 1rem 0px;
         font-size: 1.5rem;
         width: 500px;
+        color: var(--color1);
+        text-shadow: 0 0 5px var(--color2);
         &.emitter {
           text-align: right;
         }
@@ -149,7 +155,6 @@ export default {
       }
       &.emitter {
         flex-direction: row-reverse;
-        align-items: flex-end;
         left: inherit;
         right: 0;
         top: -70px;

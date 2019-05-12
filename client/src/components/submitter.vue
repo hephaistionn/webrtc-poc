@@ -58,7 +58,7 @@ export default {
       flex-grow: 5;
       font-size: 1.4rem;
       line-height: 2rem;
-      padding: 6px;
+      padding: 3px;
       resize: none;
       overflow: hidden;
       min-height: 2rem;

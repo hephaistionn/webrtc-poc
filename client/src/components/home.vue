@@ -14,7 +14,7 @@
         <div class='icon'></div>
       </div>
       <div class='home__profile__age'> 
-        <input v-model='age' maxlength='3' type="number" min=18 max=120>
+        <input v-model='age' maxlength='3' type="number" min=0 max=999>
         <div class='icon'></div>
       </div>
       <div class='home__profile__sexe'>
@@ -22,7 +22,7 @@
         <div class='home__profile__sexe__v2 icon' v-on:click='sexe = 2' v-bind:class='{selected: sexe===2}'></div>
         <div class='home__profile__sexe__v3 icon' v-on:click='sexe = 3' v-bind:class='{selected: sexe===3}'></div>
       </div>
-      <button class='home__profile__start' v-on:click='start'>start</button>
+      <button class='home__profile__start' v-on:click='start'  v-bind:disabled="age<18">start</button>
     </div>
     <avatars v-show='edit' @select="select"/>
   </div>
@@ -59,12 +59,14 @@ export default {
       if(user) {
         this.avatar = user.avatar;
         this.username = user.username;
+        this.age = user.age;
+        this.sexe = user.sexe;
       }
     }
   },
   methods: {
     start: function() {
-      this.$store.dispatch('start', {username: this.username, avatar: this.avatar })
+      this.$store.dispatch('start', {username: this.username, avatar: this.avatar, age: this.age, sexe: this.sexe});
     },
     select: function(index) {
       this.avatar = index;
@@ -178,7 +180,7 @@ export default {
           display: block;
           width: 100%;
           height: 41px;
-          margin: 5rem 0 0 0;
+          margin: 4rem 0 0 0;
           .icon {
             &:before {
               content: '\f007';
@@ -218,6 +220,7 @@ export default {
             top: inherit;
             left: inherit;
             margin: 6px 8px;
+            cursor: pointer;
           }
           .selected {
             color: var(--selected);
@@ -249,10 +252,10 @@ export default {
           display: inline-block;
           width: 100%;
           cursor: pointer;
-          font-size: 1.6rem;
+          font-size: 1.5rem;
           background: var(--color1);
           margin: 35px auto 0 auto;
-          padding: 5px 5px 8px 5px;
+          padding: 7px 5px 8px 5px;
           border-radius: 10px;
           border: none;
           text-transform: uppercase;

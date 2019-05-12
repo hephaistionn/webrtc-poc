@@ -5,14 +5,12 @@
       <div class='roulette__list' 
         v-bind:style='{transform: translate}'>
           <participant 
-            v-bind:username='item.username'
-            v-bind:avatar='item.avatar'
+            v-bind:profile='item'
             :key='index' v-for='(item, index) in computedList'/>
       </div>
     </div>
     <div class='roulette__focus' v-show='!live && target'>
       <div class='roulette__focus__pointer1'></div>
-      <div class='roulette__focus__pointer2'></div>
     </div>
     <div class='roulette__modal'>
       <div 
@@ -95,7 +93,7 @@ export default {
   methods: {
     ...mapActions(['cancel']),
     roulette : function(clientId) {
-      const tileSize = 120;
+      const tileSize = 120 + 8; //border + margin
       const startIndexMid = Math.floor(this.computedList.length/2);
       const part2 = this.computedList.slice(startIndexMid);
       const index = startIndexMid + part2.map(a=>a.id).indexOf(clientId);
@@ -138,7 +136,7 @@ export default {
     }
     &__title {
       position: relative;
-      font-size: 1.3rem;
+      font-size: 1.1rem;
       text-transform: UPPERCASE;
       text-align: center;
       color: white;
@@ -152,7 +150,7 @@ export default {
       font-size: 1.6rem;
       background: var(--color1);
       margin: 1px auto 0 auto;
-      padding: 5px 5px 8px 5px;
+      margin: 11px auto 7px auto;
       border-radius: 10px;
       border: none;
       text-transform: uppercase;
@@ -161,9 +159,9 @@ export default {
     &__container {
       display: inline-block;
       position: absolute;
-      top: calc(50% - 60px);
+      top: calc(50% - 64px);
       left: 0;
-      height: 120px;
+      height: 128px;
       width: 100%;
       overflow: hidden;
       box-sizing: border-box;
@@ -179,10 +177,10 @@ export default {
     }
     &__focus {
       position: absolute;
-      top: calc(50% - 60px);
-      left: calc(50% - 60px);
-      width: 120px;
-      height: 120px;
+      top: calc(50% - 90px);
+      left: calc(50% - 90px);
+      width: 180px;
+      height: 180px;
       z-index: 2;
       box-sizing: border-box;
       &__pointer1{
@@ -213,9 +211,9 @@ export default {
     @media (max-aspect-ratio: 8/5) {
       .roulette__container {
         top: 0;
-        left: calc(50% - 60px);
+        left: calc(50% - 62px);
         height: 100%;
-        width: 120px;
+        width: 128px;
       }
       .roulette__list {
         display: inline-block;
