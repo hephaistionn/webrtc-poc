@@ -105,7 +105,7 @@ export default {
         width: 100%;
         min-height: 250px;
         background-color: #fff9f2;
-        border-bottom: solid 5px var(--color1);
+        border-bottom: solid 3px var(--color1);
         &__pic {
           position:absolute;
           top: 0;
@@ -151,7 +151,7 @@ export default {
           padding-left: 3rem;
           width: 100%;
           border-radius: 10px;
-          border: solid 4px var(--color1);
+          border: solid 3px var(--color1);
         }
         .icon {
             position: absolute;
@@ -163,11 +163,10 @@ export default {
         &__avatar {
           position: absolute;
           top: -68px;
-          left: calc(50% - 64px);
+          left: calc(50% - 63px);
           border-radius: 70px;
-          border: solid 5px var(--color1);
+          border: solid 3px var(--color1);
           cursor: pointer;
-
           width: 120px;
           height: 120px;
           margin-right: 10px;
@@ -207,13 +206,13 @@ export default {
           display: flex;
           align-items: center;
           justify-content: space-around;
-          height: 46px;
+          height: 43px;
           margin: 2rem 0 0 0;
           background: white;
           border-radius: 10px;
           width: calc(50% - 1.5rem);
           box-sizing: border-box;
-          border: solid 4px var(--color1);
+          border: solid 3px var(--color1);
           .icon {
             position: relative;
             display: inline-block;

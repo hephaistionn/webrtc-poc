@@ -132,15 +132,15 @@ export default {
       box-sizing: border-box;
       width: 100%;
       background: var(--color2);
-      border-top: solid 5px var(--color1);
+      border-top: solid 2px var(--color1);
     }
     &__title {
       position: relative;
-      font-size: 1.1rem;
+      font-size: 1rem;
       text-transform: UPPERCASE;
       text-align: center;
       color: white;
-      margin: 0 0 0.5rem 0;
+      margin: 0.2rem 0 0.5rem 0;
     }
     &__cancel {
       position: relative;
