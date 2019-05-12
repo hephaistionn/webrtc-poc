@@ -86,7 +86,7 @@ export default {
     },
     stream: function(stream) {
       this.$refs.videoRef.srcObject = stream;
-      this.$refs.videoRef.muted = true;
+      this.$refs.videoRef.volume = 0;
       this.$refs.videoRef.play();
     }
   },

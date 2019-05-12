@@ -28,7 +28,7 @@ export default {
   props: ['stream', 'emitter', 'user'],
   data() {
     return {
-      mute: true,
+      mute: false,
       hidden: false,
       avatarX: 0,
       avatarY: 0
@@ -38,7 +38,7 @@ export default {
     stream: function(newVal, oldVal) {
       this.$refs.videoRef.srcObject = newVal;
       if (this.emitter) {
-        this.$refs.videoRef.volume = 1;
+        this.$refs.videoRef.volume = 0;
       } else {
         this.$refs.videoRef.volume = 1;
       }
@@ -58,9 +58,10 @@ export default {
   methods: {
       toggleAudio: function() {
         this.mute = !this.mute; 
-        this.$refs.videoRef.muted = this.mute;
         if (this.emitter) {
           this.$store.dispatch('enableAudio', !this.mute);
+        } else {
+          this.$refs.videoRef.muted = this.mute;
         }
       },
       toggleVideo: function() {
