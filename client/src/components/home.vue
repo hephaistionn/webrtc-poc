@@ -2,7 +2,7 @@
   <div class='home'>
     <div class='home__header'>
       <div class='home__header__pic'></div>
-      <div class='home__header__title'>CAMROULETTE</div>
+      <h1 class='home__header__title'>CAMROULETTE</h1>
     </div>
     <div class='home__profile'>
       <avatar
@@ -22,7 +22,11 @@
         <div class='home__profile__sexe__v2 icon' v-on:click='sexe = 2' v-bind:class='{selected: sexe===2}'></div>
         <div class='home__profile__sexe__v3 icon' v-on:click='sexe = 3' v-bind:class='{selected: sexe===3}'></div>
       </div>
-      <button class='home__profile__start' v-on:click='start'  v-bind:disabled="age<18">start</button>
+      <button class='home__profile__start' v-on:click='start'  v-bind:disabled="!checked||age<18">start</button>
+      <div class='home__profile__terms'>
+        <div class='home__profile__terms__input icon'  v-on:click='checked  = !checked' v-bind:class='{checked: checked}'></div>
+        <label>You must be over 18 and agree to the terms</label>
+      </div>
     </div>
     <avatars v-show='edit' @select="select"/>
   </div>
@@ -51,7 +55,8 @@ export default {
       avatars: [],
       avatarX: 0,
       avatarY: 0,
-      edit: false
+      edit: false,
+      checked: false
     };
   },
   watch: {
@@ -103,7 +108,7 @@ export default {
         justify-content: center;
         flex-direction: column;
         width: 100%;
-        min-height: 250px;
+        min-height: 230px;
         background-color: #fff9f2;
         border-bottom: solid 3px var(--color1);
         &__pic {
@@ -139,7 +144,7 @@ export default {
         position: relative;
         display: flex;
         flex-wrap: wrap;
-        padding: 2rem;
+        padding: 1.8rem;
         max-width: 400px;
         margin: auto;
         input {
@@ -154,15 +159,15 @@ export default {
           border: solid 3px var(--color1);
         }
         .icon {
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            font-size: 1.5rem;
-            color: var(--color1);
+          position: absolute;
+          top: 8px;
+          left: 8px;
+          font-size: 1.5rem;
+          color: var(--color1);
         }
         &__avatar {
           position: absolute;
-          top: -68px;
+          top: -75px;
           left: calc(50% - 63px);
           border-radius: 70px;
           border: solid 3px var(--color1);
@@ -179,7 +184,7 @@ export default {
           display: block;
           width: 100%;
           height: 41px;
-          margin: 4rem 0 0 0;
+          margin: 3.5rem 0 0 0;
           .icon {
             &:before {
               content: '\f007';
@@ -258,6 +263,42 @@ export default {
           border-radius: 10px;
           border: none;
           text-transform: uppercase;
+        }
+        &__terms {
+          display: flex;
+          align-items: center;
+          position: relative;
+          margin: 1.3rem 0;
+          width: 100%;
+          &__input {
+            &.icon {
+              position: relative;
+              top: inherit;
+              left:inherit;
+              font-size: 1.5rem;
+              color: var(--color1);
+              margin-right: 0.5rem;
+              width: 1.2rem;
+              height: 1.2rem;
+              box-sizing: border-box;
+              border: solid 1px;
+              border-radius: 10px;
+            }
+            &.checked {
+              &:before {
+                content: '\f00c';
+                font-size: 0.5em;
+                position: absolute;
+                margin: 3px;
+              }  
+            }
+          }
+          label {
+            display: inline-block;
+            position: relative;
+            color: #ffcd15;
+            font-size: 0.8rem;
+          }
         }
       }
   }
