@@ -12,6 +12,7 @@ const age = 25;
 const sexe = 1;
 const HOME = 0;
 const LIVE = 1;
+const CGU = 3;
 const WAITING = 2;
 let timerStack;
 
@@ -36,6 +37,12 @@ const store =  new Vuex.Store({
   state,
   getters: {},
   actions: {
+    showHome({commit}) {
+      commit('setStatus', HOME);
+    },
+    showCGU({commit}) {
+      commit('setStatus', CGU);
+    },
     initUser({commit, dispatch}) {
       commit('setUser1', {username, avatar, id, age, sexe});
       dispatch('startCam');

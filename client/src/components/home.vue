@@ -2,7 +2,7 @@
   <div class='home'>
     <div class='home__header'>
       <div class='home__header__pic'></div>
-      <h1 class='home__header__title'>CAMROULETTE</h1>
+      <h1 class='home__header__title'>yacam.io</h1>
     </div>
     <div class='home__profile'>
       <avatar
@@ -25,7 +25,10 @@
       <button class='home__profile__start' v-on:click='start'  v-bind:disabled="!checked||age<18">start</button>
       <div class='home__profile__terms'>
         <div class='home__profile__terms__input icon'  v-on:click='checked  = !checked' v-bind:class='{checked: checked}'></div>
-        <label>You must be over 18 and agree to the terms</label>
+        <label>
+          <span>You must be over 18 and agree to the</span>
+          <span class='terms' v-on:click='showCGU'> terms</span>
+          </label>
       </div>
     </div>
     <avatars v-show='edit' @select="select"/>
@@ -70,6 +73,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['showCGU']),
     start: function() {
       this.$store.dispatch('start', {username: this.username, avatar: this.avatar, age: this.age, sexe: this.sexe});
     },
@@ -283,6 +287,7 @@ export default {
               box-sizing: border-box;
               border: solid 1px;
               border-radius: 10px;
+              cursor: pointer;
             }
             &.checked {
               &:before {
@@ -298,6 +303,10 @@ export default {
             position: relative;
             color: #ffcd15;
             font-size: 0.8rem;
+          }
+          .terms{
+            color: white;
+            cursor: pointer;
           }
         }
       }

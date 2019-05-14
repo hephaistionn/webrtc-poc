@@ -18,6 +18,7 @@
         v-bind:stream1='$store.state.stream1'
         v-bind:user1='$store.state.user1'
         v-bind:stack='$store.state.stack'/>
+      <cguterms v-if='$store.state.status === 3'/>
     </div>
     <div class='adv large'></div>  
   </div>
@@ -27,6 +28,7 @@
 import live from './live.vue';
 import roulette from './roulette.vue';
 import home from './home.vue';
+import cguterms from './cguterms.vue';
 import { mapActions } from 'vuex';
 
 export default {
@@ -34,7 +36,8 @@ export default {
   components: {
     live,
     roulette,
-    home
+    home,
+    cguterms
   },
   methods: mapActions(['startCam', 'initSocket', 'stop']),
   mounted() {
