@@ -4,7 +4,9 @@ let waitingList = {};
 const rooms = new Map();
 
 module.exports = function socket(serveur) {
-    const io = socketio(serveur);
+    const io = socketio(serveur, {
+        cookie: false
+    });
     io.on('connection', (socket) => {
         const clientId = socket.handshake.query.userId;
         waitingList[clientId] = socket.handshake.query.userData;
