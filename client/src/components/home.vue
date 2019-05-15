@@ -5,6 +5,7 @@
       <h1 class='home__header__title'>yacam</h1>
     </div>
     <div class='home__profile'>
+      <div class='home__profile__avatarbg'></div>
       <avatar
         class='home__profile__avatar'
         v-bind:avatar='avatar'
@@ -22,7 +23,6 @@
         <div class='home__profile__sexe__v2 icon' v-on:click='sexe = 2' v-bind:class='{selected: sexe===2}'></div>
         <div class='home__profile__sexe__v3 icon' v-on:click='sexe = 3' v-bind:class='{selected: sexe===3}'></div>
       </div>
-      <button class='home__profile__start' v-on:click='start'  v-bind:disabled="!checked||age<18">start</button>
       <div class='home__profile__terms'>
         <div class='home__profile__terms__input icon'  v-on:click='checked  = !checked' v-bind:class='{checked: checked}'></div>
         <label>
@@ -30,6 +30,7 @@
           <span class='terms' v-on:click='showCGU'> terms</span>
           </label>
       </div>
+      <button class='home__profile__start' v-on:click='start'  v-bind:disabled="!checked||age<18">start</button>
     </div>
     <avatars v-show='edit' @select="select"/>
   </div>
@@ -113,18 +114,15 @@ export default {
         flex-direction: column;
         width: 100%;
         min-height: 230px;
-        background-color: #fff9f2;
+        background-color: var(--color1);
         border-bottom: solid 3px var(--color1);
         &__pic {
-          position:absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-image: url(./../../assets/people4.jpg);
-          background-size: cover;
-          // filter: blur(3px);
-          opacity: 0.8;
+          position: absolute;
+          top: calc(50% - 78px);
+          left: calc(50% - 140px);
+          width: 280px;
+          height: 85px;
+          background-image: url(./../../assets/logo.png);
         }
         &__title {
           position: relative;
@@ -134,10 +132,11 @@ export default {
           color: #fff;
           text-shadow: 3px 0 0 var(--color2), -3px 0 0 var(--color2), 0 3px 0 var(--color2), 0 -3px 0 var(--color2), 2px 2px var(--color2), -2px -2px 0 var(--color2), 2px -2px 0 var(--color2), -2px 2px 0 var(--color2);
           font-family: 'Xirod';
+          display: none;
         }
         @media (max-aspect-ratio: 1/1) {
           .home__header__pic {
-            background-position-x: -173px;
+            // background-position-x: -173px;
           }
           .home__header__title {
             font-size: 1.5rem;
@@ -182,6 +181,15 @@ export default {
           background-size: 1200px;
           background-repeat: no-repeat;
           background-position: -120px -120px;
+        }
+        &__avatarbg {
+          position: absolute;
+          top: -78px;
+          left: calc(50% - 66px);
+          border-radius: 70px;
+          width: 132px;
+          height: 132px;
+          background: var(--color2);
         }
         &__username {
           position: relative;
@@ -262,7 +270,7 @@ export default {
           cursor: pointer;
           font-size: 1.5rem;
           background: var(--color1);
-          margin: 35px auto 0 auto;
+          margin: 0.3rem auto 0 auto;
           padding: 7px 5px 8px 5px;
           border-radius: 10px;
           border: none;
@@ -272,7 +280,7 @@ export default {
           display: flex;
           align-items: center;
           position: relative;
-          margin: 1.3rem 0;
+          margin: 1.3rem 0 0 0;
           width: 100%;
           &__input {
             &.icon {
