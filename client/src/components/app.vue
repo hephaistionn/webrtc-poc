@@ -87,7 +87,7 @@ export default {
       left: 0;
       margin: 0;
       background-color: var(--color2);
-      background-image: url(./../../assets/ads.jpg);
+      // background-image: url(./../../assets/ads.jpg);
       background-size: 40px;
       &.large {
         left: 90%;
@@ -95,16 +95,19 @@ export default {
     }
     @media (max-aspect-ratio: 8/5) {
       .screen {
-        top: 10%;
+        // top: 10%;
+        top: 0;
         left: 0;
         width: 100%;
-        height: 90%;
+        // height: 90%;
+        height: 100%;
       }
       .adv {
         top: 0;
         left: 0;
         width: 100%;
         height: 10%;
+        display: none;
         &.large {
           display: none;
         }
@@ -145,7 +148,7 @@ export default {
     font-family: 'Font Awesome 5 Free';
     font-style: normal;
     font-weight: 900;
-    src: url('./../../assets/fa-solid-900.woff2') format('woff2'), url('./../../assets/fa-solid-900.woff') format('woff'); 
+    src: url('./../../assets/fa-solid-900.woff') format('woff'); 
   }
 
   .icon {

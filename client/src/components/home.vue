@@ -2,7 +2,7 @@
   <div class='home'>
     <div class='home__header'>
       <div class='home__header__pic'></div>
-      <h1 class='home__header__title'>yacam.io</h1>
+      <h1 class='home__header__title'>yacam</h1>
     </div>
     <div class='home__profile'>
       <avatar
