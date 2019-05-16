@@ -3,6 +3,7 @@
     <div class='home__header'>
       <div class='home__header__pic'></div>
       <h1 class='home__header__title'>yacam</h1>
+      <p class='home__header__desc'>random cam,  no registration, only fun</p>
     </div>
     <div class='home__profile'>
       <div class='home__profile__avatarbg'></div>
@@ -33,6 +34,9 @@
       <button class='home__profile__start' v-on:click='start'  v-bind:disabled="!checked||age<18">start</button>
     </div>
     <avatars v-show='edit' @select="select"/>
+    <div class='home__footer'>
+      ©2019-2020 yacam
+    </div>
   </div>
 </template>
 
@@ -117,9 +121,8 @@ export default {
         background-color: var(--color1);
         border-bottom: solid 3px var(--color1);
         &__pic {
-          position: absolute;
-          top: calc(50% - 78px);
-          left: calc(50% - 140px);
+          position: relative;
+          margin: 0 auto;
           width: 280px;
           height: 85px;
           background-image: url(./../../assets/logo.png);
@@ -134,6 +137,16 @@ export default {
           font-family: 'Xirod';
           display: none;
         }
+        &__desc {
+          position: relative;
+          margin: 9px auto 72px auto;
+          color: #22262a;
+          text-align: center;
+          font-size: 0.8rem;
+          max-width: 397px;
+          text-transform: uppercase;
+          font-weight: bold;
+        }
         @media (max-aspect-ratio: 1/1) {
           .home__header__pic {
             // background-position-x: -173px;
@@ -142,6 +155,14 @@ export default {
             font-size: 1.5rem;
           }
         }
+      }
+      &__footer {
+        position: absolute;
+        padding: 1rem;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        color: white;
       }
       &__profile {
         position: relative;
@@ -159,14 +180,24 @@ export default {
           padding-left: 3rem;
           width: 100%;
           border-radius: 10px;
+          // border: solid 3px var(--color1);
+        }
+        .mask {
+          width: 100%;
+          height: 100%;
           border: solid 3px var(--color1);
+          border-radius: 10px;
+          box-sizing: border-box;
+          clip-path: inset(0 30px 0 calc(100% - 30px));
+          // polygon(0 0, 30px 0, 30px 15%, calc(100% - 30px) 15%, calc(100% - 30px) 0%, 100% 0, 100% 30px, 85% 15%, 85% 85%, 100% 85%, 100% 100%, 85% 100%, 85% 85%, 15% 85%, 15% 100%, 0 100%, 0% 85%, 15% 85%, 15% 15%, 0 15%)
+          // clip-path: polygon( 0 0, 15% 0, 15% 15%, 85% 15%, 85% 0%, 100% 0, 100% 15%, 85% 15%, 85% 85%, 100% 85%, 100% 100%, 85% 100%, 85% 85%, 15% 85%, 15% 100%, 0 100%, 0% 85%, 15% 85%, 15% 15%, 0 15%);
         }
         .icon {
           position: absolute;
           top: 8px;
           left: 8px;
           font-size: 1.5rem;
-          color: var(--color1);
+          color: var(--colo2);
         }
         &__avatar {
           position: absolute;
@@ -223,13 +254,13 @@ export default {
           display: flex;
           align-items: center;
           justify-content: space-around;
-          height: 43px;
+          height: 41px;
           margin: 2rem 0 0 0;
           background: white;
           border-radius: 10px;
           width: calc(50% - 1.5rem);
           box-sizing: border-box;
-          border: solid 3px var(--color1);
+          // border: solid 3px var(--color1);
           .icon {
             position: relative;
             display: inline-block;
@@ -237,9 +268,10 @@ export default {
             left: inherit;
             margin: 6px 8px;
             cursor: pointer;
+            color: black;
           }
           .selected {
-            color: var(--selected);
+            color: #ecbd0b;
           }
           &__v1 {
             &.icon{
@@ -270,6 +302,7 @@ export default {
           cursor: pointer;
           font-size: 1.5rem;
           background: var(--color1);
+          color: var(--color2);
           margin: 0.3rem auto 0 auto;
           padding: 7px 5px 8px 5px;
           border-radius: 10px;
@@ -280,7 +313,7 @@ export default {
           display: flex;
           align-items: center;
           position: relative;
-          margin: 1.3rem 0 0 0;
+          margin: 1.3rem 0 5px 0;
           width: 100%;
           &__input {
             &.icon {

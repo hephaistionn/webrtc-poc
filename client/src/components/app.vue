@@ -73,8 +73,8 @@ export default {
       position: absolute;
       display: inline-block;
       top: 0;
-      left: 10%;
-      width: 80%;
+      left: 15%;
+      width: 70%;
       height: 100%;
       margin: 0;
     }
@@ -82,15 +82,15 @@ export default {
       position: absolute;
       display: inline-block;
       height: 100%;
-      width: 10%;
+      width: 15%;
       top: 0;
       left: 0;
       margin: 0;
-      background-color: var(--color2);
+      background-color: white;
       // background-image: url(./../../assets/ads.jpg);
       background-size: 40px;
       &.large {
-        left: 90%;
+        left: 85%;
       }
     }
     @media (max-aspect-ratio: 8/5) {
@@ -126,10 +126,10 @@ export default {
   button {
     cursor: pointer;
     &:hover {
-      transform: scale(1.05);
+      transform: scale(1.005);
     }
     &:disabled {
-      opacity: 0.6;
+      cursor: no-drop;
       &:hover {
         transform: scale(1);
       }
