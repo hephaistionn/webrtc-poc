@@ -45,6 +45,7 @@ export default {
       minLength: 40,
       translate: 'translate(0px, 0px)',
       participantMin: '/2',
+      slotNumber: 9,
       participantIndicator: ''
     };
   },
@@ -54,22 +55,17 @@ export default {
   watch: {
     list: function(list) {
       if(list.length)  {
-        let computedList = list.slice(0);
-        computedList = computedList.concat(list);
-        computedList = computedList.concat(list);
+        const computedList = [];
         let i = 0;
-        while(computedList.length < this.minLength) {
-          computedList.push(list[i]);
-          i++;
-          if(i >= list.length) {
-            i = 0;
-          }
+        for(i=0; i<this.slotNumber; i++) {
+          computedList.push({});
+        }
+        for(i=0; i<list.length; i++) {
+          computedList[i] = list[i];
         }
         this.computedList = computedList;
-        this.participantIndicator = `${list.length}${this.participantMin}`;
       } else {
         this.computedList = [];
-        this.participantIndicator = `0${this.participantMin}`;
       }
     },
     target: function(target) {
@@ -120,7 +116,8 @@ export default {
 <style lang='sass'>
   .roulette {
     position: absolute;
-    display: inline-block;
+    display: flex;
+    justify-content: center;
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -157,23 +154,21 @@ export default {
       max-width: 210px;
     }
     &__container {
-      display: inline-block;
-      position: absolute;
-      top: calc(50% - 64px);
-      left: 0;
-      height: 128px;
-      width: 100%;
-      overflow: hidden;
+      overflow: auto;
+      display: flex;
+      align-items: center;
       box-sizing: border-box;
+      width: 100%;
+      max-width: 400px;
+      height: calc(100% - 90px);
     }
     &__list {
-      display: inline-block;
-      position: absolute;
-      white-space: nowrap;
-      top: 0;
-      left: 0;
-      transition: transform 4.5s;
-      transition-timing-function: ease;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
     }
     &__focus {
       position: absolute;
@@ -207,34 +202,6 @@ export default {
       height: 100%;
       width: 100%;
       object-fit: cover;
-    }
-    @media (max-aspect-ratio: 8/5) {
-      .roulette__container {
-        top: 0;
-        left: calc(50% - 62px);
-        height: 100%;
-        width: 128px;
-      }
-      .roulette__list {
-        display: inline-block;
-        white-space: normal;
-      }
-      .roulette__focus__pointer1 {
-        top: 0;
-        left: 0;
-        width: 15px;
-        height: 100%;
-        clip-path: polygon(0 100%, 0 0, 100% 50%);
-      }
-      .roulette__focus__pointer2 {
-        top: 0;
-        right: 0;
-        left: initial;
-        bottom: initial;
-        width: 15px;
-        height: 100%;
-        clip-path: polygon(100% 100%, 100% 0, 0 50%);
-      }
     }
   }
 </style>

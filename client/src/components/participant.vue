@@ -1,5 +1,5 @@
 <template>
-  <div class='waitingItem'>
+  <div class='waitingItem' v-bind:class='{empty: !username}'>
     <div class='waitingItem__avatar avatar'
        v-bind:style='{backgroundPositionX: avatarX, backgroundPositionY: avatarY}'>
     </div>
@@ -48,11 +48,13 @@ export default {
       this.avatarY = -Math.floor(index / row) * size + 'px';
     },
     updateProfile: function(profile) {
-      this.username = profile.username;
-      this.avatar = profile.avatar;
-      this.age = profile.age;
-      this.sexe = profile.sexe;
-      this.updateAvatar();
+      if(this.profile.username) {
+        this.username = profile.username;
+        this.avatar = profile.avatar;
+        this.age = profile.age;
+        this.sexe = profile.sexe;
+        this.updateAvatar();
+      }
     }
   }
 };
@@ -62,12 +64,12 @@ export default {
   .waitingItem {
     position: relative;
     display: inline-block;
-    width: 120px;
-    height: 120px;
+    width: 110px;
+    height: 110px;
     margin-bottom: 4px;
     margin-left: 4px;
     border: solid 2px var(--color1);
-    border-radius: 12px;
+    // border-radius: 12px;
     background-color: var(--color2);
     overflow: hidden;
     &__username {
@@ -78,6 +80,7 @@ export default {
       width: 112px;
       color: var(--color2);
       padding: 4px;
+      font-size: 0.8rem;
       white-space: normal;
       background-color: var(--color1);
     }
@@ -134,6 +137,14 @@ export default {
         }
       }
     }
-
+    &.empty {
+      background-color: rgba(34, 38, 42, 0.6);
+      .waitingItem__age,
+      .waitingItem__avatar,
+      .waitingItem__sexe,
+      .waitingItem__username {
+        display: none;
+      }
+    }
   }
 </style>

@@ -31,7 +31,7 @@
           <span class='terms' v-on:click='showCGU'> terms</span>
           </label>
       </div>
-      <button class='home__profile__start' v-on:click='start'  v-bind:disabled="!checked||age<18">start</button>
+      <button class='home__profile__start' v-on:click='start'  v-bind:disabled="!checked||age<18||!username">start</button>
     </div>
     <avatars v-show='edit' @select="select"/>
     <div class='home__footer'>
