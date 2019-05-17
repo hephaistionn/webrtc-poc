@@ -66,7 +66,6 @@ export default {
         z-index: 2;
         &__container {
           display: flex;
-          align-items: center;
           justify-content: center;
           flex-direction: row;
           flex-wrap: wrap;

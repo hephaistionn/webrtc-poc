@@ -1,5 +1,5 @@
 <template>
-  <div class='waitingItem' v-bind:class='{empty: !username}'>
+  <div class='waitingItem' v-bind:class='{empty: !username, dummyItem: profile.dummyItem}'>
     <div class='waitingItem__avatar avatar'
        v-bind:style='{backgroundPositionX: avatarX, backgroundPositionY: avatarY}'>
     </div>
@@ -69,7 +69,6 @@ export default {
     margin-bottom: 4px;
     margin-left: 4px;
     border: solid 2px var(--color1);
-    // border-radius: 12px;
     background-color: var(--color2);
     overflow: hidden;
     &__username {
@@ -135,6 +134,17 @@ export default {
         &:before {
           content: '\f22c';
         }
+      }
+    }
+    &.dummyItem {
+      width: 114px;
+      height: 0px;
+      border: none;
+      .waitingItem__age,
+      .waitingItem__avatar,
+      .waitingItem__sexe,
+      .waitingItem__username {
+        display: none;
       }
     }
     &.empty {

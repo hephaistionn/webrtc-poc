@@ -63,6 +63,9 @@ export default {
         for(i=0; i<list.length; i++) {
           computedList[i] = list[i];
         }
+        for(i=0; i<4; i++) {
+          computedList.push({dummyItem: true});
+        }
         this.computedList = computedList;
       } else {
         this.computedList = [];
@@ -116,8 +119,6 @@ export default {
 <style lang='sass'>
   .roulette {
     position: absolute;
-    display: flex;
-    justify-content: center;
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -154,21 +155,26 @@ export default {
       max-width: 210px;
     }
     &__container {
+      position: relative;
+      margin: 10px auto;
       overflow: auto;
       display: flex;
       align-items: center;
+      @media (max-aspect-ratio: 1/2) {
+        align-items: start;
+      } 
       box-sizing: border-box;
+      padding: 0.8rem 0.1rem;
       width: 100%;
-      max-width: 400px;
+      max-width: 600px;
       height: calc(100% - 90px);
     }
     &__list {
+      position: relative;
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
-      align-items: center;
       justify-content: center;
-      width: 100%;
     }
     &__focus {
       position: absolute;
