@@ -4,12 +4,10 @@
        v-bind:style='{backgroundPositionX: avatarX, backgroundPositionY: avatarY}'>
     </div>
     <div class='waitingItem__username'>
-      {{username}}
+      <span class='waitingItem__username__sexe icon' v-bind:class="['v'+sexe]"> </span><span>{{username}}</span> 
     </div>
     <div class='waitingItem__age'>
       {{age}}
-    </div>
-    <div class='waitingItem__sexe icon' v-bind:class="['v'+sexe]">
     </div>
     <div class='waitingItem__over'></div>
   </div>
@@ -43,7 +41,7 @@ export default {
   methods: {
     updateAvatar: function() {
       const index = this.avatar;
-      const size = 100;
+      const size = 110;
       const col = 10;
       const row = 10;
       this.avatarX = -(index % col) * size + 'px';
@@ -78,64 +76,56 @@ export default {
       bottom: 0px;
       left: 0px;
       width: 102px;
-      color: var(--color2);
+      color: #ffcd15;
       padding: 4px;
       font-size: 0.8rem;
       white-space: normal;
-      background-color: var(--color1);
+      background-color: rgba(34, 38, 42, 0.5);
+      &__sexe {
+        display: inline-block;
+        margin-right: 5px;
+        margin-left: 2px;
+        font-size: 1.2rem;
+        &.v1{
+          &:before {
+            content: '\f222';
+          }
+        }
+        &.v2{
+          &:before {
+            content: '\f221';
+          }
+        }
+        &.v3{
+          &:before {
+            content: '\f22c';
+          }
+        }
+      }
     }
     &__avatar {
       display: inline-block;
       position: absolute;
-      top: calc(50% - 50px);
-      left: calc(50% - 50px);
+      top: 0;
+      left: 0;
       background-repeat: no-repeat;
-      box-sizing: border-box;
-      border: solid 2px var(--color2);
-      border-left-width: 1px;
-      border-right-width: 1px;
-      border-radius: 70px;
+      box-shadow: 0px 0px 10px 2px rgba(34, 38, 42, 0.55) inset;
       &.avatar {
-        width: 100px;
-        height: 100px;
-        background-size: 1000px;
-      }
-      @media (max-aspect-ratio: 8/5) {
-        border-bottom-width: 1px;
-        border-top-width: 1px;
+        width: 110px;
+        height: 110px;
+        background-size: 1100px;
       }
     }
     &__age {
       position: absolute;
       display: inline-block;
       top: 0px;
-      left: 0px;
-      color: var(--color1);
-      margin: 6px;
-      font-weight: bold;
-    }
-    &__sexe {
-      position: absolute;
-      display: inline-block;
-      top: 0px;
       right: 0px;
       color: var(--color1);
-      margin: 6px;
-      &.v1{
-        &:before {
-          content: '\f222';
-        }
-      }
-      &.v2{
-        &:before {
-          content: '\f221';
-        }
-      }
-      &.v3{
-        &:before {
-          content: '\f22c';
-        }
-      }
+      font-weight: bold;
+      background: rgba(34, 38, 42, 0.3);
+      padding: 4px 3px 6px 6px;
+      border-bottom-left-radius: 15px;
     }
     &__over {
       position: absolute;
@@ -159,16 +149,15 @@ export default {
       border: none;
       .waitingItem__age,
       .waitingItem__avatar,
-      .waitingItem__sexe,
       .waitingItem__username {
         display: none;
       }
     }
     &.empty {
       background-color: rgba(34, 38, 42, 0.6);
+      border-color: black;
       .waitingItem__age,
       .waitingItem__avatar,
-      .waitingItem__sexe,
       .waitingItem__username {
         display: none;
       }
