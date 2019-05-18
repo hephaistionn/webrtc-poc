@@ -1,38 +1,32 @@
 <template>
-  <div class='roulette' ref='screen'>
-    <video v-show='show' ref='videoRef'></video>
-    <div class='roulette__container' v-if='!live'>
-      <div class='roulette__list' 
-        v-bind:style='{transform: translate}'>
-          <participant 
-            v-bind:profile='item'
-            :key='index' v-for='(item, index) in computedList'/>
+  <div class="roulette" ref="screen">
+    <video v-show="show" ref="videoRef"></video>
+    <div class="roulette__container" v-if="!live">
+      <div class="roulette__list" v-bind:style="{transform: translate}">
+        <participant
+          v-bind:profile="item"
+          v-bind:focus="item.focus"
+          :key="index"
+          v-for="(item, index) in computedList"
+        />
       </div>
     </div>
-    <div class='roulette__focus' v-show='!live && target'>
-      <div class='roulette__focus__pointer1'></div>
+    <div class="roulette__focus" v-show="!live && target">
+      <div class="roulette__focus__pointer1"></div>
     </div>
-    <div class='roulette__modal'>
-      <div 
-        class='roulette__title'
-        v-show='!target'>
-        WAITING FOR PARTICIPANTS  {{participantIndicator}}
-      </div>
-      <div 
-        class='roulette__title' 
-        v-show='target'>
-        STARTING
-      </div>
-      <button class='roulette__cancel button' @click='cancel' v-show='!target'>Cancel</button>
+    <div class="roulette__modal">
+      <div class="roulette__title" v-show="!target">WAITING FOR PARTICIPANTS</div>
+      <div class="roulette__title" v-show="target">STARTING</div>
+      <button class="roulette__cancel button" @click="cancel" v-show="!target">Cancel</button>
     </div>
   </div>
 </template>
 
 <script>
-import participant from './participant.vue';
-import { mapActions } from 'vuex';
+import participant from "./participant.vue";
+import { mapActions } from "vuex";
 export default {
-  name: 'roulette',
+  name: "roulette",
   props: {
     list: Array,
     target: String,
@@ -40,13 +34,26 @@ export default {
     stream: Object
   },
   data() {
+    // serie sum == 1
+    const rouletteStep = 20;
+    const serie = [1];
+    for (let i = 1; i < rouletteStep; i++) {
+      serie[i] = serie[i - 1] * 1.1;
+    }
+    let sum = 0;
+    for (let i = 1; i < rouletteStep; i++) {
+      sum += serie[i];
+    }
+    for (let i = 1; i < rouletteStep; i++) {
+      serie[i] /= sum;
+    }
     return {
       computedList: [],
-      minLength: 40,
-      translate: 'translate(0px, 0px)',
-      participantMin: '/2',
-      slotNumber: 9,
-      participantIndicator: ''
+      slotNumber: 4,
+      serie: serie,
+      rouletteDuration: 3200,
+      rouletteStep: rouletteStep,
+      timer: null
     };
   },
   components: {
@@ -54,17 +61,17 @@ export default {
   },
   watch: {
     list: function(list) {
-      if(list.length)  {
+      if (list.length) {
         const computedList = [];
         let i = 0;
-        for(i=0; i<this.slotNumber; i++) {
+        for (i = 0; i < this.slotNumber; i++) {
           computedList.push({});
         }
-        for(i=0; i<list.length; i++) {
+        for (i = 0; i < list.length; i++) {
           computedList[i] = list[i];
         }
-        for(i=0; i<4; i++) {
-          computedList.push({dummyItem: true});
+        for (i = 0; i < 4; i++) {
+          computedList.push({ dummyItem: true });
         }
         this.computedList = computedList;
       } else {
@@ -72,15 +79,15 @@ export default {
       }
     },
     target: function(target) {
-      if(target) {
-        this.roulette(target.id);
+      if (target) {
+        this.startRoulette(target.id);
       }
     },
     show: function(displayed) {
-      if(displayed) {
-        this.$store.dispatch('initSocket');
-      } else {
-        this.moveTarget(0);
+      if (displayed) {
+        this.$store.dispatch("initSocket");
+      }else {
+        clearTimeout(this.timer);
       }
     },
     stream: function(stream) {
@@ -90,27 +97,39 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['cancel']),
-    roulette : function(clientId) {
-      const tileSize = 120 + 8; //border + margin
-      const startIndexMid = Math.floor(this.computedList.length/2);
-      const part2 = this.computedList.slice(startIndexMid);
-      const index = startIndexMid + part2.map(a=>a.id).indexOf(clientId);
-      let screenMid;
-      if(window.innerWidth/window.innerHeight < 8/5) {
-        screenMid = Math.floor(this.$refs.screen.offsetHeight/2);
-      } else {
-        screenMid = Math.floor(this.$refs.screen.offsetWidth/2);
-      }
-      const offset = - ( (index * (tileSize)) - (screenMid - tileSize/2) ); 
-      this.moveTarget(offset);
+    ...mapActions(["cancel"]),
+    startRoulette: function(clientId) {
+      const index = this.list.map(a => a.id).indexOf(clientId);
+      const pathSize = this.rouletteStep - index;
+      const target = Math.floor(pathSize / this.list.length) * this.list.length + index;
+      this.roulette(0, target);
     },
-    moveTarget: function(offset) {
-      if(window.innerWidth/window.innerHeight < 8/5) {
-        this.translate = `translate(0px,${offset}px)`;
+    roulette: function(counter, target) {
+      const k1 = Math.max(counter - 1, 0) % this.list.length;
+      const k2 = counter % this.list.length;
+      this.refreshList(k1, k2);
+      if (counter === target) {
+        this.blink(k2);
       } else {
-        this.translate = `translate(${offset}px,0px)`;
+        counter++;
+        this.timer = setTimeout(() => {
+          this.roulette(counter, target);
+        }, this.serie[counter] * this.rouletteDuration);
       }
+    },
+    blink: function(k) {
+      this.timer = setTimeout(() => {
+        if (this.show) {
+          this.computedList[k].focus = !this.computedList[k].focus;
+          this.$forceUpdate();
+          this.blink(k);
+        }
+      }, 450);
+    },
+    refreshList: function(k1, k2) {
+      this.computedList[k1].focus = false;
+      this.computedList[k2].focus = true;
+      this.$forceUpdate();
     }
   }
 };
@@ -175,33 +194,6 @@ export default {
       flex-direction: row;
       flex-wrap: wrap;
       justify-content: center;
-    }
-    &__focus {
-      position: absolute;
-      top: calc(50% - 90px);
-      left: calc(50% - 90px);
-      width: 180px;
-      height: 180px;
-      z-index: 2;
-      box-sizing: border-box;
-      &__pointer1{
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 15px;
-        clip-path: polygon(50% 100%, 0 0, 100% 0);
-        background-color: var(--color1);
-      }
-      &__pointer2{
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 15px;
-        clip-path: polygon(0 100%, 50% 0, 100% 100%);
-        background-color: var(--color1);
-      }
     }
     video {
       position: absolute;

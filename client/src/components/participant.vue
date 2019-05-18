@@ -1,5 +1,5 @@
 <template>
-  <div class='waitingItem' v-bind:class='{empty: !username, dummyItem: profile.dummyItem}'>
+  <div class='waitingItem' v-bind:class='{empty: !username, dummyItem: profile.dummyItem, focus: focus}'>
     <div class='waitingItem__avatar avatar'
        v-bind:style='{backgroundPositionX: avatarX, backgroundPositionY: avatarY}'>
     </div>
@@ -11,6 +11,7 @@
     </div>
     <div class='waitingItem__sexe icon' v-bind:class="['v'+sexe]">
     </div>
+    <div class='waitingItem__over'></div>
   </div>
 </template>
 
@@ -18,7 +19,8 @@
 export default {
   name: 'waitingItem',
   props: {
-    profile: Object
+    profile: Object,
+    focus: Boolean
   },
   data() {
     return {
@@ -70,13 +72,12 @@ export default {
     margin-left: 4px;
     border: solid 2px var(--color1);
     background-color: var(--color2);
-    overflow: hidden;
     &__username {
       position: absolute;
       display: inline-block;
       bottom: 0px;
       left: 0px;
-      width: 112px;
+      width: 102px;
       color: var(--color2);
       padding: 4px;
       font-size: 0.8rem;
@@ -134,6 +135,22 @@ export default {
         &:before {
           content: '\f22c';
         }
+      }
+    }
+    &__over {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.6509803921568628);
+      display: none;
+      border: solid 8px #ffcd15;
+      box-sizing: border-box;
+    }
+    &.focus {
+      .waitingItem__over {
+        display: block;
       }
     }
     &.dummyItem {

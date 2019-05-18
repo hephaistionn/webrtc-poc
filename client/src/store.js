@@ -100,7 +100,7 @@ const store =  new Vuex.Store({
         await dispatch('initPeersListener');
         setTimeout(async ()=> {
           commit('setStatus', LIVE);
-        },5000);
+        },6000);
       });
       socket.on('waitingList_updated', (waitingList) => {
         const list = [];
