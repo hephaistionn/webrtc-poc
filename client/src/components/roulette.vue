@@ -1,7 +1,7 @@
 <template>
   <div class="roulette" ref="screen">
     <video v-show="show" ref="videoRef"></video>
-    <div class="roulette__container" v-if="!live">
+    <div class="roulette__container" v-if="!live" v-bind:class={overflow:overflow}>
       <div class="roulette__list" v-bind:style="{transform: translate}">
         <participant
           v-bind:profile="item"
@@ -49,11 +49,12 @@ export default {
     }
     return {
       computedList: [],
-      slotNumber: 4,
+      slotNumber: 20,
       serie: serie,
       rouletteDuration: 3200,
       rouletteStep: rouletteStep,
-      timer: null
+      timer: null,
+      overflow: false
     };
   },
   components: {
@@ -85,6 +86,10 @@ export default {
     },
     show: function(displayed) {
       if (displayed) {
+      const tileSize = 114;
+      const margin = 30;
+      const capacity = Math.floor((document.body.offsetHeight-margin)/tileSize) * Math.floor((document.body.offsetWidth-margin)/tileSize);
+      this.overflow = capacity<this.slotNumber;
         this.$store.dispatch("initSocket");
       }else {
         clearTimeout(this.timer);
@@ -179,7 +184,7 @@ export default {
       overflow: auto;
       display: flex;
       align-items: center;
-      @media (max-aspect-ratio: 1/2) {
+      &.overflow {
         align-items: start;
       } 
       box-sizing: border-box;
