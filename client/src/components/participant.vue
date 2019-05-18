@@ -133,14 +133,17 @@ export default {
       left: 0px;
       width: 100%;
       height: 100%;
-      background: rgba(255, 255, 255, 0.6509803921568628);
+      //background: rgba(255, 255, 255, 0.4);
       display: none;
-      border: solid 8px #ffcd15;
+      border: solid 3px var(--color1);
       box-sizing: border-box;
     }
     &.focus {
       .waitingItem__over {
         display: block;
+      }
+      .waitingItem__avatar.avatar {
+        box-shadow: 0px 0px 10px 3px #ffffff inset;
       }
     }
     &.dummyItem {

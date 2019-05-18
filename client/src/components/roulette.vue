@@ -19,6 +19,12 @@
       <div class="roulette__title" v-show="target">STARTING</div>
       <button class="roulette__cancel button" @click="cancel" v-show="!target">Cancel</button>
     </div>
+    <audio ref="sound1Ref" preload="">
+      <source src="./../../assets/bip.mp3" type="audio/mp3">
+    </audio>
+    <audio ref="sound2Ref" preload="">
+      <source src="./../../assets/gong.mp3" type="audio/mp3">
+    </audio>
   </div>
 </template>
 
@@ -49,7 +55,7 @@ export default {
     }
     return {
       computedList: [],
-      slotNumber: 20,
+      slotNumber: 9,
       serie: serie,
       rouletteDuration: 3200,
       rouletteStep: rouletteStep,
@@ -86,12 +92,16 @@ export default {
     },
     show: function(displayed) {
       if (displayed) {
-      const tileSize = 114;
-      const margin = 30;
-      const capacity = Math.floor((document.body.offsetHeight-margin)/tileSize) * Math.floor((document.body.offsetWidth-margin)/tileSize);
-      this.overflow = capacity<this.slotNumber;
+        const tileSize = 114;
+        const margin = 30;
+        const capacity = Math.floor((document.body.offsetHeight-margin)/tileSize) * 
+        Math.floor((document.body.offsetWidth-margin)/tileSize);
+        this.overflow = capacity<this.slotNumber;
         this.$store.dispatch("initSocket");
       }else {
+        if(this.target) {
+          this.$refs.sound2Ref.play();
+        }
         clearTimeout(this.timer);
       }
     },
@@ -104,6 +114,10 @@ export default {
   methods: {
     ...mapActions(["cancel"]),
     startRoulette: function(clientId) {
+      this.$refs.sound1Ref.loop = false;
+      this.$refs.sound1Ref.volume = 0.3;
+      this.$refs.sound2Ref.loop = false;
+      this.$refs.sound2Ref.volume = 0.3;
       const index = this.list.map(a => a.id).indexOf(clientId);
       const pathSize = this.rouletteStep - index;
       const target = Math.floor(pathSize / this.list.length) * this.list.length + index;
@@ -126,12 +140,18 @@ export default {
       this.timer = setTimeout(() => {
         if (this.show) {
           this.computedList[k].focus = !this.computedList[k].focus;
+          if(this.computedList[k].focus) {
+            this.$refs.sound1Ref.currentTime=0;
+            this.$refs.sound1Ref.play();
+          }
           this.$forceUpdate();
           this.blink(k);
         }
       }, 450);
     },
     refreshList: function(k1, k2) {
+      this.$refs.sound1Ref.currentTime=0;
+      this.$refs.sound1Ref.play();
       this.computedList[k1].focus = false;
       this.computedList[k2].focus = true;
       this.$forceUpdate();

@@ -36,7 +36,7 @@ module.exports = function socket(serveur) {
 
     function rouletteProcess() {
         const length = Object.keys(waitingList).length
-        const waintingRoomSize = 4;
+        const waintingRoomSize = 2;
         if (length >= waintingRoomSize && length % 2 === 0) {
             const ids = [];
             for (let cliId in waitingList) {

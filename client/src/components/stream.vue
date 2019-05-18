@@ -28,7 +28,7 @@ export default {
   props: ['stream', 'emitter', 'user'],
   data() {
     return {
-      mute: false,
+      mute: true,
       hidden: false,
       avatarX: 0,
       avatarY: 0

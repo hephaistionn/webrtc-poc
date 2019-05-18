@@ -49,7 +49,7 @@ const config = {
         }
       },
       {
-        test: /\.(woff2|eot|ttf|otf|woff2|woff)$/,
+        test: /\.(woff2|eot|ttf|otf|woff2|woff|mp3)$/,
         loader: 'file-loader'
       },
       {
