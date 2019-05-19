@@ -1,6 +1,7 @@
 const path = require('path');
 const { VueLoaderPlugin } = require('vue-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const PrerenderSPAPlugin = require('prerender-spa-plugin');
 
 const jsEntry = './client/src/app.js';
 const output = './client/.dist';
@@ -68,6 +69,13 @@ const config = {
     new HtmlWebpackPlugin({
       template: './client/src/index.html',
       favicon: './client/assets/fav0.png',
+    }),
+    new PrerenderSPAPlugin({
+      staticDir: 'prerender',
+      registry: undefined,
+      renderRoutes: ['/'],
+      renderAfterTime: 5000,
+      headless: false
     })
   ]
 }
