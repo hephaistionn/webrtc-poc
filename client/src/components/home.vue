@@ -1,8 +1,10 @@
 <template>
   <div class='home'>
     <div class='home__header'>
-      <div class='home__header__pic'></div>
-      <h1 class='home__header__title'>yacam</h1>
+      <h1 class='home__header__title'>
+        <span>Yocam</span>
+        <img  src="./../../assets/logo.png"  alt="Yocam"/>
+      </h1>
       <p class='home__header__desc'>random cam,  no registration, only fun</p>
     </div>
     <div class='home__profile'>
@@ -32,6 +34,7 @@
           </label>
       </div>
       <button class='home__profile__start' v-on:click='start'  v-bind:disabled="!checked||age<18||!username">start</button>
+      <p class='home__profile__desc'>Like Chatroulette, Yocam is a random video chat without registration. Choose an avatar and username. Enter the roulette and have fun!</p>
     </div>
     <avatars v-show='edit' @select="select"/>
     <div class='home__footer'>
@@ -117,42 +120,40 @@ export default {
         justify-content: center;
         flex-direction: column;
         width: 100%;
-        min-height: 230px;
+        height: 230px;
         background-color: var(--color1);
         border-bottom: solid 3px var(--color1);
-        &__pic {
-          position: relative;
-          margin: 0 auto;
-          width: 280px;
-          height: 85px;
-          background-image: url(./../../assets/logo.png);
-        }
         &__title {
-          position: relative;
-          font-size: 2.3rem;
-          text-align: center;
-          font-weight: bold;
-          color: #fff;
-          text-shadow: 3px 0 0 var(--color2), -3px 0 0 var(--color2), 0 3px 0 var(--color2), 0 -3px 0 var(--color2), 2px 2px var(--color2), -2px -2px 0 var(--color2), 2px -2px 0 var(--color2), -2px 2px 0 var(--color2);
-          font-family: 'Xirod';
-          display: none;
+          display: inherit;
+          font-size: inherit;
+          margin-block-start: inherit;
+          margin-block-end: inherit;
+          margin-inline-start: inherit;
+          margin-inline-end: inherit;
+          font-weight: inherit;
+          span {
+            position: absolute;
+            color: rgb(250, 200, 21);
+          }
+          img {
+            height: 100%;
+            margin: 0 auto;
+          }
         }
         &__desc {
           position: relative;
           margin: 9px auto 72px auto;
           color: #22262a;
           text-align: center;
-          font-size: 0.8rem;
+          font-size: 0.9rem;
           max-width: 397px;
           text-transform: uppercase;
           font-weight: bold;
         }
         @media (max-aspect-ratio: 1/1) {
-          .home__header__pic {
-            // background-position-x: -173px;
-          }
-          .home__header__title {
-            font-size: 1.5rem;
+          height: 180px;
+          .home__header__desc {
+            font-size: 0.7rem;
           }
         }
       }
@@ -171,6 +172,10 @@ export default {
         padding: 1.8rem;
         max-width: 400px;
         margin: auto;
+        @media (max-height:580px){
+          transform: scale(0.8);
+          top: -63px;
+        }
         input {
           position: absolute;
           top: 0;
@@ -201,7 +206,7 @@ export default {
         }
         &__avatar {
           position: absolute;
-          top: -75px;
+          top: -64px;
           left: calc(50% - 63px);
           border-radius: 70px;
           border: solid 3px var(--color1);
@@ -215,7 +220,7 @@ export default {
         }
         &__avatarbg {
           position: absolute;
-          top: -78px;
+          top: -68px;
           left: calc(50% - 66px);
           border-radius: 70px;
           width: 132px;
@@ -308,6 +313,10 @@ export default {
           border-radius: 10px;
           border: none;
           text-transform: uppercase;
+        }
+        &__desc {
+          color: white;
+          margin: 2rem 0px;
         }
         &__terms {
           display: flex;
