@@ -66,7 +66,8 @@ const config = {
   plugins: [
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
-      template: './client/src/index.html'
+      template: './client/src/index.html',
+      favicon: './client/assets/fav0.png',
     })
   ]
 }

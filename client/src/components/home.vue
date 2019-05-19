@@ -206,7 +206,7 @@ export default {
         }
         &__avatar {
           position: absolute;
-          top: -64px;
+          top: -65px;
           left: calc(50% - 63px);
           border-radius: 70px;
           border: solid 3px var(--color1);
