@@ -5,6 +5,10 @@ const bodyParser = require('body-parser').json()
 const middlewareError = require('./middleware/error');
 const isBot = require('./middleware/isBot');
 const socket = require('./services/socket');
+const http = require('http');
+const https = require('https');
+const production = process.env.NODE_ENV === 'production';
+let server = null;
 
 // loading middleware
 app.use(cookieParser, bodyParser);
@@ -19,10 +23,27 @@ app.use('/', express.static('client/.dist'));
 // loading error middleware
 app.use(middlewareError);
 
-const PORT = process.env.PORT || 3000;
+if (production) {
+  console.info('--- ssl enabled ----')
+  const sslConfig = require('./ssl-config');
+  const options = {
+      key: sslConfig.privateKey,
+      cert: sslConfig.certificate,
+  };
+  app.set('port', 443);
+  server = https.createServer(options, app);
+  express.get('*', function(req, res) {  
+      res.redirect('https://' + req.headers.host + req.url);
+  });
+  http.createServer(express).listen(80);
+} else {
+  app.set('port', process.env.PORT || 3000);
+  server = http.createServer(app);
+}
 
-const serveur = app.listen(PORT, function () {
-  console.log(`Example app listening on port ${PORT} !`);
+server.listen(app.get('port'), function() {
+  const baseUrl = (production ? 'https://' : 'http://') + app.get('host') + ':' + app.get('port');
+  console.info('Server listening ', baseUrl);
 });
 
-socket(serveur);
+socket(server);
