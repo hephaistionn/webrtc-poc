@@ -1,0 +1,844 @@
+<html><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="description" content="Like Chatroulette, Yocam is a random video chat without registration. Choose an avatar and username. Enter the roulette and have fun!">
+  <meta name="keywords" content="">
+  <link rel="icon" type="image/png" href="./../assets/fav0.png">
+  <title>Yocam</title>
+<link rel="shortcut icon" href="fav0.png"><meta name="viewport" content="width=device-width, initial-scale=1"><style type="text/css">.message {
+display: block;
+margin-top: 1rem;
+}
+.message__author {
+margin: 5px;
+font-size: 0.8rem;
+color: var(--color2);
+text-shadow: 0 0 3px black;
+display: none;
+}
+@media (min-aspect-ratio: 8 / 5) {
+.message .message__content {
+padding: 0.8rem;
+font-size: 1.4rem;
+}
+.message .message__author {
+font-size: 1rem;
+}
+}
+.message__content {
+padding: 0.5rem;
+font-size: 0.9rem;
+border-radius: 12px;
+background: rgba(0, 0, 0, 0.3);
+color: white;
+display: inline-block;
+}
+.message.current .message__content {
+text-align: right;
+background: rgba(255, 205, 22, 0.5);
+}
+</style><style type="text/css">.stack {
+position: absolute;
+width: 100%;
+bottom: 60px;
+left: 0px;
+height: 400px;
+display: flex;
+flex-direction: column;
+padding: 1rem;
+justify-content: flex-end;
+overflow: hidden;
+z-index: 2;
+}
+</style><style type="text/css">.submitter {
+position: absolute;
+width: 100%;
+height: 100%;
+bottom: 0;
+right: 0;
+display: flex;
+flex-direction: row;
+justify-content: flex-start;
+}
+.submitter__input {
+position: relative;
+display: inline-block;
+flex-grow: 5;
+font-size: 1.4rem;
+line-height: 2rem;
+padding: 3px;
+resize: none;
+overflow: hidden;
+min-height: 2rem;
+max-height: 100px;
+border: none;
+margin: 0 1rem;
+height: 45px;
+align-self: flex-end;
+background: #ffffff;
+color: var(--color2);
+z-index: 3;
+border: solid 4px var(--color1);
+}
+.submitter__send {
+position: relative;
+display: inline-block;
+flex-basis: 45px;
+flex-shrink: 0;
+border: none;
+background-color: transparent;
+background-image: url(e6df8496d6bd5c26442dab9db0132be0.png);
+background-size: auto 100%;
+background-position-x: 100%;
+width: 45px;
+height: 45px;
+z-index: 2;
+}
+</style><style type="text/css">.chat {
+position: relative;
+display: inline-block;
+width: calc(100% - 151px);
+min-width: 209px;
+max-width: 467px;
+height: 45px;
+}
+</style><style type="text/css">.stream {
+position: absolute;
+display: inline-block;
+height: 100%;
+width: 100%;
+overflow: visible;
+z-index: 1;
+}
+.stream.emitter {
+width: 33%;
+height: 36%;
+right: 0;
+bottom: 0;
+max-width: 500px;
+max-height: 600px;
+display: flex;
+align-items: flex-end;
+justify-content: flex-end;
+z-index: 2;
+}
+.stream.emitter video {
+position: relative;
+}
+.stream video {
+position: absolute;
+height: 100%;
+width: 100%;
+object-fit: cover;
+}
+.stream__profile {
+position: absolute;
+display: flex;
+align-items: center;
+top: 0;
+left: 0;
+}
+.stream__profile .avatar {
+display: inline-block;
+margin: 1rem;
+width: 45px;
+height: 45px;
+background-size: 450px;
+background-repeat: no-repeat;
+background-position: -45px -45px;
+border-radius: 60px;
+border: solid 2px var(--color1);
+}
+.stream__profile__username {
+display: inline-block;
+font-size: 1.5rem;
+width: 500px;
+color: var(--color1);
+text-shadow: 0 0 5px var(--color2);
+}
+.stream__profile__username.emitter {
+  text-align: right;
+}
+@media (max-aspect-ratio: 8 / 5) {
+.stream__profile__username {
+    font-size: 1rem;
+    width: 250px;
+}
+.stream__profile__username.emitter {
+      display: none;
+}
+}
+.stream__profile.emitter {
+flex-direction: row-reverse;
+left: inherit;
+right: 0;
+top: -70px;
+}
+.stream .controle {
+display: none;
+}
+.stream:hover .controle {
+display: block;
+}
+.stream__button__audio {
+position: absolute;
+top: 1rem;
+right: 1rem;
+width: 45px;
+font-size: 2rem;
+text-align: center;
+cursor: pointer;
+color: var(--color1);
+-moz-osx-font-smoothing: grayscale;
+-webkit-font-smoothing: antialiased;
+font-style: normal;
+font-variant: normal;
+text-rendering: auto;
+font-family: 'Font Awesome 5 Free';
+}
+.stream__button__audio.disabled:before {
+content: '\f131';
+}
+.stream__button__audio:before {
+content: '\f3c9';
+}
+.stream__button__video {
+position: absolute;
+top: 1rem;
+right: 1rem;
+width: 45px;
+font-size: 2rem;
+text-align: center;
+cursor: pointer;
+color: var(--color1);
+-moz-osx-font-smoothing: grayscale;
+-webkit-font-smoothing: antialiased;
+font-style: normal;
+font-variant: normal;
+text-rendering: auto;
+font-family: 'Font Awesome 5 Free';
+right: 4rem;
+}
+.stream__button__video.disabled:before {
+content: '\f4e2';
+}
+.stream__button__video:before {
+content: '\f03d';
+}
+</style><style type="text/css">.live {
+position: relative;
+width: 100%;
+height: 100%;
+overflow: hidden;
+}
+.live__tools {
+position: absolute;
+display: flex;
+flex-direction: row;
+justify-items: center;
+align-items: center;
+bottom: 0;
+left: 0;
+height: 70px;
+width: 100%;
+background: rgba(255, 255, 255, 0.3);
+z-index: 2;
+}
+.live__tools .button {
+display: inline-block;
+position: relative;
+cursor: pointer;
+border: none;
+background-image: url(e6df8496d6bd5c26442dab9db0132be0.png);
+background-size: auto 100%;
+max-width: 55px;
+max-height: 55px;
+min-width: 45px;
+min-height: 45px;
+width: 6%;
+margin-left: 1rem;
+background-color: transparent;
+z-index: 1;
+}
+.live__tools .button:after {
+  content: "";
+  display: block;
+  padding-bottom: 122%;
+}
+.live__tools__stop {
+background-position-x: 50%;
+}
+</style><style type="text/css">.waitingItem {
+position: relative;
+display: inline-block;
+width: 110px;
+height: 110px;
+margin-bottom: 4px;
+margin-left: 4px;
+border: solid 2px var(--color1);
+background-color: var(--color2);
+}
+.waitingItem__username {
+position: absolute;
+display: inline-block;
+bottom: 0px;
+left: 0px;
+width: 102px;
+color: #ffcd15;
+padding: 4px;
+font-size: 0.8rem;
+white-space: normal;
+background-color: rgba(34, 38, 42, 0.5);
+}
+.waitingItem__username__sexe {
+display: inline-block;
+margin-right: 5px;
+margin-left: 2px;
+font-size: 1.2rem;
+}
+.waitingItem__username__sexe.v1:before {
+  content: '\f222';
+}
+.waitingItem__username__sexe.v2:before {
+  content: '\f221';
+}
+.waitingItem__username__sexe.v3:before {
+  content: '\f22c';
+}
+.waitingItem__avatar {
+display: inline-block;
+position: absolute;
+top: 0;
+left: 0;
+background-repeat: no-repeat;
+box-shadow: 0px 0px 10px 2px rgba(34, 38, 42, 0.55) inset;
+}
+.waitingItem__avatar.avatar {
+width: 110px;
+height: 110px;
+background-size: 1100px;
+}
+.waitingItem__age {
+position: absolute;
+display: inline-block;
+top: 0px;
+right: 0px;
+color: var(--color1);
+font-weight: bold;
+background: rgba(34, 38, 42, 0.3);
+padding: 4px 3px 6px 6px;
+border-bottom-left-radius: 15px;
+}
+.waitingItem__over {
+position: absolute;
+top: 0px;
+left: 0px;
+width: 100%;
+height: 100%;
+display: none;
+border: solid 3px var(--color1);
+box-sizing: border-box;
+}
+.waitingItem.focus .waitingItem__over {
+display: block;
+}
+.waitingItem.focus .waitingItem__avatar.avatar {
+box-shadow: 0px 0px 10px 3px #ffffff inset;
+}
+.waitingItem.dummyItem {
+width: 114px;
+height: 0px;
+border: none;
+}
+.waitingItem.dummyItem .waitingItem__age,
+.waitingItem.dummyItem .waitingItem__avatar,
+.waitingItem.dummyItem .waitingItem__username {
+display: none;
+}
+.waitingItem.empty {
+background-color: rgba(34, 38, 42, 0.6);
+border-color: black;
+}
+.waitingItem.empty .waitingItem__age,
+.waitingItem.empty .waitingItem__avatar,
+.waitingItem.empty .waitingItem__username {
+display: none;
+}
+</style><style type="text/css">.roulette {
+position: absolute;
+width: 100%;
+height: 100%;
+overflow: hidden;
+}
+.roulette__modal {
+position: absolute;
+bottom: 0;
+left: 0;
+padding: 0.5rem 1rem;
+box-sizing: border-box;
+width: 100%;
+background: var(--color2);
+border-top: solid 2px var(--color1);
+}
+.roulette__title {
+position: relative;
+font-size: 1rem;
+text-transform: UPPERCASE;
+text-align: center;
+color: white;
+margin: 0.2rem 0 0.5rem 0;
+}
+.roulette__cancel {
+position: relative;
+display: block;
+width: 70%;
+cursor: pointer;
+font-size: 1.6rem;
+background: var(--color1);
+margin: 1px auto 0 auto;
+margin: 11px auto 7px auto;
+border-radius: 10px;
+border: none;
+text-transform: uppercase;
+max-width: 210px;
+}
+.roulette__container {
+position: relative;
+margin: 10px auto;
+overflow: auto;
+display: flex;
+align-items: center;
+box-sizing: border-box;
+padding: 0.8rem 0.1rem;
+width: 100%;
+max-width: 600px;
+height: calc(100% - 90px);
+}
+.roulette__container.overflow {
+align-items: start;
+}
+.roulette__list {
+position: relative;
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+justify-content: center;
+}
+.roulette video {
+position: absolute;
+height: 100%;
+width: 100%;
+object-fit: cover;
+}
+</style><style type="text/css">.avatar {
+display: inline-block;
+width: 120px;
+height: 120px;
+background-size: 1200px;
+background-repeat: no-repeat;
+background-position: -120px -120px;
+}
+</style><style type="text/css">.avatars {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: var(--color2);
+overflow: hidden scroll;
+z-index: 2;
+}
+.avatars__container {
+display: flex;
+justify-content: center;
+flex-direction: row;
+flex-wrap: wrap;
+}
+.avatars__container__avatar {
+padding: 6px;
+transform: scale(1);
+transition: transform 300ms;
+box-sizing: border-box;
+border: solid 2px var(--color2);
+cursor: pointer;
+}
+.avatars__container__avatar:hover {
+  z-index: 4;
+  border: solid 2px var(--color1);
+  transform: scale(1.1);
+}
+</style><style type="text/css">.home {
+position: absolute;
+width: 100%;
+height: 100%;
+background: #22262A;
+}
+.home__header {
+position: relative;
+display: flex;
+justify-content: center;
+flex-direction: column;
+width: 100%;
+height: 230px;
+background-color: var(--color1);
+border-bottom: solid 3px var(--color1);
+}
+.home__header__title {
+display: inherit;
+font-size: inherit;
+margin-block-start: inherit;
+margin-block-end: inherit;
+margin-inline-start: inherit;
+margin-inline-end: inherit;
+font-weight: inherit;
+}
+.home__header__title span {
+  position: absolute;
+  color: #fac815;
+}
+.home__header__title img {
+  height: 100%;
+  margin: 0 auto;
+}
+.home__header__desc {
+position: relative;
+margin: 9px auto 72px auto;
+color: #22262a;
+text-align: center;
+font-size: 0.9rem;
+max-width: 397px;
+text-transform: uppercase;
+font-weight: bold;
+}
+@media (max-aspect-ratio: 1 / 1) {
+.home__header {
+  height: 180px;
+}
+.home__header .home__header__desc {
+    font-size: 0.7rem;
+}
+}
+.home__footer {
+position: absolute;
+padding: 1rem;
+left: 0;
+bottom: 0;
+width: 100%;
+color: white;
+}
+.home__profile {
+position: relative;
+display: flex;
+flex-wrap: wrap;
+padding: 1.8rem;
+max-width: 400px;
+margin: auto;
+}
+@media (max-height: 580px) {
+.home__profile {
+  transform: scale(0.8);
+  top: -63px;
+}
+}
+.home__profile input {
+position: absolute;
+top: 0;
+left: 0;
+padding: 5px 9px;
+font-size: 1.4rem;
+padding-left: 3rem;
+width: 100%;
+border-radius: 10px;
+}
+.home__profile .mask {
+width: 100%;
+height: 100%;
+border: solid 3px var(--color1);
+border-radius: 10px;
+box-sizing: border-box;
+clip-path: inset(0 30px 0 calc(100% - 30px));
+}
+.home__profile .icon {
+position: absolute;
+top: 8px;
+left: 8px;
+font-size: 1.5rem;
+color: var(--colo2);
+}
+.home__profile__avatar {
+position: absolute;
+top: -65px;
+left: calc(50% - 63px);
+border-radius: 70px;
+border: solid 3px var(--color1);
+cursor: pointer;
+width: 120px;
+height: 120px;
+margin-right: 10px;
+background-size: 1200px;
+background-repeat: no-repeat;
+background-position: -120px -120px;
+}
+.home__profile__avatarbg {
+position: absolute;
+top: -68px;
+left: calc(50% - 66px);
+border-radius: 70px;
+width: 132px;
+height: 132px;
+background: var(--color2);
+}
+.home__profile__username {
+position: relative;
+display: block;
+width: 100%;
+height: 41px;
+margin: 3.5rem 0 0 0;
+}
+.home__profile__username .icon:before {
+  content: '\f007';
+}
+.home__profile__age {
+position: relative;
+display: block;
+width: calc(50% - 1.5rem);
+height: 41px;
+margin: 2rem 3rem 0 0;
+}
+.home__profile__age input {
+  padding-left: 43%;
+}
+.home__profile__age .icon:before {
+  content: '\f1fd';
+}
+.home__profile__sexe {
+position: relative;
+display: flex;
+align-items: center;
+justify-content: space-around;
+height: 41px;
+margin: 2rem 0 0 0;
+background: white;
+border-radius: 10px;
+width: calc(50% - 1.5rem);
+box-sizing: border-box;
+}
+.home__profile__sexe .icon {
+  position: relative;
+  display: inline-block;
+  top: inherit;
+  left: inherit;
+  margin: 6px 8px;
+  cursor: pointer;
+  color: black;
+}
+.home__profile__sexe .selected {
+  color: #ecbd0b;
+}
+.home__profile__sexe__v1.icon {
+  margin-left: 20px;
+}
+.home__profile__sexe__v1:before {
+  content: '\f222';
+}
+.home__profile__sexe__v2:before {
+  content: '\f221';
+}
+.home__profile__sexe__v3.icon {
+  margin-right: 20px;
+}
+.home__profile__sexe__v3:before {
+  content: '\f22c';
+}
+.home__profile__start {
+position: relative;
+display: inline-block;
+width: 100%;
+cursor: pointer;
+font-size: 1.5rem;
+background: var(--color1);
+color: var(--color2);
+margin: 0.3rem auto 0 auto;
+padding: 7px 5px 8px 5px;
+border-radius: 10px;
+border: none;
+text-transform: uppercase;
+}
+.home__profile__desc {
+color: white;
+margin: 2rem 0px;
+}
+.home__profile__terms {
+display: flex;
+align-items: center;
+position: relative;
+margin: 1.3rem 0 5px 0;
+width: 100%;
+}
+.home__profile__terms__input.icon {
+  position: relative;
+  top: inherit;
+  left: inherit;
+  font-size: 1.5rem;
+  color: var(--color1);
+  margin-right: 0.5rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  box-sizing: border-box;
+  border: solid 1px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.home__profile__terms__input.checked:before {
+  content: '\f00c';
+  font-size: 0.5em;
+  position: absolute;
+  margin: 3px;
+}
+.home__profile__terms label {
+  display: inline-block;
+  position: relative;
+  color: #ffcd15;
+  font-size: 0.8rem;
+}
+.home__profile__terms .terms {
+  color: white;
+  cursor: pointer;
+}
+</style><style type="text/css">.cgu-terms {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+overflow: auto;
+background: white;
+z-index: 1;
+}
+.cgu-terms__container {
+position: relative;
+max-width: 800px;
+margin: auto;
+padding: 40px;
+}
+.cgu-terms__container p {
+margin: 0;
+}
+.cgu-terms__container__close {
+position: fixed;
+border: none;
+background: var(--color1);
+padding: 5px 18px;
+right: 1rem;
+top: 1rem;
+}
+</style><style type="text/css">:root {
+--color1: #ffcd15;
+--color2: #22262A;
+--color3: #5eeaf3;
+--selected: #000;
+}
+body {
+margin: 0;
+font-family: sans-serif;
+}
+.app {
+position: absolute;
+top: 0;
+left: 0;
+margin: 0;
+padding: 0;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+width: 100%;
+height: 100%;
+overflow: hidden;
+background: var(--color2);
+}
+.app .screen {
+position: absolute;
+display: inline-block;
+top: 0;
+left: 15%;
+width: 70%;
+height: 100%;
+margin: 0;
+}
+.app .adv {
+position: absolute;
+display: inline-block;
+height: 100%;
+width: 15%;
+top: 0;
+left: 0;
+margin: 0;
+background-color: white;
+background-size: 40px;
+}
+.app .adv.large {
+left: 85%;
+}
+@media (max-aspect-ratio: 8 / 5) {
+.app .screen {
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+}
+.app .adv {
+top: 0;
+left: 0;
+width: 100%;
+height: 10%;
+display: none;
+}
+.app .adv.large {
+  display: none;
+}
+.app.v0 .screen {
+top: 0;
+}
+.app.v0 .adv {
+top: 90%;
+}
+}
+button {
+cursor: pointer;
+}
+button:hover {
+transform: scale(1.005);
+}
+button:disabled {
+cursor: no-drop;
+}
+button:disabled:hover {
+transform: scale(1);
+}
+.avatar {
+background-image: url(edcf8c3ec725930a8f02465ffb8bb00a.jpg);
+}
+@font-face {
+font-family: 'Xirod';
+src: url(241fc7db74a38d27a10b44b4505ac9ad.ttf);
+}
+@font-face {
+font-family: 'Font Awesome 5 Free';
+font-style: normal;
+font-weight: 900;
+src: url(a7140145ebaaf5fb14e40430af5d25c4.woff) format("woff");
+}
+.icon {
+-moz-osx-font-smoothing: grayscale;
+-webkit-font-smoothing: antialiased;
+font-style: normal;
+font-variant: normal;
+text-rendering: auto;
+font-family: 'Font Awesome 5 Free';
+}
+</style></head>
+
+<body>
+  <div class="app v0"><div class="adv"></div> <div class="screen"><div class="home"><div class="home__header"><h1 class="home__header__title"><span>Yocam</span> <img src="289aa2fa829df34dcdd789c02e4c091e.png" alt="Yocam"></h1> <p class="home__header__desc">random cam,  no registration, only fun</p></div> <div class="home__profile"><div class="home__profile__avatarbg"></div> <div class="avatar home__profile__avatar" style="background-position: 0px -1080px;"></div> <div class="home__profile__username"><input maxlength="40"> <div class="icon"></div></div> <div class="home__profile__age"><input maxlength="3" type="number" min="0" max="999"> <div class="icon"></div></div> <div class="home__profile__sexe"><div class="home__profile__sexe__v1 icon selected"></div> <div class="home__profile__sexe__v2 icon"></div> <div class="home__profile__sexe__v3 icon"></div></div> <div class="home__profile__terms"><div class="home__profile__terms__input icon"></div> <label><span>You must be over 18 and agree to the</span> <span class="terms"> terms</span></label></div> <button disabled="disabled" class="home__profile__start">start</button> <p class="home__profile__desc">Like Chatroulette, Yocam is a random video chat without registration. Choose an avatar and username. Enter the roulette and have fun!</p></div> <div class="avatars" style="display: none;"><div class="avatars__container"><div class="avatars__container__avatar avatar selected" style="background-position: 0px 0px;"></div><div class="avatars__container__avatar avatar" style="background-position: -120px 0px;"></div><div class="avatars__container__avatar avatar" style="background-position: -240px 0px;"></div><div class="avatars__container__avatar avatar" style="background-position: -360px 0px;"></div><div class="avatars__container__avatar avatar" style="background-position: -480px 0px;"></div><div class="avatars__container__avatar avatar" style="background-position: -600px 0px;"></div><div class="avatars__container__avatar avatar" style="background-position: -720px 0px;"></div><div class="avatars__container__avatar avatar" style="background-position: -840px 0px;"></div><div class="avatars__container__avatar avatar" style="background-position: -960px 0px;"></div><div class="avatars__container__avatar avatar" style="background-position: -1080px 0px;"></div><div class="avatars__container__avatar avatar" style="background-position: 0px -120px;"></div><div class="avatars__container__avatar avatar" style="background-position: -120px -120px;"></div><div class="avatars__container__avatar avatar" style="background-position: -240px -120px;"></div><div class="avatars__container__avatar avatar" style="background-position: -360px -120px;"></div><div class="avatars__container__avatar avatar" style="background-position: -480px -120px;"></div><div class="avatars__container__avatar avatar" style="background-position: -600px -120px;"></div><div class="avatars__container__avatar avatar" style="background-position: -720px -120px;"></div><div class="avatars__container__avatar avatar" style="background-position: -840px -120px;"></div><div class="avatars__container__avatar avatar" style="background-position: -960px -120px;"></div><div class="avatars__container__avatar avatar" style="background-position: -1080px -120px;"></div><div class="avatars__container__avatar avatar" style="background-position: 0px -240px;"></div><div class="avatars__container__avatar avatar" style="background-position: -120px -240px;"></div><div class="avatars__container__avatar avatar" style="background-position: -240px -240px;"></div><div class="avatars__container__avatar avatar" style="background-position: -360px -240px;"></div><div class="avatars__container__avatar avatar" style="background-position: -480px -240px;"></div><div class="avatars__container__avatar avatar" style="background-position: -600px -240px;"></div><div class="avatars__container__avatar avatar" style="background-position: -720px -240px;"></div><div class="avatars__container__avatar avatar" style="background-position: -840px -240px;"></div><div class="avatars__container__avatar avatar" style="background-position: -960px -240px;"></div><div class="avatars__container__avatar avatar" style="background-position: -1080px -240px;"></div><div class="avatars__container__avatar avatar" style="background-position: 0px -360px;"></div><div class="avatars__container__avatar avatar" style="background-position: -120px -360px;"></div><div class="avatars__container__avatar avatar" style="background-position: -240px -360px;"></div><div class="avatars__container__avatar avatar" style="background-position: -360px -360px;"></div><div class="avatars__container__avatar avatar" style="background-position: -480px -360px;"></div><div class="avatars__container__avatar avatar" style="background-position: -600px -360px;"></div><div class="avatars__container__avatar avatar" style="background-position: -720px -360px;"></div><div class="avatars__container__avatar avatar" style="background-position: -840px -360px;"></div><div class="avatars__container__avatar avatar" style="background-position: -960px -360px;"></div><div class="avatars__container__avatar avatar" style="background-position: -1080px -360px;"></div><div class="avatars__container__avatar avatar" style="background-position: 0px -480px;"></div><div class="avatars__container__avatar avatar" style="background-position: -120px -480px;"></div><div class="avatars__container__avatar avatar" style="background-position: -240px -480px;"></div><div class="avatars__container__avatar avatar" style="background-position: -360px -480px;"></div><div class="avatars__container__avatar avatar" style="background-position: -480px -480px;"></div><div class="avatars__container__avatar avatar" style="background-position: -600px -480px;"></div><div class="avatars__container__avatar avatar" style="background-position: -720px -480px;"></div><div class="avatars__container__avatar avatar" style="background-position: -840px -480px;"></div><div class="avatars__container__avatar avatar" style="background-position: -960px -480px;"></div><div class="avatars__container__avatar avatar" style="background-position: -1080px -480px;"></div><div class="avatars__container__avatar avatar" style="background-position: 0px -600px;"></div><div class="avatars__container__avatar avatar" style="background-position: -120px -600px;"></div><div class="avatars__container__avatar avatar" style="background-position: -240px -600px;"></div><div class="avatars__container__avatar avatar" style="background-position: -360px -600px;"></div><div class="avatars__container__avatar avatar" style="background-position: -480px -600px;"></div><div class="avatars__container__avatar avatar" style="background-position: -600px -600px;"></div><div class="avatars__container__avatar avatar" style="background-position: -720px -600px;"></div><div class="avatars__container__avatar avatar" style="background-position: -840px -600px;"></div><div class="avatars__container__avatar avatar" style="background-position: -960px -600px;"></div><div class="avatars__container__avatar avatar" style="background-position: -1080px -600px;"></div><div class="avatars__container__avatar avatar" style="background-position: 0px -720px;"></div><div class="avatars__container__avatar avatar" style="background-position: -120px -720px;"></div><div class="avatars__container__avatar avatar" style="background-position: -240px -720px;"></div><div class="avatars__container__avatar avatar" style="background-position: -360px -720px;"></div><div class="avatars__container__avatar avatar" style="background-position: -480px -720px;"></div><div class="avatars__container__avatar avatar" style="background-position: -600px -720px;"></div><div class="avatars__container__avatar avatar" style="background-position: -720px -720px;"></div><div class="avatars__container__avatar avatar" style="background-position: -840px -720px;"></div><div class="avatars__container__avatar avatar" style="background-position: -960px -720px;"></div><div class="avatars__container__avatar avatar" style="background-position: -1080px -720px;"></div><div class="avatars__container__avatar avatar" style="background-position: 0px -840px;"></div><div class="avatars__container__avatar avatar" style="background-position: -120px -840px;"></div><div class="avatars__container__avatar avatar" style="background-position: -240px -840px;"></div><div class="avatars__container__avatar avatar" style="background-position: -360px -840px;"></div><div class="avatars__container__avatar avatar" style="background-position: -480px -840px;"></div><div class="avatars__container__avatar avatar" style="background-position: -600px -840px;"></div><div class="avatars__container__avatar avatar" style="background-position: -720px -840px;"></div><div class="avatars__container__avatar avatar" style="background-position: -840px -840px;"></div><div class="avatars__container__avatar avatar" style="background-position: -960px -840px;"></div><div class="avatars__container__avatar avatar" style="background-position: -1080px -840px;"></div><div class="avatars__container__avatar avatar" style="background-position: 0px -960px;"></div><div class="avatars__container__avatar avatar" style="background-position: -120px -960px;"></div><div class="avatars__container__avatar avatar" style="background-position: -240px -960px;"></div><div class="avatars__container__avatar avatar" style="background-position: -360px -960px;"></div><div class="avatars__container__avatar avatar" style="background-position: -480px -960px;"></div><div class="avatars__container__avatar avatar" style="background-position: -600px -960px;"></div><div class="avatars__container__avatar avatar" style="background-position: -720px -960px;"></div><div class="avatars__container__avatar avatar" style="background-position: -840px -960px;"></div><div class="avatars__container__avatar avatar" style="background-position: -960px -960px;"></div><div class="avatars__container__avatar avatar" style="background-position: -1080px -960px;"></div><div class="avatars__container__avatar avatar" style="background-position: 0px -1080px;"></div><div class="avatars__container__avatar avatar" style="background-position: -120px -1080px;"></div><div class="avatars__container__avatar avatar" style="background-position: -240px -1080px;"></div><div class="avatars__container__avatar avatar" style="background-position: -360px -1080px;"></div><div class="avatars__container__avatar avatar" style="background-position: -480px -1080px;"></div><div class="avatars__container__avatar avatar" style="background-position: -600px -1080px;"></div><div class="avatars__container__avatar avatar" style="background-position: -720px -1080px;"></div><div class="avatars__container__avatar avatar" style="background-position: -840px -1080px;"></div><div class="avatars__container__avatar avatar" style="background-position: -960px -1080px;"></div><div class="avatars__container__avatar avatar" style="background-position: -1080px -1080px;"></div></div></div> <div class="home__footer">
+©2019-2020 yacam
+</div></div> <div class="roulette" style="display: none;"><video style="display: none;"></video> <div class="roulette__container"><div class="roulette__list"></div></div> <div class="roulette__focus" style="display: none;"><div class="roulette__focus__pointer1"></div></div> <div class="roulette__modal"><div class="roulette__title">WAITING FOR PARTICIPANTS</div> <div class="roulette__title" style="display: none;">STARTING</div> <button class="roulette__cancel button">Cancel</button></div> <audio preload=""><source src="aadccb8195334bb8701548309b15b86b.mp3" type="audio/mp3"></audio> <audio preload=""><source src="a6352e7a19b2b44d0d466545c4f1a7e3.mp3" type="audio/mp3"></audio></div> <div class="live" style="display: none;"><div class="stream emitter"><video></video> <div class="stream__profile emitter"><div class="stream__profile__avatar avatar" style="background-position: 0px -405px;"></div> <div class="stream__profile__username emitter">Carlene15 25</div></div> <div class="stream__button__audio controle disabled"></div> <div class="stream__button__video controle"></div></div> <div class="stream"><video></video> <div class="stream__profile"><div class="stream__profile__avatar avatar" style="background-position: 0px 0px;"></div> <!----></div> <div class="stream__button__audio controle disabled"></div> <div class="stream__button__video controle" style="display: none;"></div></div> <div class="live__tools"><div class="chat"><div class="stack"></div> <div class="submitter"><textarea rows="1" class="submitter__input"></textarea> <button class="submitter__send"></button></div></div> <button class="live__tools__stop button"></button> <button class="live__tools__next button"></button></div></div> <!----></div> <div class="adv large"></div></div>
+<script type="text/javascript" src="bundle.js"></script>
+</body></html>

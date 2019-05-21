@@ -6,7 +6,7 @@ const PrerenderSPAPlugin = require('prerender-spa-plugin');
 const jsEntry = './client/src/app.js';
 const output = './client/.dist';
 const bundleName = 'bundle'
-
+const prettify = true;
 
 const config = {
   entry: [jsEntry],
@@ -15,7 +15,7 @@ const config = {
     filename: `${bundleName}.js`
   },
   optimization: {
-    minimize: false
+    minimize: prettify
   },
   module: {
     rules: [
@@ -32,7 +32,7 @@ const config = {
         use: {
           loader: 'vue-loader',
           options: {
-            prettify: false,
+            prettify: prettify,
           }
         }
       },
@@ -45,7 +45,7 @@ const config = {
         use: {
           loader: 'html-loader',
           options: {
-            minimize: false
+            minimize: prettify
           }
         }
       },
