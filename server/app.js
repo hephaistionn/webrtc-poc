@@ -3,12 +3,14 @@ const app = express();
 const cookieParser = require('cookie-parser')();
 const bodyParser = require('body-parser').json()
 const middlewareError = require('./middleware/error');
+const isBot = require('./middleware/isBot');
 const socket = require('./services/socket');
 
 // loading middleware
 app.use(cookieParser, bodyParser);
 
 // loading routes
+app.get('/', isBot);
 app.use('/', express.static('client/.dist'));
 
 // loading api
