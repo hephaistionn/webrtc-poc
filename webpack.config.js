@@ -6,9 +6,10 @@ const PrerenderSPAPlugin = require('prerender-spa-plugin');
 const jsEntry = './client/src/app.js';
 const output = './client/.dist';
 const bundleName = 'bundle'
-const prettify = true;
+const ENV = process.env.NODE_ENV;
+const prettify = ENV === 'production';
 
-const config = {
+module.exports = {
   entry: [jsEntry],
   output: {
     path: path.resolve(__dirname, output),
@@ -69,7 +70,12 @@ const config = {
     new HtmlWebpackPlugin({
       template: './client/src/index.html',
       favicon: './client/assets/fav0.png',
-    }),
+    })
+  ]
+}
+
+if (ENV !== 'production') {
+  module.exports.plugins.push(
     new PrerenderSPAPlugin({
       staticDir: 'prerender',
       registry: undefined,
@@ -77,7 +83,5 @@ const config = {
       renderAfterTime: 5000,
       headless: false
     })
-  ]
+  );
 }
-
-module.exports = config;

@@ -5,45 +5,26 @@ const bodyParser = require('body-parser').json()
 const middlewareError = require('./middleware/error');
 const isBot = require('./middleware/isBot');
 const socket = require('./services/socket');
-const http = require('http');
 const https = require('https');
-const production = process.env.NODE_ENV === 'production';
-let server = null;
+const http = require('http');
+const sslConfig = require('./certificates/ssl-config');
+const config = require('./config.js');
 
-// loading middleware
 app.use(cookieParser, bodyParser);
-
-// loading routes
 app.get('/', isBot);
 app.use('/', express.static('client/.dist'));
-
-// loading api
-//app.use('/api/', apiArticle, apiMember, apiComment, apiMessage, apiDocument)
-
-// loading error middleware
 app.use(middlewareError);
 
-if (production) {
-  console.info('--- ssl enabled ----')
-  const sslConfig = require('./ssl-config');
-  const options = {
-      key: sslConfig.privateKey,
-      cert: sslConfig.certificate,
-  };
-  app.set('port', 443);
-  server = https.createServer(options, app);
-  express.get('*', function(req, res) {  
-      res.redirect('https://' + req.headers.host + req.url);
+let server;
+if(config.isProd && !config.isHeroku) {
+  server = https.createServer(sslConfig, app).listen( config.port, function(){
+    console.log("Express server listening on port " + config.port + " with ssl");
   });
-  http.createServer(express).listen(80);
 } else {
-  app.set('port', process.env.PORT || 3000);
-  server = http.createServer(app);
+  server = http.createServer(app).listen( config.port, function(){
+    console.log("Express server listening on port " + config.port);
+  });
 }
 
-server.listen(app.get('port'), function() {
-  const baseUrl = (production ? 'https://' : 'http://') + app.get('host') + ':' + app.get('port');
-  console.info('Server listening ', baseUrl);
-});
-
 socket(server);
+
