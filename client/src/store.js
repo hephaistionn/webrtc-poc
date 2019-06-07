@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 import Peer from 'simple-peer';
 
 let id = localStorage.getItem('clientId');
-id = id ? id : new Uint8Array(10).reduce(id => id + Math.random().toString(36).substr(2, 9));
+id = id ? id : new Uint8Array(6).reduce(id => id + Math.random().toString(36).substr(2, 9));
 const usernameList = ['Ardal', 'Alvin', 'Justine', 'Pauline', 'Yaroslav', 'Bob', 'Terika', 'Carlene', 'Jetta', 'Toya'];
 const username = usernameList[Math.floor(Math.random() * usernameList.length * 0.99999)] + Math.floor(Math.random() * 99);
 const avatar = Math.floor(Math.random() * 99.99);
@@ -75,7 +75,7 @@ const store =  new Vuex.Store({
       const avatar = state.user1.avatar;
       const age = state.user1.age;
       const sexe = state.user1.sexe;
-      const userData = `${username}${sep}${avatar}${sep}${age}${sep}${sexe}`;
+      const userData = `${userId}${sep}${username}${sep}${avatar}${sep}${age}${sep}${sexe}`; 
       const socket = io.connect('', { query: {userId, userData} });
       socket.on('stream2Signal', (signal) => {
         commit('setSignal2', signal);
@@ -85,10 +85,10 @@ const store =  new Vuex.Store({
       });
       socket.on('room_started', async (profile) => {
         const datas = profile.userData.split(sep);
-        const username = datas[0]||'unknown';
-        const avatar = datas[1]||0;
-        const age = datas[2]||99;
-        const sexe = datas[3]||3;
+        const username = datas[1]||'unknown';
+        const avatar = datas[2]||0;
+        const age = datas[3]||99;
+        const sexe = datas[4]||3;
         commit('setUser2', {
           username: username,
           avatar:  parseInt(avatar, 10),
@@ -106,10 +106,10 @@ const store =  new Vuex.Store({
         const list = [];
         for(let id in waitingList) {
           const datas = waitingList[id].split(sep);
-          const username = datas[0]||'unknown';
-          const avatar = datas[1]||0;
-          const age = datas[2]||99;
-          const sexe = datas[3]||3;
+          const username = datas[1]||'unknown';
+          const avatar = datas[2]||0;
+          const age = datas[3]||99;
+          const sexe = datas[4]||3;
           list.push({
             username: username,
             avatar:  parseInt(avatar, 10),
