@@ -2,8 +2,7 @@
   <div class='home'>
     <div class='home__header'>
       <h1 class='home__header__title'>
-        <span>Yocam</span>
-        <img  src="./../../assets/logo.png"  alt="Yocam"/>
+        sCamroulette
       </h1>
       <p class='home__header__desc'>random cam,  no registration, only fun</p>
     </div>
@@ -34,11 +33,11 @@
           </label>
       </div>
       <button class='home__profile__start' v-on:click='start'  v-bind:disabled="!checked||age<18||!username">start</button>
-      <p class='home__profile__desc'>Like Chatroulette, Yocam is a random video chat without registration. Choose an avatar and username. Enter the roulette and have fun!</p>
+      <p class='home__profile__desc'>Like Chatroulette, Camroulette is a random video chat without registration. Choose an avatar and username. Enter the roulette and have fun!</p>
     </div>
     <avatars v-show='edit' @select="select"/>
     <div class='home__footer'>
-      ©2019-2020 yacam
+      ©2019-2020 Camroulette
     </div>
   </div>
 </template>
@@ -131,6 +130,11 @@ export default {
           margin-inline-start: inherit;
           margin-inline-end: inherit;
           font-weight: inherit;
+          text-align: center;
+          display: inline;
+          font-size: 4rem;
+          font-weight: bold;
+          color: white;
           span {
             position: absolute;
             color: rgb(250, 200, 21);

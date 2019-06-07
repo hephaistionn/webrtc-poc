@@ -5,10 +5,10 @@
       <button class='cgu-terms__container__close'  v-on:click='showHome'>Close</button>
       <h2>Conditions générales d'utilisation</h2>
       <h3>Description du service</h3>
-      <p>Yocam déclenche aléatoirement des discussions privées entre ses utilisateurs.</p>
+      <p>Camroulette déclenche aléatoirement des discussions privées entre ses utilisateurs.</p>
       <p>Les deux utilisateurs mis en relation peuvent interagir via un chat textuel, audio et vidéo.</p>
       <p>Le canal de communication entre les utilisateurs est un réseau p2p.</p>
-      <p>Yocam n'est pas un service professionnel, mais un projet amateur.</p>
+      <p>Camroulette n'est pas un service professionnel, mais un projet amateur.</p>
       <h3>Conditions d'utilisation</h3>
       <p>Pour utiliser ce service, vous devez :</p>
       <ul>

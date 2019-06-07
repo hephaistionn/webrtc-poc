@@ -48,7 +48,7 @@ export default {
 
 <style lang='sass'>
   :root {
-    --color1: #ffcd15;
+    --color1: #3eaffc;
     --color2: #22262A;
     --color3: #5eeaf3;
     --selected: #000;
