@@ -2,7 +2,7 @@
   <div class='home'>
     <div class='home__header'>
       <h1 class='home__header__title'>
-        sCamroulette
+        Camroulette
       </h1>
       <p class='home__header__desc'>random cam,  no registration, only fun</p>
     </div>

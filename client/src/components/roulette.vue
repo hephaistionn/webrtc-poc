@@ -6,7 +6,7 @@
         <participant
           v-bind:profile="item"
           v-bind:focus="item.focus"
-          :key="index"
+          :key="item.id ||index"
           v-for="(item, index) in computedList"
         />
       </div>
